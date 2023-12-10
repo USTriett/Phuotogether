@@ -1,8 +1,10 @@
-package com.example.phuotogether;
+package com.example.phuotogether.gui_layer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.phuotogether.R;
 
 public class MainActivity extends AppCompatActivity {
 
