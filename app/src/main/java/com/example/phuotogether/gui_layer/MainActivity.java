@@ -15,5 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d("TAG", "onCreate: dssadas");
         Log.d("Quan", "Quan was here.");
+        Log.d("Quan", "Quan comeback.");
     }
 }
