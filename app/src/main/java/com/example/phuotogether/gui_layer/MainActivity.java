@@ -16,5 +16,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TAG", "onCreate: dssadas");
         Log.d("Quan", "Quan was here.");
         Log.d("Quan", "Quan comeback.");
+        Log.d("Quan", "Quan so tired.");
     }
 }
