@@ -13,9 +13,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("TAG", "onCreate: dssadas");
-        Log.d("Quan", "Quan was here.");
-        Log.d("Quan", "Quan comeback.");
-        Log.d("Quan", "Quan so tired.");
     }
 }
