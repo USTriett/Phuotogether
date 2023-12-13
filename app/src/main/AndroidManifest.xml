@@ -13,6 +13,11 @@
         android:theme="@style/Theme.Phuotogether"
         tools:targetApi="31">
         <activity
+            android:name=".gui_layer.info.InfoActivity"
+            android:exported="false"
+            android:label="@string/title_activity_info"
+            android:theme="@style/Theme.Phuotogether" />
+        <activity
             android:name=".gui_layer.MainActivity"
             android:exported="true">
             <intent-filter>
