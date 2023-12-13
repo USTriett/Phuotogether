@@ -14,9 +14,18 @@
         tools:targetApi="31">
         <activity
             android:name=".gui_layer.info.InfoActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_info"
-            android:theme="@style/Theme.Phuotogether" />
+            android:theme="@style/Theme.Phuotogether">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".gui_layer.info.MainActivity"
+            android:exported="false" />
         <activity
             android:name=".gui_layer.MainActivity"
             android:exported="true">
