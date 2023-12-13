@@ -13,13 +13,25 @@
         android:theme="@style/Theme.Phuotogether"
         tools:targetApi="31">
         <activity
-            android:name=".gui_layer.MainActivity"
+            android:name=".gui_layer.auth.SignIn.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".gui_layer.auth.SignUp.SignUpActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".gui_layer.auth.ForgotPassword.ForgotPasswordActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".gui_layer.auth.ForgotPassword.ChangePasswordActivity"
+            android:exported="true">
         </activity>
     </application>
 
