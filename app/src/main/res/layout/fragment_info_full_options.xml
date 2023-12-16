@@ -204,6 +204,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:padding="8dp"
+                            android:id="@+id/nightModeSwitch"
+
                             tools:ignore="UseSwitchCompatOrMaterialXml" />
                     </LinearLayout>
 

@@ -8,11 +8,14 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import com.example.phuotogether.R;
 
@@ -38,6 +41,7 @@ public class EditInfoPopupFragment extends DialogFragment {
     private EditText phoneNumberEditText;
     private EditText firstNameEditText;
     private EditText lastNameEditText;
+    private boolean isNightMode;
     private View viewHold;
     public EditInfoPopupFragment() {
         // Required empty public constructor
@@ -79,6 +83,7 @@ public class EditInfoPopupFragment extends DialogFragment {
         Button closeEditFormBtn = viewHold.findViewById(R.id.closeEditFormBtn);
         Bundle args = getArguments();
         user = args != null ? (UserInfo) args.getSerializable("user") : new UserInfo();
+        isNightMode = args.getBoolean("isDarkMode");
         usernameEditText = viewHold.findViewById(R.id.usernameEditText);
         usernameEditText.setText(user.getUsername());
         phoneNumberEditText = viewHold.findViewById(R.id.phoneNumberEditText);
@@ -87,6 +92,8 @@ public class EditInfoPopupFragment extends DialogFragment {
         firstNameEditText.setText(user.getFirstName());
         lastNameEditText = viewHold.findViewById(R.id.LastNameEditText);
         lastNameEditText.setText(user.getLastName());
+
+
 
         closeEditFormBtn.setOnClickListener(new View.OnClickListener() {
             @Override

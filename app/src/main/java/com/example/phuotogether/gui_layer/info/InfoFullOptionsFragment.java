@@ -4,10 +4,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.phuotogether.R;
@@ -31,6 +34,8 @@ public class InfoFullOptionsFragment extends Fragment {
     private View viewHold;
 
     private EditInfoPopupFragment editFragment;
+    private boolean isNightMode;
+
     public InfoFullOptionsFragment() {
         // Required empty public constructor
     }
@@ -50,6 +55,7 @@ public class InfoFullOptionsFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -71,6 +77,25 @@ public class InfoFullOptionsFragment extends Fragment {
         editFragment = new EditInfoPopupFragment();
         user = (UserInfo) getArguments().getSerializable("user");
         updateUserInfo(user);
+        isNightMode = getArguments().getBoolean("isDarkMode");
+        Switch nightSwitch = viewHold.findViewById(R.id.nightModeSwitch);
+        nightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+//                    buttonView.
+                    Log.d("", "onCheckedChanged: setNightmode");
+                    isNightMode = true;
+                }
+                else{
+                    isNightMode = false;
+                }
+                if(getActivity() instanceof InfoActivity){
+                    ((InfoActivity) getActivity()).setThemeMode(isNightMode);
+
+                }
+            }
+        });
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
