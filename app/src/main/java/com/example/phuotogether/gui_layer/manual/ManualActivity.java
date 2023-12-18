@@ -1,4 +1,4 @@
-package com.example.phuotogether.business_layer;
+package com.example.phuotogether.gui_layer.manual;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

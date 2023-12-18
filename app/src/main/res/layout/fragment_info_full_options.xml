@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".gui_layer.info.InfoFullOptionsFragment"
+    android:id="@+id/fullOptionsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/backgroundInfo"
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                android:background="#bcea97"
+                android:contentDescription="TODO" />
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_marginTop="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:cardCornerRadius="250dp"
+                    app:cardBackgroundColor="@color/white">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="250dp"
+                        android:layout_gravity="center">
+
+                        <ImageView
+                            android:id="@+id/avatarUser"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_alignTop="@+id/backgroundInfo"
+                            android:src="@drawable/heart_svgrepo_com"
+                            />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LTMP"
+            android:textAlignment="center"
+            android:textSize="20pt" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            >
+            <Button
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Edit Profile"
+                android:id="@+id/editInfoBtn"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f6f6f6"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Content"
+                    android:layout_marginLeft="30dp"
+                    android:padding="10dp"
+                    android:textSize="10pt"
+                    android:textStyle="bold"
+                    />
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableStart="@drawable/heart_svgrepo_com"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:drawableEnd="@drawable/right_arrow_svgrepo_com"
+
+                    android:text="Images"
+                    android:textSize="9pt"
+
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableStart="@drawable/download_icon"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:drawableEnd="@drawable/right_arrow_svgrepo_com"
+                    android:text="Download maps"
+                    android:textSize="9pt"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#f6f6f6"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="Options"
+                        android:layout_marginLeft="30dp"
+                        android:padding="10dp"
+                        android:textSize="10pt"
+                        android:textStyle="bold"
+                        />
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="10"
+                        >
+                        <TextView
+                            android:layout_weight="9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:drawableStart="@drawable/heart_svgrepo_com"
+                            android:gravity="center_vertical"
+                            android:drawablePadding="8dp"
+                            android:text="Tiếng Việt"
+                            android:textSize="9pt"
+
+                            />
+                        <Switch
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="8dp"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="10"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_weight="9"
+                            android:layout_height="50dp"
+                            android:drawableStart="@drawable/download_icon"
+                            android:gravity="center_vertical"
+                            android:drawablePadding="8dp"
+                            android:text="Dark mode"
+                            android:textSize="9pt"
+
+                            />
+                        <Switch
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="8dp"
+                            android:id="@+id/nightModeSwitch"
+
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:drawableStart="@drawable/logout_2_svgrepo_com"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="8dp"
+                        android:text="Logout"
+                        android:textSize="9pt"
+
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+</LinearLayout>
