@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Phuotogether</string>
+    <string name="maps_api_key">AIzaSyD4xNXO1w_zIAgCtmA4b247jmzVj3M6oNw</string>
+    <string name="place_api_key">AIzaSyBF-ww3MkYzIRZVhYlP-_H4iKbjRLKJwM8</string>
 </resources>
