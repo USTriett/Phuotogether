@@ -14,9 +14,10 @@ import android.widget.Toast;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.auth.SignIn.SignInManager;
-import com.example.phuotogether.data_layer.auth.SignIn.UserDatabase;
+import com.example.phuotogether.data_layer.auth.UserDatabase;
 import com.example.phuotogether.gui_layer.auth.ForgotPassword.ForgotPasswordActivity;
 import com.example.phuotogether.gui_layer.auth.SignUp.SignUpActivity;
+import com.example.phuotogether.gui_layer.trip.tripList.TripListActivity;
 
 public class SignInActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
@@ -64,12 +65,21 @@ public class SignInActivity extends AppCompatActivity {
                 String passwordString = etPassword.getText().toString();
 
                 if (signInManager.isSuccessSignIn(emailString, passwordString)) {
+                    setAllNotificationOff();
                     showSuccessToast();
+                    startActivity(new Intent(SignInActivity.this, TripListActivity.class));
                 } else {
                     signInManager.handleSignInError(emailString, passwordString, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
                 }
             }
         });
+    }
+
+    private void setAllNotificationOff() {
+        tvEmptyEmail.setVisibility(View.GONE);
+        tvWrongEmail.setVisibility(View.GONE);
+        tvEmptyPassword.setVisibility(View.GONE);
+        tvWrongPassword.setVisibility(View.GONE);
     }
 
     private void showSuccessToast() {

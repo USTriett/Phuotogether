@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.businesslogic_layer.auth.ForgotPassword.ChangePasswordManager;
 import com.example.phuotogether.gui_layer.auth.SignIn.SignInActivity;
 
 import java.util.regex.Pattern;
@@ -23,10 +24,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private ImageButton btnBack;
     private AppCompatButton btnChangePassword;
     private TextView tvEmptyNewPassword, tvEmptyConfirmPassword, tvWrongConfirmPassword, tvInvalidNewPassword;
+    private ChangePasswordManager changePasswordManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
+
+        changePasswordManager = new ChangePasswordManager();
 
         setAndGetAllView();
         setEventClickBackButton();
@@ -40,28 +44,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 String newPassword = etNewPassword.getText().toString();
                 String confirmPassword = etConfirmPassword.getText().toString();
 
-                if (newPassword.isEmpty()){
-                    tvEmptyNewPassword.setVisibility(View.VISIBLE);
+                if (!changePasswordManager.isSuccessChangePassword(newPassword,confirmPassword)){
+                    changePasswordManager.handleChangePasswordError(newPassword,confirmPassword,tvEmptyNewPassword,tvInvalidNewPassword,tvEmptyConfirmPassword,tvWrongConfirmPassword);
                 } else {
-                    tvEmptyNewPassword.setVisibility(View.GONE);
-                    if (!checkValidPassword(newPassword)){
-                        tvInvalidNewPassword.setVisibility(View.VISIBLE);
-                    } else {
-                        tvInvalidNewPassword.setVisibility(View.GONE);
-                    }
-                }
-                if (confirmPassword.isEmpty()){
-                    tvEmptyConfirmPassword.setVisibility(View.VISIBLE);
-                } else {
-                    tvEmptyConfirmPassword.setVisibility(View.GONE);
-                    if (!confirmPassword.equals(newPassword)){
-                        tvWrongConfirmPassword.setVisibility(View.VISIBLE);
-                    } else {
-                        tvWrongConfirmPassword.setVisibility(View.GONE);
-                        if (checkValidPassword(confirmPassword)){
-                            showCustomAlertDialog("ĐẶT LẠI MẬT KHẨU THÀNH CÔNG MỜI BẠN QUAY LẠI TRANG ĐĂNG NHẬP");
-                        }
-                    }
+                    tvWrongConfirmPassword.setVisibility(View.GONE);
+                    showCustomAlertDialog("ĐẶT LẠI MẬT KHẨU THÀNH CÔNG MỜI BẠN QUAY LẠI TRANG ĐĂNG NHẬP");
                 }
 
             }

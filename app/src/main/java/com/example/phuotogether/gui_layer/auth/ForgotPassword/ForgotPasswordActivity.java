@@ -17,17 +17,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.businesslogic_layer.auth.ForgotPassword.ForgotPasswordManager;
+import com.example.phuotogether.data_layer.auth.UserDatabase;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     private ImageButton btnBack;
     private EditText etEmail;
     private AppCompatButton btnSend;
-    private TextView tvEmptyEmail;
+    private TextView tvEmptyEmail, tvWrongEmail;
+    private ForgotPasswordManager forgotPasswordManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+
+        forgotPasswordManager = new ForgotPasswordManager(new UserDatabase());
 
         setAndGetAllView();
         setEventClickSendButton();
@@ -52,10 +57,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String stringEmail = etEmail.getText().toString();
-                if (stringEmail.isEmpty()){
-                    tvEmptyEmail.setVisibility(View.VISIBLE);
+                if (!forgotPasswordManager.isSuccessForgotPassword(stringEmail)){
+                    forgotPasswordManager.handleForgotPasswordError(stringEmail,tvEmptyEmail,tvWrongEmail);
                 } else {
                     tvEmptyEmail.setVisibility(View.GONE);
+                    tvWrongEmail.setVisibility(View.GONE);
                     showCustomAlertDialog("KIỂM TRA EMAIL CỦA BẠN");
                 }
             }
@@ -63,7 +69,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void showCustomAlertDialog(String message) {
-//        Log.d("ButtonClicked", "Send button clicked");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = getLayoutInflater();
@@ -73,18 +78,20 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         messageTextView.setText(message);
 
         AppCompatButton checkEmailButton = dialogView.findViewById(R.id.btnCheckEmailForgotPassword);
-        checkEmailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ForgotPasswordActivity.this, ChangePasswordActivity.class));
-            }
-        });
 
         builder.setView(dialogView);
 
         AlertDialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
+
+        checkEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ForgotPasswordActivity.this, ChangePasswordActivity.class));
+                alertDialog.hide();
+            }
+        });
     }
 
     private void setAndGetAllView() {
@@ -92,5 +99,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.editTextEmailForgotPassword);
         btnSend = findViewById(R.id.buttonSend);
         tvEmptyEmail = findViewById(R.id.tvEmptyEmailNotificationForgotPassword);
+        tvWrongEmail = findViewById(R.id.tvWrongEmailNotificationForgotPassword);
     }
 }

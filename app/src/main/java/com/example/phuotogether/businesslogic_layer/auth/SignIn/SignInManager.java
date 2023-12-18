@@ -1,12 +1,9 @@
 package com.example.phuotogether.businesslogic_layer.auth.SignIn;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.phuotogether.data_layer.auth.SignIn.UserDatabase;
-import com.example.phuotogether.gui_layer.auth.SignIn.SignInActivity;
+import com.example.phuotogether.data_layer.auth.UserDatabase;
 
 public class SignInManager {
     private UserDatabase userRepository;

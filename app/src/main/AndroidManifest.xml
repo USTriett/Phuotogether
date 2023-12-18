@@ -33,6 +33,14 @@
             android:name=".gui_layer.auth.ForgotPassword.ChangePasswordActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".gui_layer.trip.tripList.TripListActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".gui_layer.trip.tripList.AddTripActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
