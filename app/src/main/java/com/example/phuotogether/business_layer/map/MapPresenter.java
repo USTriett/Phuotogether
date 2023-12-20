@@ -1,5 +1,7 @@
 package com.example.phuotogether.business_layer.map;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -9,7 +11,7 @@ import android.widget.AutoCompleteTextView;
 import com.android.volley.toolbox.Volley;
 import com.example.phuotogether.R;
 import com.example.phuotogether.gui_layer.map.LocationInfoFragment;
-import com.example.phuotogether.gui_layer.map.MapActivity;
+import com.example.phuotogether.gui_layer.map.MapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -34,21 +36,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MapPresenter {
-    private final MapActivity mapActivity;
+    private final MapFragment mMapFragment;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private AutoCompleteTextView autoCompleteTextView;
     private Marker marker;
     private final GoogleMap mMap;
     private DirectionsManager directionsManager;
-    public MapPresenter(MapActivity mapActivity, GoogleMap mMap) {
-        this.mapActivity = mapActivity;
+    public MapPresenter(MapFragment mapFragment, GoogleMap mMap) {
+        this.mMapFragment = mapFragment;
         this.mMap = mMap;
-        directionsManager = new DirectionsManager(Volley.newRequestQueue(mapActivity), mMap);
+        directionsManager = new DirectionsManager(Volley.newRequestQueue(mMapFragment.requireContext()), mMap);
     }
 
     public void performSearch(String selectedSuggestion, LatLng currentLocation) {
         // Search for the selected suggestion
-        Geocoder geocoder = new Geocoder(mapActivity);
+        Geocoder geocoder = new Geocoder(mMapFragment.requireContext());
         List<Address> addressList = new ArrayList<>();
 
         try {
@@ -60,7 +62,7 @@ public class MapPresenter {
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             LocationInfoFragment locationInfoFragment = LocationInfoFragment.newInstance(latLng,currentLocation,directionsManager);
-            locationInfoFragment.show(mapActivity.getSupportFragmentManager(), "locationInfoFragment");
+            locationInfoFragment.show(mMapFragment.requireActivity().getSupportFragmentManager(), "locationInfoFragment");
             moveCamera(latLng, 15, selectedSuggestion);
         }
         else {
@@ -105,7 +107,7 @@ public class MapPresenter {
 
     public void performAutoComplete(String query) {
         Log.d("MapActivity", "performAutoComplete: " + query);
-        PlacesClient placesClient = Places.createClient(this.mapActivity);
+        PlacesClient placesClient = Places.createClient(mMapFragment.getActivity());
 
         FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
                 .setQuery(query)
@@ -126,7 +128,7 @@ public class MapPresenter {
                                     suggestions.add(prediction.getFullText(null).toString());
                                 }
                                 // Update your UI with the suggestions
-                                mapActivity.updateSuggestionsUI(suggestions);
+                                mMapFragment.updateSuggestionsUI(suggestions);
                             }
                         } else {
                             Exception exception = task.getException();

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/location_logo"
+        android:title="@string/map_page" />
+    <item
+        android:id="@+id/navigation_trip"
+        android:icon="@drawable/location_logo"
+        android:title="@string/trip_page" />
+    <item
+        android:id="@+id/navigation_manual"
+        android:icon="@drawable/location_logo"
+        android:title="@string/manual_page" />
+    <item
+        android:id="@+id/navigation_info"
+        android:icon="@drawable/location_logo"
+        android:title="@string/info_page" />
+</menu>
