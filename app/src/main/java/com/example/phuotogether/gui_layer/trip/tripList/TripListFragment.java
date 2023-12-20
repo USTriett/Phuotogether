@@ -2,6 +2,7 @@ package com.example.phuotogether.gui_layer.trip.tripList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +36,19 @@ public class TripListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_triplist, container, false);
 
         tripListManager = new TripListManager();
+        Log.d("fkfk31", "");
 
         setAndGetAllView(rootView);
+        Log.d("fkfk32", "");
         setTripList();
+        Log.d("fkfk33", "");
         setEventClickButtonAddTrip();
+        Log.d("fkfk34", "");
 
         return rootView;
     }
@@ -62,11 +68,9 @@ public class TripListFragment extends Fragment {
     }
 
     private void setTripList() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
-        tripRecyclerView.setLayoutManager(layoutManager);
-
+        tripRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         List<Trip> tripList = tripListManager.getTripList();
-        tripAdapter = new TripAdapter(tripList);
+        tripAdapter = new TripAdapter(requireContext(), tripList);
         tripRecyclerView.setAdapter(tripAdapter);
     }
 }

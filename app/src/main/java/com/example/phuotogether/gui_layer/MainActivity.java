@@ -16,7 +16,7 @@ import com.example.phuotogether.gui_layer.trip.tripList.TripListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentUpdateCallback {
+public class MainActivity extends AppCompatActivity {
 
     ViewPager mViewPager;
     BottomNavigationView mBottomNavigationView;
@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity implements FragmentUpdateCal
     private int mCurrentTabPosition;
     //endregion
 
-    //region Activity lifecycle
+    public MainFragmentPagerAdapter getPagerAdapter(){
+        return mPagerAdapter;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +71,6 @@ public class MainActivity extends AppCompatActivity implements FragmentUpdateCal
         if (!mPagerAdapter.removeFragment(mPagerAdapter.getItem(mCurrentTabPosition), mCurrentTabPosition)) {
             finish();
         }
-    }
-    //endregion
-
-    //region FragmentUpdateCallback implementation
-    @Override
-    public void addFragment(Fragment fragment, int tabPosition) {
-        mPagerAdapter.updateFragment(fragment, tabPosition);
     }
     //endregion
 }
