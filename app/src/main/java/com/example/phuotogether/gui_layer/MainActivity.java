@@ -63,6 +63,37 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        // Add a ViewPager listener to update BottomNavigationView when swiping
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // Not needed for this use case
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                // Update BottomNavigationView when the page changes
+                switch (position) {
+                    case MapFragment.TAB_POSITION:
+                        mBottomNavigationView.setSelectedItemId(R.id.navigation_map);
+                        break;
+                    case TripListFragment.TAB_POSITION:
+                        mBottomNavigationView.setSelectedItemId(R.id.navigation_trip);
+                        break;
+                    case ManualFragment.TAB_POSITION:
+                        mBottomNavigationView.setSelectedItemId(R.id.navigation_manual);
+                        break;
+                    case InfoFragment.TAB_POSITION:
+                        mBottomNavigationView.setSelectedItemId(R.id.navigation_info);
+                        break;
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Not needed for this use case
+            }
+        });
     }
 
     @Override
