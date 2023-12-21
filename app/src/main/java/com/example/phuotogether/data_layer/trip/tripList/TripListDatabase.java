@@ -6,11 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TripListDatabase {
-    public List<Trip> getTripList() {
-        List<Trip> tripList = new ArrayList<>();
-        tripList.add(new Trip("Bình thuận", "03/11/2023 - 06/11/2023", R.drawable.binhthuan));
-        tripList.add(new Trip("Bình thuận", "03/11/2023 - 06/11/2023", R.drawable.binhthuan));
+    private List<Trip> tripList;
 
+    public TripListDatabase() {
+        this.tripList = new ArrayList<>();
+    }
+
+    public List<Trip> getTripList() {
         return tripList;
     }
+
+    public void addTripList(String tripName, String tripTime, int tripImageID){
+        tripList.add(new Trip(tripName,tripTime,tripImageID));
+    }
+
 }

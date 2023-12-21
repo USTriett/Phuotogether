@@ -2,6 +2,7 @@ package com.example.phuotogether.gui_layer.trip.tripList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -30,7 +31,7 @@ public class TripListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_triplist);
 
-        tripListManager = new TripListManager();
+        tripListManager = TripListManager.getInstance();
 
         setAndGetAllView();
         setTripList();
@@ -58,6 +59,5 @@ public class TripListActivity extends AppCompatActivity {
         List<Trip> tripList = tripListManager.getTripList();
         tripAdapter = new TripAdapter(tripList);
         tripRecyclerView.setAdapter(tripAdapter);
-
     }
 }
