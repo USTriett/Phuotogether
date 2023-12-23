@@ -1,36 +1,51 @@
-package com.example.phuotogether.gui_layer.trip.tripList;
+package com.example.phuotogether.gui_layer.trip.addTrip;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.trip.tripList.TripListManager;
 
-public class AddTripActivity extends AppCompatActivity {
+public class AddtripFragment extends Fragment {
+
+    int mPosition;
+
     private EditText etNameTrip, etStartDes, etGoalDes, etStartDate, etEndDate;
     private ImageButton btnBack;
     private Button btnSave;
 
     private TripListManager tripListManager;
+    public AddtripFragment() {
+    }
+
+    public static AddtripFragment newInstance() {
+        return new AddtripFragment();
+    }
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addtrip);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        View rootView = inflater.inflate(R.layout.fragment_add_trip, container, false);
 
         tripListManager = TripListManager.getInstance();
 
-        setAndGetAllView();
+        setAndGetAllView(rootView);
         setEventClickBackButton();
         setEventClickSaveButton();
+
+        return rootView;
     }
 
     private void setEventClickSaveButton() {
@@ -46,14 +61,14 @@ public class AddTripActivity extends AppCompatActivity {
                 if (tripListManager.isSuccessAddTrip(tripName, startDes, goalDes, startDate, endDate)){
                     tripListManager.addTrip(tripName,startDate,endDate);
                     showSuccessToast();
-                    startActivity(new Intent(AddTripActivity.this, TripListActivity.class));
+                    requireActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
     }
 
     private void showSuccessToast() {
-        Context context = getApplicationContext();
+        Context context = requireContext();
         CharSequence text = "Thêm hành trình thành công";
         int duration = Toast.LENGTH_SHORT;
 
@@ -65,18 +80,18 @@ public class AddTripActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
 
-    private void setAndGetAllView() {
-        etNameTrip = findViewById(R.id.etNameTripAddTrip);
-        etStartDes = findViewById(R.id.etStartDesAddTrip);
-        etGoalDes = findViewById(R.id.etGoalDesAndTrip);
-        etStartDate = findViewById(R.id.etStartDateAddTrip);
-        etEndDate = findViewById(R.id.etEndDateAddTrip);
-        btnBack = findViewById(R.id.buttonBackAddTrip);
-        btnSave = findViewById(R.id.buttonSaveAddTrip);
+    private void setAndGetAllView(View view) {
+        etNameTrip = view.findViewById(R.id.etNameTripAddTrip);
+        etStartDes = view.findViewById(R.id.etStartDesAddTrip);
+        etGoalDes = view.findViewById(R.id.etGoalDesAndTrip);
+        etStartDate = view.findViewById(R.id.etStartDateAddTrip);
+        etEndDate = view.findViewById(R.id.etEndDateAddTrip);
+        btnBack = view.findViewById(R.id.buttonBackAddTrip);
+        btnSave = view.findViewById(R.id.buttonSaveAddTrip);
     }
 }

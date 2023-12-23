@@ -1,27 +1,38 @@
 package com.example.phuotogether.gui_layer.manual;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.data_access_layer.manual.ManualObject;
 
 import java.util.ArrayList;
 
-public class ManualActivity extends AppCompatActivity {
-
+public class ManualFragment extends Fragment {
+    public static final int TAB_POSITION = 2;
     ArrayList<ManualObject> mManualObjects;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_manual);
+    public static Fragment newInstance() {
+        return new ManualFragment();
+    }
 
-        fetchManualObjects();
-        loadRecyclerView();
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_manual, container, false);
+        if (getActivity() != null) {
+            fetchManualObjects();
+            loadRecyclerView(rootView);
+        }
+        return rootView;
     }
 
     void fetchManualObjects(){
@@ -43,10 +54,10 @@ public class ManualActivity extends AppCompatActivity {
         mManualObjects.add(new ManualObject("Tìm đồ ăn, nguồn nước"));
     }
 
-    void loadRecyclerView(){
-        RecyclerView manualRecyclerView = findViewById(R.id.manualRecyclerView);
-        manualRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        ManualListAdapter adapter = new ManualListAdapter(this, mManualObjects);
+    void loadRecyclerView(View rootView) {
+        RecyclerView manualRecyclerView = rootView.findViewById(R.id.manualRecyclerView);
+        manualRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        ManualListAdapter adapter = new ManualListAdapter(requireContext(), mManualObjects);
         manualRecyclerView.setAdapter(adapter);
     }
 }

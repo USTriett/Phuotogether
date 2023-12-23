@@ -1,5 +1,6 @@
 package com.example.phuotogether.gui_layer.trip.tripList;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,18 +8,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.data_layer.trip.tripList.Trip;
+import com.example.phuotogether.gui_layer.MainActivity;
+import com.example.phuotogether.gui_layer.manual.ManualItemFragment;
+import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
+import com.example.phuotogether.gui_layer.trip.addTrip.AddtripFragment;
 
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder> {
-    private List<Trip> tripList;
+    private List<Trip> mTripList;
+    public static final int TAB_POSITION = 1;
+    private Context mContext;
 
-    public TripAdapter(List<Trip> tripList) {
-        this.tripList = tripList;
+    public TripAdapter(Context context, List<Trip> tripList) {
+        mContext = context;
+        mTripList = tripList;
     }
 
     @NonNull
@@ -30,13 +41,32 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TripViewHolder holder, int position) {
-        Trip trip = tripList.get(position);
+        Trip trip = mTripList.get(position);
         holder.bind(trip);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int itemPosition = holder.getAdapterPosition();
+                addFragment(ManualItemFragment.newInstance(itemPosition), TAB_POSITION);
+                AddtripFragment addTripFragment = new AddtripFragment();
+
+                FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext())
+                        .getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.triplist, addTripFragment);
+                transaction.addToBackStack(null); // Add to back stack if needed
+                transaction.commit();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return tripList.size();
+        return mTripList.size();
+    }
+
+    public void addFragment(Fragment fragment, int tabPosition) {
+        MainFragmentPagerAdapter pagerAdapter = ((MainActivity) mContext).getPagerAdapter();
+        pagerAdapter.updateFragment(fragment, tabPosition);
     }
 
     public static class TripViewHolder extends RecyclerView.ViewHolder {

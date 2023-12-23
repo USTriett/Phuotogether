@@ -1,5 +1,7 @@
 package com.example.phuotogether.data_layer.trip.tripList;
 
+import android.util.Log;
+
 import com.example.phuotogether.R;
 
 import java.util.ArrayList;
@@ -17,7 +19,9 @@ public class TripListDatabase {
     }
 
     public void addTripList(String tripName, String tripTime, int tripImageID){
+//        Log.d("Size1", String.valueOf(tripList.size()));
         tripList.add(new Trip(tripName,tripTime,tripImageID));
+//        Log.d("Size2", String.valueOf(tripList.size()));
     }
 
 }
