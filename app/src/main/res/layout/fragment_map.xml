@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".gui_layer.map.MapActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <fragment
         android:layout_width="match_parent"
@@ -29,11 +28,23 @@
             android:id="@+id/ic_magnify"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/location_logo"/>
 
+            android:src="@drawable/location_logo"/>
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/input_search"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            android:background="@drawable/transparent_background"
+            android:visibility="gone" />
         <AutoCompleteTextView
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="match_parent"
+            android:layout_alignWithParentIfMissing="true"
             android:layout_toRightOf="@+id/ic_magnify"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
@@ -43,11 +54,27 @@
             android:background="@null"
             android:hint="Enter Address, City or Zip Code"
             android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:drawableRight="@drawable/outline_cancel_24"
-            android:paddingEnd="12dp"/>
+            android:inputType="text" />
+        <ImageButton
+            android:id="@+id/btn_profile"
+            android:paddingEnd="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/transparent_background"
+            android:src="@drawable/baseline_person_pin_24" />
 
-
+        <ImageButton
+            android:id="@+id/btn_delete"
+            android:paddingEnd="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/outline_cancel_24"
+            android:background="@drawable/transparent_background"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <HorizontalScrollView

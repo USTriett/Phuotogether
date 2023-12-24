@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,10 +56,12 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
     private Marker selectedMarker = null;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private FloatingActionButton myLocationButton;
+    private ImageButton deleteButton, profileButton;
     private MapData mapData;
     private MapPresenter mapPresenter;
     private PlacesClient placesClient;
-    private DirectionsManager directionsManager;
+
+    private boolean isSearching = false;
     public static Fragment newInstance() {
         return new MapFragment();
     }
@@ -78,6 +82,8 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
             // bind views
             autoCompleteTextView = rootView.findViewById(R.id.input_search);
             myLocationButton = rootView.findViewById(R.id.btn_my_location);
+            deleteButton = rootView.findViewById(R.id.btn_delete);
+            profileButton = rootView.findViewById(R.id.btn_profile);
 
             autoCompleteTextView.setThreshold(1); // Start suggestions after typing 1 character
 
@@ -98,7 +104,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
                     if (!query.isEmpty()) {
                         LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
                         mapPresenter.performSearch(query, currentLocation);
-
                     }
                     return true;
                 }
@@ -113,8 +118,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if (!s.toString().isEmpty()) {
-                        Log.d("MapActivity", "onTextChanged: empty string");
-                        // Perform autocomplete predictions
+                        showIsSearchingUI();
                         mapPresenter.performAutoComplete(s.toString());
                     }
                     else {
@@ -128,25 +132,19 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
                 }
             });
 
-            autoCompleteTextView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    mapPresenter.clearMap(mMap, currentLocation);
-                    final int DRAWABLE_RIGHT = 2;
-
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        if (event.getRawX() >= (autoCompleteTextView.getRight() - autoCompleteTextView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                            // your action here
-                            autoCompleteTextView.setText("");
-                            if (marker != null) {
-                                marker.remove();
-                            }
-                            return true;
-                        }
-                    }
-                    return false;
-                }
+            deleteButton.setOnClickListener(v -> {
+                mapPresenter.clearMap(mMap, currentLocation);
+                autoCompleteTextView.setText("");
+                deleteButton.setVisibility(View.GONE);
+                profileButton.setVisibility(View.VISIBLE);
             });
+
+            profileButton.setOnClickListener(v -> {
+                // Show profile fragment popup
+                ProfileFragment profileFragment = new ProfileFragment();
+                profileFragment.show(getChildFragmentManager(), "ProfileFragment");
+            });
+
 
 
             LinearLayout buttonContainer = rootView.findViewById(R.id.buttonContainer);
@@ -168,6 +166,9 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
                 button.setBackgroundResource(R.drawable.rounded_button);
                 buttonContainer.addView(button);
                 button.setOnClickListener(v -> {
+                    mapPresenter.clearMap(mMap, currentLocation);
+                    autoCompleteTextView.setText(category);
+                    showIsSearchingUI();
                     mapPresenter.performNearbySearch(category,placesClient,currentLocation);
                 });
             }
@@ -179,6 +180,13 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
         }
 
         return rootView;
+    }
+
+    private void showIsSearchingUI() {
+        isSearching = true;
+//        autoCompleteTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, R.drawable.ic_clear, 0);
+        profileButton.setVisibility(View.GONE);
+        deleteButton.setVisibility(View.VISIBLE);
     }
 
 
@@ -244,7 +252,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
                     directionsManager
             );
 
-            // Use getChildFragmentManager() instead of getSupportFragmentManager()
             locationInfoFragment.show(getChildFragmentManager(), "LocationInfoFragment");
         }
     }

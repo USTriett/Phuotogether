@@ -24,7 +24,7 @@ public class DirectionsManager {
 
     private RequestQueue requestQueue;
     private GoogleMap googleMap;
-    private String apiKey = "AIzaSyBK-ChfzUw0sqUDr3VvB8UzN2RzLM6hSUM";
+    private String apiKey = "AIzaSyAwBoi-ZrQxdKNnaPa8SMBT2ip4ik5Fn0g";
     private Polyline currentPolyline;
 
     public DirectionsManager(RequestQueue requestQueue, GoogleMap googleMap) {
@@ -46,8 +46,10 @@ public class DirectionsManager {
                 if (currentPolyline != null) {
                     currentPolyline.remove();
                 }
+
                 currentPolyline = googleMap.addPolyline(new PolylineOptions().addAll(decodedPath));
             } catch (JSONException e) {
+                Log.d("DirectionsManager", "getDirections: " + e.getMessage());
                 e.printStackTrace();
             }
         }, error -> {
