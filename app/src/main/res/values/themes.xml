@@ -22,6 +22,13 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
+    <style name="ProfileDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
 
     <style name="Theme.Phuotogether" parent="Base.Theme.Phuotogether" />
 </resources>
