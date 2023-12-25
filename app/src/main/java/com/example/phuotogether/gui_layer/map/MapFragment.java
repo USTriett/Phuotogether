@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +63,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
     private DirectionsManager directionsManager;
     private MapView mapView;
     private boolean isSearching = false;
-
+    private boolean isSearching = false;
     public static Fragment newInstance() {
         return new MapFragment();
     }
