@@ -5,11 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.data_access_layer.manual.ManualObject;
-import com.example.phuotogether.gui_layer.manual.ManualListAdapter;
 
 import java.util.ArrayList;
 
@@ -20,7 +18,7 @@ public class ManualActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manual);
+        setContentView(R.layout.fragment_manual);
 
         fetchManualObjects();
         loadRecyclerView();
