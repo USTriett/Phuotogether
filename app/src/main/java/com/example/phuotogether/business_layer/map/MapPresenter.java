@@ -186,11 +186,6 @@ public class MapPresenter {
                         Place place = task.getResult().getPlace();
                         LatLng placeLatLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
 
-                        // Remove marker if it already exists
-                        if (marker != null) {
-                            marker.remove();
-                        }
-                        // Add a marker for each nearby place on the map
                         mMap.addMarker(new MarkerOptions()
                                 .position(placeLatLng)
                                 .title(placeName));
