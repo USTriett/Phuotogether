@@ -35,6 +35,25 @@ android {
 }
 
 dependencies {
+    val lifecycle_version = "2.6.2"
+
+        // ViewModel
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
+        // LiveData
+    implementation ("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
+        // Lifecycles only (without ViewModel or LiveData)
+    implementation ("androidx.lifecycle:lifecycle-runtime:$lifecycle_version")
+
+        // Saved state module for ViewModel
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+
+        // Annotation processor
+    annotationProcessor ("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+        // alternately - if using Java8, use the following instead of lifecycle-compiler
+    implementation ("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+
+
+
 
     implementation("com.kyleduo.switchbutton:library:2.1.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

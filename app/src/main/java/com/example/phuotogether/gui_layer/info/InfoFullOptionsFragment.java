@@ -10,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,10 +33,12 @@ public class InfoFullOptionsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private UserInfo user;
+    private User user;
     private View viewHold;
 
     private EditInfoPopupFragment editFragment;
+
+    private AvatarOptionsFragment avatarOptionsFragment;
     private boolean isNightMode;
 
     public InfoFullOptionsFragment() {
@@ -75,10 +80,21 @@ public class InfoFullOptionsFragment extends Fragment {
         viewHold = inflater.inflate(R.layout.fragment_info_full_options, container, false);
         Button editBtn = (Button) viewHold.findViewById(R.id.editInfoBtn);
         editFragment = new EditInfoPopupFragment();
-        user = (UserInfo) getArguments().getSerializable("user");
+        user = (User) getArguments().getSerializable("user");
         updateUserInfo(user);
         isNightMode = getArguments().getBoolean("isDarkMode");
         Switch nightSwitch = viewHold.findViewById(R.id.nightModeSwitch);
+
+        avatarOptionsFragment = new AvatarOptionsFragment();
+        ImageView avatar = viewHold.findViewById(R.id.avatarUser);
+
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("", "Avatar Clicked");
+                avatarOptionsFragment.show(getFragmentManager(), "Avatar Options");
+            }
+        });
         nightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -90,8 +106,8 @@ public class InfoFullOptionsFragment extends Fragment {
                 else{
                     isNightMode = false;
                 }
-                if(getActivity() instanceof InfoActivity){
-                    ((InfoActivity) getActivity()).setThemeMode(isNightMode);
+                if(getActivity() instanceof MainActivity){
+                    ((MainActivity) getActivity()).setThemeMode(isNightMode);
 
                 }
             }
@@ -109,10 +125,10 @@ public class InfoFullOptionsFragment extends Fragment {
 
         return viewHold;
     }
-    public void updateUserInfo(UserInfo user){
+    public void updateUserInfo(User user){
         this.user = user;
         TextView tview  = (TextView) viewHold.findViewById(R.id.usernameTextView);
-        tview.setText(user.getFirstName() + " " + user.getLastName());
+        tview.setText(user.getFullName());
     }
 
 }

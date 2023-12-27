@@ -31,6 +31,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -62,7 +63,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
     private PlacesClient placesClient;
     private DirectionsManager directionsManager;
     private MapView mapView;
-    private boolean isSearching = false;
     private boolean isSearching = false;
     public static Fragment newInstance() {
         return new MapFragment();

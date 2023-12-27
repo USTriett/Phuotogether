@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".gui_layer.info.InfoFullOptionsFragment"
+    tools:context=".gui_layer.MainActivity"
     android:id="@+id/fullOptionsFragment">
 
     <!-- TODO: Update blank fragment layout -->
