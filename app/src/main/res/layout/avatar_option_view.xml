@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".gui_layer.MainActivity"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableStart="@drawable/heart_svgrepo_com"
+        android:gravity="center_vertical"
+        android:drawablePadding="8dp"
+        android:drawableEnd="@drawable/right_arrow_svgrepo_com"
+        android:id="@+id/avatarOptionTextView"
+        android:text="option 0"
+        android:textSize="9pt"
+
+        />
+
+</LinearLayout>
