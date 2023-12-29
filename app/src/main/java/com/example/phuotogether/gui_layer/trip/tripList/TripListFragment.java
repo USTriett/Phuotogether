@@ -7,21 +7,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.trip.tripList.TripListManager;
 import com.example.phuotogether.data_layer.trip.tripList.Trip;
-import com.example.phuotogether.gui_layer.manual.ManualFragment;
+import com.example.phuotogether.gui_layer.MainActivity;
+import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
+import com.example.phuotogether.gui_layer.trip.addTrip.AddtripFragment;
+import com.example.phuotogether.gui_layer.trip.tripView.TripLuggageFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TripListFragment extends Fragment {
@@ -40,26 +42,32 @@ public class TripListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_triplist, container, false);
 
-        tripListManager = new TripListManager();
-        Log.d("fkfk31", "");
+        tripListManager = TripListManager.getInstance();
 
         setAndGetAllView(rootView);
-        Log.d("fkfk32", "");
         setTripList();
-        Log.d("fkfk33", "");
         setEventClickButtonAddTrip();
-        Log.d("fkfk34", "");
 
         return rootView;
     }
 
     private void setEventClickButtonAddTrip() {
-//        btnAddTrip.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(requireActivity(), AddTripActivity.class));
-//            }
-//        });
+        btnAddTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddtripFragment addTripFragment = new AddtripFragment();
+//                TripLuggageFragment tripLuggageFragment = new TripLuggageFragment();
+
+                MainFragmentPagerAdapter pagerAdapter = ((MainActivity)requireContext()).getPagerAdapter();
+                pagerAdapter.updateFragment(addTripFragment, TAB_POSITION);
+
+                FragmentTransaction transaction = ((FragmentActivity) requireContext())
+                        .getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.triplist, addTripFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 
     private void setAndGetAllView(View view) {
