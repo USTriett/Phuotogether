@@ -2,34 +2,141 @@ package com.example.phuotogether.business_layer.map;
 
 
 
-import static android.provider.Settings.System.getString;
-
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.phuotogether.R;
+import com.example.phuotogether.data_access_layer.map.DirectionLegModel;
+import com.example.phuotogether.data_access_layer.map.DirectionResponseModel;
+import com.example.phuotogether.data_access_layer.map.DirectionRouteModel;
+import com.example.phuotogether.data_access_layer.map.DirectionStepModel;
+import com.example.phuotogether.service.RetrofitAPI;
+import com.example.phuotogether.service.RetrofitClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.maps.model.Dot;
+import com.google.android.gms.maps.model.Gap;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class DirectionsManager {
 
     private RequestQueue requestQueue;
     private GoogleMap googleMap;
-    private String apiKey = "AIzaSyAwBoi-ZrQxdKNnaPa8SMBT2ip4ik5Fn0g";
+    private String apiKey = "AIzaSyA9JmoH-4EPYNGNFqR7VHbJmSfx7ldbiec";
     private Polyline currentPolyline;
+    private RetrofitAPI retrofitAPI;
+    private MapPresenter mapPresenter;
 
-    public DirectionsManager(RequestQueue requestQueue, GoogleMap googleMap) {
+    public DirectionsManager(RequestQueue requestQueue, GoogleMap googleMap, DirectionListener listener) {
         this.requestQueue = requestQueue;
         this.googleMap = googleMap;
+        this.directionListener = listener;
+    }
+
+    public void getDirections(LatLng current, LatLng destination, String mode){
+        retrofitAPI = RetrofitClient.getRetrofitClient().create(RetrofitAPI.class);
+        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + current.latitude + "," + current.longitude + "&destination=" + destination.latitude + "," + destination.longitude + "&mode=" + mode + "&key=" + apiKey;
+        Log.d("TAG", "getDirections: " + url);
+        retrofitAPI.getDirection(url).enqueue(new Callback<DirectionResponseModel>() {
+            @Override
+            public void onResponse(Call<DirectionResponseModel> call, Response<DirectionResponseModel> response) {
+                Gson gson = new Gson();
+                String res = gson.toJson(response.body());
+                Log.d("TAG", "onResponse1: " + res);
+
+                if (response.errorBody() == null) {
+                    if (response.body() != null) {
+
+                        if (response.body().getDirectionRouteModels().size() > 0) {
+                            DirectionRouteModel routeModel = response.body().getDirectionRouteModels().get(0);
+
+                            DirectionLegModel legModel = routeModel.getLegs().get(0);
+                            String startAddress = legModel.getStartAddress();
+                            String endAddress = legModel.getEndAddress();
+                            String time = legModel.getDuration().getText();
+                            String distance = legModel.getDistance().getText();
+                            List<DirectionStepModel> stepModels = legModel.getSteps();
+                            if (directionListener != null) {
+                                directionListener.onDirectionReceived(startAddress, endAddress, time, distance, stepModels);
+                            }
+
+                            List<LatLng> stepList = new ArrayList<>();
+
+                            PolylineOptions options = new PolylineOptions()
+                                    .width(25)
+                                    .color(Color.BLUE)
+                                    .geodesic(true)
+                                    .clickable(true)
+                                    .visible(true);
+
+                            List<PatternItem> pattern;
+                            if (mode.equals("walking")) {
+                                pattern = Arrays.asList(
+                                        new Dot(), new Gap(10));
+
+                                options.jointType(JointType.ROUND);
+                            } else {
+                                pattern = Arrays.asList(
+                                        new Dash(30));
+                            }
+
+                            options.pattern(pattern);
+
+                            for (DirectionStepModel stepModel : legModel.getSteps()) {
+                                List<LatLng> decodedLatLng = decodePoly(stepModel.getPolyline().getPoints());
+                                for (LatLng latLng : decodedLatLng) {
+                                    stepList.add(latLng);
+                                }
+                            }
+
+                            options.addAll(stepList);
+
+                            Polyline polyline = googleMap.addPolyline(options);
+
+                            LatLng startLocation = new LatLng(legModel.getStartLocation().getLat(), legModel.getStartLocation().getLng());
+                            LatLng endLocation = new LatLng(legModel.getStartLocation().getLat(), legModel.getStartLocation().getLng());
+
+                            LatLng center = new LatLng((startLocation.latitude + endLocation.latitude) / 2, (startLocation.longitude + endLocation.longitude) / 2);
+                            float zoomLevel = 16;
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
+
+
+                        } else {
+                            Log.d("TAG", "onResponse2: " + response);
+                        }
+                    } else {
+                        Log.d("TAG", "onResponse3: " + response);
+                    }
+                } else {
+                    Log.d("TAG", "onResponse4: " + response);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<DirectionResponseModel> call, Throwable t) {
+                Log.d("TAG", "onFailure: " + t.getMessage());
+            }
+        });
     }
 
     public void getDirections(LatLng origin, LatLng destination) {
@@ -69,6 +176,7 @@ public class DirectionsManager {
                 .build().toString();
     }
 
+
     private List<LatLng> decodePoly(String encoded) {
         List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();
@@ -98,4 +206,8 @@ public class DirectionsManager {
         }
         return poly;
     }
+
+    private DirectionListener directionListener;
+
+
 }
