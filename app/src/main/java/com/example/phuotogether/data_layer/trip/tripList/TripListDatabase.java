@@ -11,7 +11,9 @@ public class TripListDatabase {
     private List<Trip> tripList;
 
     public TripListDatabase() {
+
         this.tripList = new ArrayList<>();
+        tripList.add(new Trip("Tam Ky", "time", R.drawable.binhthuan));
     }
 
     public List<Trip> getTripList() {

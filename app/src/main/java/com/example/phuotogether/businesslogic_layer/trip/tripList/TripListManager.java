@@ -38,5 +38,14 @@ public class TripListManager {
             return true;
         }
     }
+
+    public Trip getTripAtPosition(int position) {
+        List<Trip> tripList = tripListDatabase.getTripList();
+        if (position >= 0 && position < tripList.size()) {
+            return tripList.get(position);
+        } else {
+            return null;
+        }
+    }
 }
 

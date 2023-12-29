@@ -18,8 +18,6 @@ import com.example.phuotogether.businesslogic_layer.trip.tripList.TripListManage
 
 public class AddtripFragment extends Fragment {
 
-    int mPosition;
-
     private EditText etNameTrip, etStartDes, etGoalDes, etStartDate, etEndDate;
     private ImageButton btnBack;
     private Button btnSave;

@@ -22,6 +22,7 @@ import com.example.phuotogether.data_layer.trip.tripList.Trip;
 import com.example.phuotogether.gui_layer.MainActivity;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
 import com.example.phuotogether.gui_layer.trip.addTrip.AddtripFragment;
+import com.example.phuotogether.gui_layer.trip.tripView.TripLuggageFragment;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class TripListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AddtripFragment addTripFragment = new AddtripFragment();
+//                TripLuggageFragment tripLuggageFragment = new TripLuggageFragment();
 
                 MainFragmentPagerAdapter pagerAdapter = ((MainActivity)requireContext()).getPagerAdapter();
                 pagerAdapter.updateFragment(addTripFragment, TAB_POSITION);

@@ -27,11 +27,6 @@
         <activity
             android:name=".gui_layer.manual.ManualActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".gui_layer.info.InfoActivity"
@@ -61,6 +56,10 @@
         <activity
             android:name=".gui_layer.trip.tripList.AddTripActivity"
             android:exported="true"></activity>
+        <activity android:name=".gui_layer.trip.tripView.TripLuggageFragment"
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>
