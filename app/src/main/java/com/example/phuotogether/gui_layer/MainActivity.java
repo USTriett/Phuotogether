@@ -3,14 +3,12 @@ package com.example.phuotogether.gui_layer;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.gui_layer.info.InfoFragment;
 import com.example.phuotogether.gui_layer.manual.ManualFragment;
 import com.example.phuotogether.gui_layer.map.MapFragment;
-import com.example.phuotogether.gui_layer.navigation.FragmentUpdateCallback;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
 import com.example.phuotogether.gui_layer.trip.tripList.TripListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -103,5 +101,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
+
+
     //endregion
+
 }
