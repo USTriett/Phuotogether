@@ -86,7 +86,8 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     private GooglePlaceAdapter googlePlaceAdapter;
     private PlaceModel selectedPlaceModel;
     private boolean isSearching = false, isShowingDirection = false;
-    public static MapFragment newInstance() {
+
+    public static Fragment newInstance() {
         return new MapFragment();
     }
 
