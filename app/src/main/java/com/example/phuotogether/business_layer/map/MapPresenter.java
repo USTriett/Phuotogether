@@ -50,7 +50,7 @@ public class MapPresenter {
     private final MapFragment mMapFragment;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private Marker marker;
-    private final GoogleMap mMap;
+    private GoogleMap mMap;
     private DirectionsManager directionsManager;
     private int radius = 5000;
     private List<GooglePlaceModel> googlePlaceModelList;
@@ -60,6 +60,10 @@ public class MapPresenter {
         this.mMap = mMap;
         this.mapPresenterListener = mapPresenterListener;
         directionsManager = new DirectionsManager(Volley.newRequestQueue(mMapFragment.requireContext()), mMap, mapFragment);
+    }
+
+    public void setMap(GoogleMap googleMap) {
+        this.mMap = googleMap;
     }
 
     public void performSearch(String selectedSuggestion, LatLng currentLocation) {
@@ -89,6 +93,7 @@ public class MapPresenter {
                     mapPresenterListener.onShowDirectionClicked(currentLocation, latLng);
                 }
             });
+
             moveCamera(latLng, 15, selectedSuggestion);
         }
         else {

@@ -51,7 +51,7 @@ public class DirectionsManager {
 
     private RequestQueue requestQueue;
     private GoogleMap googleMap;
-    private String apiKey = "AIzaSyA9JmoH-4EPYNGNFqR7VHbJmSfx7ldbiec";
+    private String apiKey = "AIzaSyCl2PBKLn0jILonkq3kLx7Qw8CSwgUW6_o";
     private Polyline currentPolyline;
     private RetrofitAPI retrofitAPI;
     private MapPresenter mapPresenter;
