@@ -18,7 +18,7 @@ import com.example.phuotogether.data_layer.trip.tripList.Trip;
 import com.example.phuotogether.gui_layer.MainActivity;
 import com.example.phuotogether.gui_layer.manual.ManualItemFragment;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
-import com.example.phuotogether.gui_layer.trip.addTrip.AddTripFragment;
+import com.example.phuotogether.gui_layer.trip.addTrip.AddtripFragment;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
             public void onClick(View view) {
                 int itemPosition = holder.getAdapterPosition();
                 addFragment(ManualItemFragment.newInstance(itemPosition), TAB_POSITION);
-                AddTripFragment addTripFragment = new AddTripFragment(itemPosition);
+                AddtripFragment addTripFragment = new AddtripFragment();
 
                 FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext())
                         .getSupportFragmentManager().beginTransaction();

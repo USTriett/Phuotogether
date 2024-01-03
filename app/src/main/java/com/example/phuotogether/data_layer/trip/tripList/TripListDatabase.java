@@ -1,16 +1,27 @@
 package com.example.phuotogether.data_layer.trip.tripList;
 
+import android.util.Log;
+
 import com.example.phuotogether.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TripListDatabase {
-    public List<Trip> getTripList() {
-        List<Trip> tripList = new ArrayList<>();
-        tripList.add(new Trip("Bình thuận", "03/11/2023 - 06/11/2023", R.drawable.binhthuan));
-        tripList.add(new Trip("Bình thuận", "03/11/2023 - 06/11/2023", R.drawable.binhthuan));
+    private List<Trip> tripList;
 
+    public TripListDatabase() {
+        this.tripList = new ArrayList<>();
+    }
+
+    public List<Trip> getTripList() {
         return tripList;
     }
+
+    public void addTripList(String tripName, String tripTime, int tripImageID){
+//        Log.d("Size1", String.valueOf(tripList.size()));
+        tripList.add(new Trip(tripName,tripTime,tripImageID));
+//        Log.d("Size2", String.valueOf(tripList.size()));
+    }
+
 }
