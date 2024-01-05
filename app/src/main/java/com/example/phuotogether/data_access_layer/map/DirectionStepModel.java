@@ -1,5 +1,8 @@
 package com.example.phuotogether.data_access_layer.map;
 
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -92,5 +95,21 @@ public class DirectionStepModel {
 
     public void setManeuver(String maneuver) {
         this.maneuver = maneuver;
+    }
+
+    public boolean isUserNearEnd(LatLng userLocation) {
+        double userLat = userLocation.latitude;
+        double userLng = userLocation.longitude;
+        double endLat = endLocation.getLat();
+        double endLng = endLocation.getLng();
+
+        // Define a threshold distance for when the user is considered near the end of the step
+        double thresholdDistance = 50.0; // Adjust this value based on your requirements
+
+        // Calculate the distance between the user's location and the end of the step
+        float[] distance = new float[1];
+        Location.distanceBetween(userLat, userLng, endLat, endLng, distance);
+
+        return distance[0] <= thresholdDistance;
     }
 }

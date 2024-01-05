@@ -1,8 +1,14 @@
 package com.example.phuotogether.gui_layer.map;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,7 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,9 +74,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class MapFragment extends Fragment implements MapData.MapDataListener,
-        OnMapReadyCallback, GoogleMap.OnMapClickListener, DirectionListener, MapPresenterListener {
+        OnMapReadyCallback, GoogleMap.OnMapClickListener, DirectionListener, LocationListener, MapPresenterListener, TextToSpeech.OnInitListener {
     public static final int TAB_POSITION = 0;
     private FragmentMapBinding binding;
     private BottomSheetLocationInfoBinding bottomSheetLocationInfoBinding;
@@ -87,6 +96,12 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     private PlaceModel selectedPlaceModel;
     private boolean isSearching = false, isShowingDirection = false;
 
+    // for text to speech
+    private TextToSpeech textToSpeech;
+    private Context context;
+    private List<DirectionStepModel> stepList;
+    private LocationManager locationManager;
+
     public static Fragment newInstance() {
         return new MapFragment();
     }
@@ -102,6 +117,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         setupAutoCompleteTextView();
         setupButtons();
         setupNearbySearchUI();
+        setupFloatingComponents();
 
         return binding.getRoot();
     }
@@ -243,6 +259,10 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         });
     }
 
+   private void setupFloatingComponents() {
+        binding.floatingInstruction.setVisibility(View.GONE);
+   }
+
     private void showIsSearchingUI() {
         isSearching = true;
 //        autoCompleteTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, R.drawable.ic_clear, 0);
@@ -314,7 +334,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             bottomSheetLocationInfoBinding.btnShowDirection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    performDirection( getLatLngFromLocation(currentLocation),latLng);
+                    performDirection(getLatLngFromLocation(currentLocation), latLng);
                 }
             });
         }
@@ -409,7 +429,74 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         binding.txtEndLocation.setText(endLocation1);
         bottomSheetRouteBinding.txtSheetTime.setText(time);
         bottomSheetRouteBinding.txtSheetDistance.setText(distance);
+        textToSpeech.speak("Here is the direction to " + endLocation1, TextToSpeech.QUEUE_FLUSH, null, null);
+
+        bottomSheetRouteBinding.btnStartInstruction.setOnClickListener(v -> {
+            String rawInstruction = steps.get(0).getHtmlInstructions();
+            String cleanInstruction = rawInstruction.replaceAll("<.*?>", "").replaceAll("<div=\"[^\"]*\">", "");
+            Log.d("first location is", cleanInstruction);
+            textToSpeech.speak(cleanInstruction, TextToSpeech.QUEUE_FLUSH, null, null);
+
+            binding.directionLayout.setVisibility(View.GONE);
+            binding.floatingInstruction.setVisibility(View.VISIBLE);
+            binding.floatingInstructionText.setText(cleanInstruction);
+        });
         adapter.setDirectionStepModels(steps);
+
+        stepList = steps;
+        startLocationUpdates();                         // track user's location
+
+        bottomSheetRouteBinding.btnStopInstruction.setOnClickListener(v -> {
+            binding.floatingInstruction.setVisibility(View.GONE);
+            binding.directionLayout.setVisibility(View.VISIBLE);
+        });
+    }
+
+    private void startLocationUpdates() {
+        try {
+            // Check location permissions
+            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                // Register for location updates
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+            } else {
+                // Handle the case where permissions are not granted
+                // You should request permissions here or handle it according to your app's logic
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopLocationUpdates() {
+        // Unregister the LocationListener to stop location updates
+        locationManager.removeUpdates(this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        // update user's location on the mapơ
+        LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        mapPresenter.moveCamera(userLatLng, 15, "My Location");
+        Toast.makeText(requireContext(), "Location changed.", Toast.LENGTH_SHORT).show();
+
+        // check if the user's location is within any step's bounds
+        int stepListLength = stepList.size();
+        for (int i = 0; i < stepListLength - 1; i++) {
+            DirectionStepModel currentStep = stepList.get(i);
+            if (currentStep.isUserNearEnd(userLatLng)) {
+
+                // get instruction
+                DirectionStepModel nextStep = stepList.get(i + 1);
+                String rawInstruction = nextStep.getHtmlInstructions();
+                String cleanInstruction = rawInstruction.replaceAll("<.*?>", "").replaceAll("<div=\"[^\"]*\">", "");
+
+                // update instruction on the map
+                textToSpeech.speak(cleanInstruction, TextToSpeech.QUEUE_FLUSH, null, null);
+                binding.floatingInstructionText.setText(cleanInstruction);
+                break;
+            }
+        }
     }
 
     @Override
@@ -440,5 +527,51 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
                 }
             }
         });
+    }
+
+    // for text to speech
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        textToSpeech = new TextToSpeech(context, this);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            // Set the language for speech synthesis.
+            int result = textToSpeech.setLanguage(Locale.US);
+
+            // Check if the language is supported.
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(context, "Language not supported", Toast.LENGTH_SHORT).show();
+            } else {
+                // Text-to-Speech is ready. You can now use it to speak.
+                // textToSpeech.speak("Hello, welcome to your app!", TextToSpeech.QUEUE_FLUSH, null, null);
+            }
+        } else {
+            Toast.makeText(context, "Initialization failed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Be sure to release the TextToSpeech resources in the fragment's onDestroy method.
+    @Override
+    public void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        // Stop location updates
+        if (locationManager != null) {
+            locationManager.removeUpdates(this);
+        }
+        super.onDestroy();
     }
 }
