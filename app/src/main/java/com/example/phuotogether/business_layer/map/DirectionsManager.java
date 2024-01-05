@@ -51,10 +51,9 @@ public class DirectionsManager {
 
     private RequestQueue requestQueue;
     private GoogleMap googleMap;
-    private String apiKey = "AIzaSyA9JmoH-4EPYNGNFqR7VHbJmSfx7ldbiec";
-    private Polyline currentPolyline;
+    private String apiKey = "AIzaSyCl2PBKLn0jILonkq3kLx7Qw8CSwgUW6_o";
     private RetrofitAPI retrofitAPI;
-    private MapPresenter mapPresenter;
+    private DirectionListener directionListener;
     public DirectionsManager(RequestQueue requestQueue, GoogleMap googleMap, DirectionListener listener) {
         this.requestQueue = requestQueue;
         this.googleMap = googleMap;
@@ -202,17 +201,6 @@ public class DirectionsManager {
         });
     }
 
-
-    private String buildDirectionsUrl(LatLng origin, LatLng destination) {
-        return Uri.parse("https://maps.googleapis.com/maps/api/directions/json")
-                .buildUpon()
-                .appendQueryParameter("origin", origin.latitude + "," + origin.longitude)
-                .appendQueryParameter("destination", destination.latitude + "," + destination.longitude)
-                .appendQueryParameter("key", apiKey)
-                .build().toString();
-    }
-
-
     private List<LatLng> decodePoly(String encoded) {
         List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();
@@ -243,7 +231,6 @@ public class DirectionsManager {
         return poly;
     }
 
-    private DirectionListener directionListener;
 
 
 }

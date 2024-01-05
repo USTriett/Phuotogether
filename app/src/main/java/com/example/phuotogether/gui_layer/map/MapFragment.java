@@ -106,8 +106,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         return binding.getRoot();
     }
 
-
-
     private void initializeDependencies() {
         directionsManager = new DirectionsManager(Volley.newRequestQueue(requireContext()), mMap, this);
         Places.initialize(requireContext(), getString(R.string.place_api_key));
@@ -128,7 +126,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         bottomSheetBehaviorInfoLocation.setHideable(true);
         bottomSheetBehaviorInfoLocation.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
-
 
     private void setupStepRecyclerView() {
         bottomSheetRouteBinding.stepRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +30,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 //    public static final int TAB_POSITION = 1;
     private Context mContext;
 
-    public TripAdapter(Context context, List<Trip> tripList) {
+    public TripAdapter( Context context, List<Trip> tripList) {
         mContext = context;
         mTripList = tripList;
     }
