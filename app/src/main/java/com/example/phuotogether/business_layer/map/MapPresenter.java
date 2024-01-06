@@ -1,55 +1,74 @@
 package com.example.phuotogether.business_layer.map;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
+
 
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.android.volley.toolbox.Volley;
 import com.example.phuotogether.R;
-import com.example.phuotogether.gui_layer.map.LocationInfoFragment;
+import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_access_layer.map.GoogleResponseModel;
+import com.example.phuotogether.gui_layer.map.GooglePlaceAdapter;
 import com.example.phuotogether.gui_layer.map.MapFragment;
+import com.example.phuotogether.service.RetrofitAPI;
+import com.example.phuotogether.service.RetrofitClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.google.android.libraries.places.api.model.LocationBias;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.model.TypeFilter;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MapPresenter {
     private final MapFragment mMapFragment;
     private ArrayList<Marker> markerList = new ArrayList<>();
-    private AutoCompleteTextView autoCompleteTextView;
     private Marker marker;
-    private final GoogleMap mMap;
+    private GoogleMap mMap;
     private DirectionsManager directionsManager;
-    public MapPresenter(MapFragment mapFragment, GoogleMap mMap) {
+    private int radius = 5000;
+    private List<GooglePlaceModel> googlePlaceModelList;
+    private MapPresenterListener mapPresenterListener;
+    public MapPresenter(MapFragment mapFragment, GoogleMap mMap, MapPresenterListener mapPresenterListener) {
         this.mMapFragment = mapFragment;
         this.mMap = mMap;
-        directionsManager = new DirectionsManager(Volley.newRequestQueue(mMapFragment.requireContext()), mMap);
+        this.mapPresenterListener = mapPresenterListener;
+        directionsManager = new DirectionsManager(Volley.newRequestQueue(mMapFragment.requireContext()), mMap, mapFragment);
+    }
+
+    public void setMap(GoogleMap googleMap) {
+        this.mMap = googleMap;
     }
 
     public void performSearch(String selectedSuggestion, LatLng currentLocation) {
         // Search for the selected suggestion
+        clearMap(mMap, currentLocation);
         Geocoder geocoder = new Geocoder(mMapFragment.requireContext());
         List<Address> addressList = new ArrayList<>();
 
@@ -61,24 +80,32 @@ public class MapPresenter {
         if (addressList.size() > 0) {
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            LocationInfoFragment locationInfoFragment = LocationInfoFragment.newInstance(latLng,currentLocation,directionsManager);
-            locationInfoFragment.show(mMapFragment.requireActivity().getSupportFragmentManager(), "locationInfoFragment");
+            BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(mMapFragment.requireActivity().findViewById(R.id.bottom_sheet_location_info));
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+            Button showDirectionsButton = mMapFragment.requireActivity().findViewById(R.id.btnShowDirection);
+            showDirectionsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("MapActivity", "onClick: " + currentLocation + " " + latLng);
+                    clearMap(mMap, currentLocation);
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(selectedSuggestion));
+                    mapPresenterListener.onShowDirectionClicked(currentLocation, latLng);
+                }
+            });
+
             moveCamera(latLng, 15, selectedSuggestion);
         }
         else {
             Log.d("MapActivity", "performSearch: addressList is empty");
         }
-
-
     }
-    public void clearMap(GoogleMap mMap, Location lastKnownLocation) {
+    public void clearMap(GoogleMap mMap, LatLng currentLatLng) {
         mMap.clear();
         markerList.clear();
 
         // add marker for current location again
-        if (lastKnownLocation != null) {
-            Log.d("MapActivity", "onLastLocationReceived: " + lastKnownLocation.toString());
-            LatLng currentLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+        if (currentLatLng != null) {
             marker = mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot_pic)).position(currentLatLng).draggable(true)
                     .title("My Location"));
             marker.setTitle("My Location");
@@ -145,60 +172,71 @@ public class MapPresenter {
                 });
     }
 
-    public void performNearbySearch(String categoryText, PlacesClient placesClient, Location currentLocation) {
-        LocationBias locationBias = RectangularBounds.newInstance(
-                new LatLng(currentLocation.getLatitude() - 0.05, currentLocation.getLongitude() - 0.05),
-                new LatLng(currentLocation.getLatitude() + 0.05, currentLocation.getLongitude() + 0.05)
-        );
-        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-                .setTypeFilter(TypeFilter.ESTABLISHMENT)
-                .setQuery(categoryText)
-                .setLocationBias(locationBias)
-                .build();
-        placesClient.findAutocompletePredictions(request)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        FindAutocompletePredictionsResponse response = task.getResult();
-                        if (response != null && response.getAutocompletePredictions() != null) {
-                            List<AutocompletePrediction> predictions = response.getAutocompletePredictions();
-                            for (AutocompletePrediction prediction : predictions) {
-                                String placeId = prediction.getPlaceId();
-                                String placeName = prediction.getPrimaryText(null).toString();
-                                fetchPlaceDetails(placeId, placeName, placesClient);
+    public void performSearchNearby(Location currentLocation, String placeName) {
+        googlePlaceModelList = new ArrayList<>();
+        RetrofitAPI retrofitAPI = RetrofitClient.getRetrofitClient().create(RetrofitAPI.class);
+        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
+                + currentLocation.getLatitude() + "," + currentLocation.getLongitude()
+                + "&radius=" + radius + "&type=" + placeName + "&key=" + mMapFragment.getResources().getString(R.string.place_api_key);
+        Log.d("TAG", "performSearchNearby: " + url);
+        if (currentLocation != null) {
+
+
+            retrofitAPI.getNearByPlaces(url).enqueue(new Callback<GoogleResponseModel>() {
+                @Override
+                public void onResponse(@NonNull Call<GoogleResponseModel> call, @NonNull Response<GoogleResponseModel> response) {
+                    Gson gson = new Gson();
+                    String res = gson.toJson(response.body());
+                    Log.d("TAG", "onResponse: " + res);
+                    if (response.errorBody() == null) {
+                        if (response.body() != null) {
+                            if (response.body().getGooglePlaceModelList() != null && response.body().getGooglePlaceModelList().size() > 0) {
+
+                                googlePlaceModelList.clear();
+                                mMap.clear();
+                                for (int i = 0; i < response.body().getGooglePlaceModelList().size(); i++) {
+
+//                                    if (userSavedLocationId.contains(response.body().getGooglePlaceModelList().get(i).getPlaceId())) {
+//                                        response.body().getGooglePlaceModelList().get(i).setSaved(true);
+//                                    }
+                                    googlePlaceModelList.add(response.body().getGooglePlaceModelList().get(i));
+                                    mMap.addMarker(new MarkerOptions()
+                                            .position(new LatLng(response.body().getGooglePlaceModelList().get(i).getGeometry().getLocation().getLat(),
+                                                    response.body().getGooglePlaceModelList().get(i).getGeometry().getLocation().getLng()))
+                                            .title(response.body().getGooglePlaceModelList().get(i).getName())
+                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                                }
+                                mapPresenterListener.onNearbyPlacesFetch(googlePlaceModelList);
+
+                            } else if (response.body().getError() != null) {
+                                Toast.makeText(mMapFragment.requireContext(), "Error : " + response.body().getError(), Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                mMap.clear();
+                                googlePlaceModelList.clear();
+                                mapPresenterListener.onNearbyPlacesFetch(googlePlaceModelList);
+                                radius += 1000;
+                                Log.d("TAG", "onResponse: " + radius);
+                                performSearchNearby(currentLocation, placeName);
+
                             }
                         }
+
                     } else {
-                        Exception exception = task.getException();
-                        if (exception != null) {
-                            Log.e("MapActivity", "Autocomplete search failed with exception: ", exception);
-                        }
+                        Log.d("TAG", "onResponse: " + response.errorBody());
+                        Toast.makeText(mMapFragment.requireContext(), "Error : " + response.errorBody(), Toast.LENGTH_SHORT).show();
                     }
-                });
+
+                }
+
+                @Override
+                public void onFailure(Call<GoogleResponseModel> call, Throwable t) {
+
+                    Log.d("TAG", "onFailure: " + t);
+
+                }
+            });
+        }
     }
-
-    public void fetchPlaceDetails(String placeId, String placeName, PlacesClient placesClient) {
-        FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, Arrays.asList(Place.Field.LAT_LNG))
-                .build();
-
-        placesClient.fetchPlace(request)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Place place = task.getResult().getPlace();
-                        LatLng placeLatLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
-
-                        mMap.addMarker(new MarkerOptions()
-                                .position(placeLatLng)
-                                .title(placeName));
-
-                        // You can perform other actions here based on the nearby places
-                    } else {
-                        Exception exception = task.getException();
-                        if (exception != null) {
-                            Log.e("MapActivity", "Fetch place details failed with exception: ", exception);
-                        }
-                    }
-                });
-    }
-
 
 }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.phuotogether.R;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public void setThemeMode(boolean isDarkMode) {
         this.isDarkMode = isDarkMode;
         if (isDarkMode) {
@@ -136,4 +138,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+
 }
