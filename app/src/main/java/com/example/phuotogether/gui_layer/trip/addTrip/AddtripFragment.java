@@ -57,7 +57,7 @@ public class AddtripFragment extends Fragment {
                 String endDate = etEndDate.getText().toString();
 
                 if (tripListManager.isSuccessAddTrip(tripName, startDes, goalDes, startDate, endDate)){
-                    tripListManager.addTrip(tripName,startDate,endDate);
+                    tripListManager.addTrip(tripName,startDate,endDate,startDes,goalDes);
                     showSuccessToast();
                     requireActivity().getSupportFragmentManager().popBackStack();
                 }

@@ -23,24 +23,20 @@ public class ProfileFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize UI components and set up button click listeners
-
         ImageButton closeButton = view.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss(); // Close the dialog when the close button is clicked
+                dismiss();
             }
         });
 
-        // Set up other UI components and functions based on your requirements
-        // (e.g., load profile data, set up function list, etc.)
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        // Apply the custom style to the dialog
+
         if (getDialog() != null) {
             getDialog().getWindow().setLayout(920,1200);
             getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_background); // Add a custom background with corner radius

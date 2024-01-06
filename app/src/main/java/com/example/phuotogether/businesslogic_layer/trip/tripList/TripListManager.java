@@ -25,10 +25,10 @@ public class TripListManager {
         return tripListDatabase.getTripList();
     }
 
-    public void addTrip(String tripName, String startDate, String endDate) {
+    public void addTrip(String tripName, String startDate, String endDate, String startDes, String goalDes) {
         String date = startDate + " - " + endDate;
         int imageID = R.drawable.binhthuan;
-        tripListDatabase.addTripList(tripName, date, imageID);
+        tripListDatabase.addTripList(tripName, date, imageID, startDes, goalDes, startDate, endDate);
     }
 
     public boolean isSuccessAddTrip(String tripName, String startDes, String goalDes, String startDate, String endDate) {
