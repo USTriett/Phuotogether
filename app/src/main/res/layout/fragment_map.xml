@@ -6,13 +6,6 @@
 
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/map"
-        tools:context=".gui_layer.MainActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
-
     <include
         android:id="@+id/bottom_sheet_location_info"
         layout="@layout/bottom_sheet_location_info"
@@ -32,7 +25,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MapsActivity" />
+            tools:context=".gui_layer.MainActivity" />
 
         <LinearLayout
             android:id="@+id/direction_layout"
