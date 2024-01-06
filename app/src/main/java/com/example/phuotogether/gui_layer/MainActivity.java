@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public MainFragmentPagerAdapter getPagerAdapter(){
         return mPagerAdapter;
     }
+    public ViewPager getViewPager(){return mViewPager;}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

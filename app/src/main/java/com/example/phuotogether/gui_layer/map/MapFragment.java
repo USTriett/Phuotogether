@@ -1,20 +1,20 @@
 package com.example.phuotogether.gui_layer.map;
 
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,9 +26,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.phuotogether.R;
 import com.example.phuotogether.business_layer.map.DirectionsManager;
 import com.example.phuotogether.business_layer.map.MapPresenter;
+import com.example.phuotogether.business_layer.map.SavedTilesProvider;
 import com.example.phuotogether.data_access_layer.map.MapData;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -37,10 +39,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,7 +91,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
             myLocationButton = rootView.findViewById(R.id.btn_my_location);
             deleteButton = rootView.findViewById(R.id.btn_delete);
             profileButton = rootView.findViewById(R.id.btn_profile);
-
+            assetManager = getContext().getAssets();
             autoCompleteTextView.setThreshold(1); // Start suggestions after typing 1 character
 
             autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
@@ -144,7 +149,20 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
             profileButton.setOnClickListener(v -> {
                 // Show profile fragment popup
                 ProfileFragment profileFragment = new ProfileFragment();
+                profileFragment.getDownloadOfflineMapTextView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+                            @Override
+                            public void onSnapshotReady(Bitmap snapshot) {
+                                // Lưu snapshot vào thư mục assets
+                                saveMapImageToAssets(snapshot);
+                            }
+                        });
+                    }
+                });
                 profileFragment.show(getChildFragmentManager(), "ProfileFragment");
+
             });
 
 
@@ -183,6 +201,26 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
 
         return rootView;
     }
+    private AssetManager assetManager;
+    private void saveMapImageToAssets(Bitmap snapshot) {
+        OutputStream out = null;
+
+        try {
+            out = assetManager.openFd("map_image.png").createOutputStream();
+            snapshot.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     private void showIsSearchingUI() {
         isSearching = true;
@@ -257,7 +295,13 @@ public class MapFragment extends Fragment implements MapData.MapDataListener, On
             locationInfoFragment.show(getChildFragmentManager(), "LocationInfoFragment");
         }
     }
+    private void setUpMap() {
+        mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
 
+        mMap.addTileOverlay(new TileOverlayOptions().tileProvider(new SavedTilesProvider(getResources().getAssets())));
+
+        mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
+    }
     private LatLng getLatLngFromLocation(Location location) {
         return new LatLng(location.getLatitude(), location.getLongitude());
     }
