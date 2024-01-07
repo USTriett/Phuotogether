@@ -48,7 +48,28 @@ public class TripViewFragment extends Fragment {
         setTitleTripView();
         setEventClickButtonBack();
         setEventClickCardViewLuggage();
+        setEventClickCardViewSetting();
         return rootView;
+    }
+
+    private void setEventClickCardViewSetting() {
+        cvTripSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = getArguments();
+                int tripPosition = -1;
+
+                if (bundle != null) {
+                    tripPosition = bundle.getInt("trip_position", -1);
+                }
+
+                Intent intent = new Intent(requireActivity(), TripSettingFragment.class);
+                if (tripPosition != -1) {
+                    intent.putExtra("trip_position", tripPosition);
+                }
+                startActivity(intent);
+            }
+        });
     }
 
     private void setEventClickCardViewLuggage() {
