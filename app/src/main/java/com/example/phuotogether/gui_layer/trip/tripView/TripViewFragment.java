@@ -34,7 +34,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class TripViewFragment extends Fragment {
     public static final int TAB_POSITION = 1;
-    private CardView cvTripLuggage, cvTripSchedule, cvTripDiary, cvTripSetting;
     private ImageButton btnBack;
     private TextView tvTitle;
     private TripListManager tripListManager;
@@ -47,17 +46,21 @@ public class TripViewFragment extends Fragment {
             R.drawable.diary_icon
     };
 
-
-
-    public static TripViewFragment newInstance() {return new TripViewFragment();}
+    public static TripViewFragment newInstance() {
+        TripViewFragment fragment = new TripViewFragment();
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_view_trip, container, false);
-
-
+        tripListManager = TripListManager.getInstance();
+        setAndGetAllView(rootView);
+        setSelectedTrip();
+        setTitleTripView();
+        setEventClickButtonBack();
 
         viewPager = rootView.findViewById(R.id.viewPager);
         setupViewPager(viewPager);
@@ -66,25 +69,10 @@ public class TripViewFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
 
-
-        // Attach the ViewPager to the tab layout
-
-
-        tripListManager = TripListManager.getInstance();
-        setAndGetAllView(rootView);
-        setSelectedTrip();
-        setTitleTripView();
-        setEventClickButtonBack();
-
-
-
-
-
         return rootView;
     }
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.setTabIconTint(null);
     }
@@ -92,7 +80,7 @@ public class TripViewFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         TripViewPagerAdapter adapter = new TripViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new TripLuggageFragment(), "Hành lý");
-        adapter.addFragment(new TripScheduleFragment(), "Lịch trình");
+        adapter.addFragment(new TripScheduleFragment().newInstance(selectedTrip), "Lịch trình");
 
         viewPager.setAdapter(adapter);
     }
@@ -123,14 +111,9 @@ public class TripViewFragment extends Fragment {
         });
     }
 
-
     private void setAndGetAllView(View rootView) {
         btnBack = rootView.findViewById(R.id.buttonBackViewTrip);
         tvTitle = rootView.findViewById(R.id.tvTitleViewTrip);
     }
 
-    public void addFragment(Fragment fragment, int tabPosition) {
-        MainFragmentPagerAdapter pagerAdapter = ((MainActivity) requireContext()).getPagerAdapter();
-        pagerAdapter.updateFragment(fragment, tabPosition);
-    }
 }

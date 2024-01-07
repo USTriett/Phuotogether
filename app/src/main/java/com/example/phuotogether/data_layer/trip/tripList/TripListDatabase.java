@@ -11,19 +11,17 @@ public class TripListDatabase {
     private List<Trip> tripList;
 
     public TripListDatabase() {
-
         this.tripList = new ArrayList<>();
-        tripList.add(new Trip("Tam Ky", "time", R.drawable.binhthuan));
+        tripList.add(new Trip("Tam Ky", "time", R.drawable.binhthuan,
+                "HCM", "Tam Ky", "12/12/2023", "12/1/2024"));
     }
 
     public List<Trip> getTripList() {
         return tripList;
     }
 
-    public void addTripList(String tripName, String tripTime, int tripImageID){
-//        Log.d("Size1", String.valueOf(tripList.size()));
-        tripList.add(new Trip(tripName,tripTime,tripImageID));
-//        Log.d("Size2", String.valueOf(tripList.size()));
+    public void addTripList(String tripName, String tripTime, int tripImageID, String departurePlace, String arrivalPlace, String startDate, String endDate){
+        tripList.add(new Trip(tripName,tripTime,tripImageID,departurePlace,arrivalPlace,startDate,endDate));
     }
 
 }

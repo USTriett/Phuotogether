@@ -29,7 +29,7 @@
         <item name="cornerRadius">10dp</item>
     </style>
     <style name="editTextLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidth">1dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="boxBackgroundColor">@color/white</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
@@ -41,6 +41,9 @@
         <item name="chipCornerRadius">20dp</item>
         <item name="backgroundTint">@color/white</item>
         <item name="chipStrokeWidth">0dp</item>
+    </style>
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:background">@drawable/search_view_background</item>
     </style>
 
     <style name="Theme.Phuotogether" parent="Base.Theme.Phuotogether" />

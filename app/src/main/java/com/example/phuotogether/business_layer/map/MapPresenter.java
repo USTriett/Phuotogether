@@ -114,11 +114,10 @@ public class MapPresenter {
     }
     public void moveCamera(LatLng latLng, float zoom, String title) {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-
+        if (marker != null) {
+            marker.remove();
+        }
         if (!title.equals("My Location")) {
-            if (marker != null) {
-                marker.remove();
-            }
             marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true)
                     .title(title));
             marker.setTitle(title);
@@ -180,8 +179,6 @@ public class MapPresenter {
                 + "&radius=" + radius + "&type=" + placeName + "&key=" + mMapFragment.getResources().getString(R.string.place_api_key);
         Log.d("TAG", "performSearchNearby: " + url);
         if (currentLocation != null) {
-
-
             retrofitAPI.getNearByPlaces(url).enqueue(new Callback<GoogleResponseModel>() {
                 @Override
                 public void onResponse(@NonNull Call<GoogleResponseModel> call, @NonNull Response<GoogleResponseModel> response) {

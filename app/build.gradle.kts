@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.phuotogether"
-        minSdk = 30
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -57,7 +57,7 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 
 
-
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     implementation("com.kyleduo.switchbutton:library:2.1.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

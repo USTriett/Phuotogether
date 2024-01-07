@@ -193,7 +193,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // Do nothing
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.toString().isEmpty()) {
@@ -203,7 +202,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
                     Log.d("MapActivity", "onTextChanged: empty string");
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 // Do nothing
@@ -226,7 +224,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         });
 
         binding.btnProfile.setOnClickListener(v -> {
-            // Show profile fragment popup
             ProfileFragment profileFragment = new ProfileFragment();
             profileFragment.show(getChildFragmentManager(), "ProfileFragment");
             TextView downloadOfflineMap = profileFragment.getDownloadOfflineMapTextView();
@@ -465,6 +462,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         binding.relLayout1.setVisibility(View.VISIBLE);
         binding.placesGroup.setVisibility(View.VISIBLE);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        binding.floatingInstruction.setVisibility(View.GONE);
     }
 
     private LatLng getLatLngFromLocation(Location location) {

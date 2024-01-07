@@ -53,6 +53,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("trip_position", itemPosition);
+                bundle.putSerializable("trip", trip);
 
 //                addFragment(ManualItemFragment.newInstance(itemPosition), TAB_POSITION);
                 TripViewFragment tripViewFragment = new TripViewFragment();

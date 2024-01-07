@@ -1,6 +1,9 @@
 package com.example.phuotogether.gui_layer;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.auth.SignIn.SignInFragment;
 import com.example.phuotogether.gui_layer.info.InfoFragment;
 import com.example.phuotogether.gui_layer.manual.ManualFragment;
 import com.example.phuotogether.gui_layer.map.MapFragment;
@@ -34,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
         return mPagerAdapter;
     }
     public ViewPager getViewPager(){return mViewPager;}
+
+    private void createUserTable(){
+        //TODO implement in data layer create table in sqlite
+    }
+    private boolean isSignedIn(){
+        //TODO check accesstoken
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(3);
 
         mBottomNavigationView = findViewById(R.id.bottomNavigationView);
+        if(!isSignedIn()){
+            FrameLayout mainFrame = findViewById(R.id.signin_container);
+            SignInFragment signInFragment = new SignInFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.signin_container, signInFragment).commit();
+
+        }
         mBottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int itemId = menuItem.getItemId();
 

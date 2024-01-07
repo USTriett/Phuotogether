@@ -7,6 +7,8 @@ public class PlannedDestination implements Serializable {
     private String beginTime;
     private String endTime;
     private String note;
+    private String locationName;
+    private String locationAddress;
 
     // Constructor
     public PlannedDestination(int tripID, int locationID, int destinationNo, String beginTime, String endTime, String note) {
@@ -56,5 +58,18 @@ public class PlannedDestination implements Serializable {
     }
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+    public void setLocationAddress(String locationAddress) {
+        this.locationAddress = locationAddress;
+    }
+    public String getLocationName() {
+        return locationName;
+    }
+    public String getLocationAddress() {
+        return locationAddress;
     }
 }

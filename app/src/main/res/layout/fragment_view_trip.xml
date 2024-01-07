@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/tripview">
+    android:id="@+id/tripview"
+    android:background="@color/white">
 
     <!-- Header with bold, left-aligned text -->
     <LinearLayout
@@ -160,13 +161,13 @@
 
     </com.google.android.material.tabs.TabLayout>
 
+    <!-- TextView -->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tabLayout"/>
+        android:layout_below="@id/tabLayout" />
 
-    <!-- TextView -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

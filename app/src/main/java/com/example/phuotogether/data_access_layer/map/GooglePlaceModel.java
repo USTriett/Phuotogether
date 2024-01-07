@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class GooglePlaceModel {
+public class GooglePlaceModel implements java.io.Serializable{
 
     @SerializedName("business_status")
     @Expose
@@ -59,6 +59,10 @@ public class GooglePlaceModel {
     @SerializedName("vicinity")
     @Expose
     private String vicinity;
+
+    @SerializedName("formatted_address")
+    @Expose
+    private String formattedAddress;
 
     @Expose(serialize = false, deserialize = false)
     private boolean isSaved;
@@ -176,4 +180,15 @@ public class GooglePlaceModel {
     public void setSaved(boolean saved) {
         isSaved = saved;
     }
+
+    public String getFormattedAddress() {
+        return formattedAddress;
+    }
+
+    public void setFormattedAddress(String formattedAddress) {
+        this.formattedAddress = formattedAddress;
+    }
+
+
+
 }
