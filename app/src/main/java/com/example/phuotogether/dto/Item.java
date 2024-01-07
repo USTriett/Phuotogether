@@ -2,6 +2,7 @@ package com.example.phuotogether.dto;
 import java.io.Serializable;
 public class Item implements Serializable {
     private int tripID;
+    private boolean isChecked;
     private int itemNo;
     private String name;
 
@@ -36,5 +37,9 @@ public class Item implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
     }
 }
