@@ -25,11 +25,19 @@
         android:layout_weight="1">
 
     </View>
+<<<<<<< HEAD
     
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/close_logo"
+=======
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/close_icon"
+>>>>>>> Huy
         android:background="@drawable/transparent_background"
         android:layout_gravity="center"
         android:id="@+id/btnDeleteLuggageItem">

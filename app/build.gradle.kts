@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.phuotogether"
-        minSdk = 30
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -32,6 +32,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -49,6 +53,7 @@ dependencies {
 
     // Maps SDK for Android
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
+
     // Location SDK for Android
     implementation ("com.google.android.gms:play-services-location:19.0.1")
 
@@ -57,5 +62,13 @@ dependencies {
 
     // volley
     implementation ("com.android.volley:volley:1.2.1")
+
+    // retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
+
+    // Glide
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
 
 }

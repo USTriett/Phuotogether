@@ -9,59 +9,61 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Phuotogether"
         tools:targetApi="31">
         <activity
+            android:name=".gui_layer.trip.destinationList.DestinationInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".gui_layer.trip.destinationList.SearchDestinationActivity"
+            android:exported="false" />
+        <activity
             android:name=".gui_layer.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".gui_layer.manual.ManualActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".gui_layer.info.InfoActivity"
             android:exported="true"
             android:label="@string/title_activity_info"
             android:theme="@style/Theme.Phuotogether" />
-        <activity
-            android:name=".gui_layer.auth.SignIn.SignInActivity"
-            android:exported="true"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_api_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".gui_layer.auth.SignUp.SignUpActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".gui_layer.auth.ForgotPassword.ForgotPasswordActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".gui_layer.auth.ForgotPassword.ChangePasswordActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".gui_layer.trip.tripList.TripListActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".gui_layer.trip.tripList.AddTripActivity"
-            android:exported="true"></activity>
-        <activity android:name=".gui_layer.trip.tripView.TripLuggageFragment"
-            android:exported="true">
-        </activity>
-        <activity android:name=".gui_layer.trip.tripView.TripSettingFragment"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
+
     </application>
 
 </manifest>

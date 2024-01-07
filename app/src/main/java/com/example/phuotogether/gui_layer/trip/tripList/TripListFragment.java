@@ -78,7 +78,7 @@ public class TripListFragment extends Fragment {
     private void setTripList() {
         tripRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         List<Trip> tripList = tripListManager.getTripList();
-        tripAdapter = new TripAdapter(requireContext(), tripList);
+        tripAdapter = new TripAdapter(getActivity(), tripList);
         tripRecyclerView.setAdapter(tripAdapter);
     }
 }
