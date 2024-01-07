@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:elevation="7dp"
+    android:padding="20dp"
+    style="@style/AppBottomSheetDialogTheme"
+    app:behavior_peekHeight="140dp"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <TextView
+        android:id="@+id/txtPlaceTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Place title"
+        android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/txtAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/txtPlaceTitle"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/txtAddress"
+        >
+        <Button
+            android:id="@+id/btnShowDirection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Directions"
+            android:backgroundTint="@color/blue"
+            android:drawableLeft="@drawable/direction_icon"
+            android:layout_marginRight="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Saved"
+            android:backgroundTint="@color/blue"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
