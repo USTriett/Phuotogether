@@ -1,6 +1,7 @@
 package com.example.phuotogether.gui_layer.trip.tripList;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,15 +21,16 @@ import com.example.phuotogether.gui_layer.MainActivity;
 import com.example.phuotogether.gui_layer.manual.ManualItemFragment;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
 import com.example.phuotogether.gui_layer.trip.addTrip.AddtripFragment;
+import com.example.phuotogether.gui_layer.trip.tripView.TripViewFragment;
 
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder> {
     private List<Trip> mTripList;
-    public static final int TAB_POSITION = 1;
+//    public static final int TAB_POSITION = 1;
     private Context mContext;
 
-    public TripAdapter(Context context, List<Trip> tripList) {
+    public TripAdapter( Context context, List<Trip> tripList) {
         mContext = context;
         mTripList = tripList;
     }
@@ -47,12 +50,17 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
             @Override
             public void onClick(View view) {
                 int itemPosition = holder.getAdapterPosition();
-                addFragment(ManualItemFragment.newInstance(itemPosition), TAB_POSITION);
-                AddtripFragment addTripFragment = new AddtripFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("trip_position", itemPosition);
+
+//                addFragment(ManualItemFragment.newInstance(itemPosition), TAB_POSITION);
+                TripViewFragment tripViewFragment = new TripViewFragment();
+                tripViewFragment.setArguments(bundle);
 
                 FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext())
                         .getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.triplist, addTripFragment);
+                transaction.replace(R.id.triplist, tripViewFragment);
                 transaction.addToBackStack(null); // Add to back stack if needed
                 transaction.commit();
             }
