@@ -9,11 +9,13 @@ import java.util.List;
 
 public class TripListDatabase {
     private List<Trip> tripList;
+    private int count = 0;
 
     public TripListDatabase() {
 
         this.tripList = new ArrayList<>();
-        tripList.add(new Trip("Tam Ky", "time", R.drawable.binhthuan));
+        tripList.add(new Trip("Tam Ky", "time", R.drawable.binhthuan, count));
+        count++;
     }
 
     public List<Trip> getTripList() {
@@ -21,9 +23,8 @@ public class TripListDatabase {
     }
 
     public void addTripList(String tripName, String tripTime, int tripImageID){
-//        Log.d("Size1", String.valueOf(tripList.size()));
-        tripList.add(new Trip(tripName,tripTime,tripImageID));
-//        Log.d("Size2", String.valueOf(tripList.size()));
+        count++;
+        tripList.add(new Trip(tripName,tripTime,tripImageID,count));
     }
 
 }

@@ -55,10 +55,17 @@ public class TripViewFragment extends Fragment {
         cvTripLuggage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String titleTrip = selectedTrip.getTripName();
-                Intent intent = new Intent(requireActivity(), TripLuggageFragment.class);
-                intent.putExtra("tripTitle", titleTrip);
+                Bundle bundle = getArguments();
+                int tripPosition = -1;
 
+                if (bundle != null) {
+                    tripPosition = bundle.getInt("trip_position", -1);
+                }
+
+                Intent intent = new Intent(requireActivity(), TripLuggageFragment.class);
+                if (tripPosition != -1) {
+                    intent.putExtra("trip_position", tripPosition);
+                }
                 startActivity(intent);
             }
         });
