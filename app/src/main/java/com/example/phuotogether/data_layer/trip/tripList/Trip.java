@@ -1,25 +1,20 @@
 package com.example.phuotogether.data_layer.trip.tripList;
 
-import java.io.Serializable;
+import com.example.phuotogether.data_layer.trip.tripView.Luggage;
 
-public class Trip implements Serializable {
+import java.util.List;
+
+public class Trip {
     private String tripName;
     private String tripTime;
-    private String departurePlace;
-    private String arrivalPlace;
-    private String startDate;
-    private String endDate;
     private int tripImageID;
+    private int ID;
 
-    public Trip(String tripName, String tripTime, int tripImageID,
-                String departurePlace, String arrivalPlace, String startDate, String endDate) {
+    public Trip(String tripName, String tripTime, int tripImageID, int tripID) {
         this.tripName = tripName;
         this.tripTime = tripTime;
         this.tripImageID = tripImageID;
-        this.departurePlace = departurePlace;
-        this.arrivalPlace = arrivalPlace;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.ID = tripID;
     }
 
     public int getTripImageID() {
@@ -34,6 +29,14 @@ public class Trip implements Serializable {
         return tripName;
     }
 
+    public int getTripID() {
+        return ID;
+    }
+
+    public void setTripID(int tripID) {
+        this.ID = tripID;
+    }
+
     public void setTripName(String tripName) {
         this.tripName = tripName;
     }
@@ -45,21 +48,4 @@ public class Trip implements Serializable {
     public void setTripTime(String tripTime) {
         this.tripTime = tripTime;
     }
-
-    public String getDeparturePlace() {
-        return departurePlace;
-    }
-
-    public String getArrivalPlace() {
-        return arrivalPlace;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
 }
