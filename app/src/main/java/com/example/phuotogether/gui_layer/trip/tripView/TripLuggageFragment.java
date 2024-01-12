@@ -1,8 +1,6 @@
 package com.example.phuotogether.gui_layer.trip.tripView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,60 +18,41 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phuotogether.R;
-import com.example.phuotogether.businesslogic_layer.trip.tripList.TripListManager;
-import com.example.phuotogether.businesslogic_layer.trip.tripView.TripLuggageManager;
-import com.example.phuotogether.data_layer.trip.tripList.Trip;
-import com.example.phuotogether.data_layer.trip.tripView.Luggage;
+import com.example.phuotogether.dto.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripLuggageFragment extends AppCompatActivity{
-
-    private ImageButton btnBack;
-    private TextView tvTitle;
-    private RecyclerView rvLuggageList;
+public class TripLuggageFragment extends Fragment {
     private EditText etAddLuggage;
+    private RecyclerView rvLuggageList;
+    private ItemAdapter itemAdapter;
+    private List<Item> listItem = new ArrayList<>();
+    private int itemNo = 0;
 
-    private LuggageAdapter luggageAdapter;
-
-    private Trip selectedTrip;
-
-    private TripListManager tripListManager;
-    private TripLuggageManager tripLuggageManager;
-
-    private int count_luggage = 0;
-
-
+    @NonNull
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_luggage_trip);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.fragment_luggage_trip, container, false);
 
-        tripListManager = TripListManager.getInstance();
-        tripLuggageManager = TripLuggageManager.getInstance();
+        setAndGetAllView(rootView);
+        setEventAddLuggage();
 
-        setAndGetAllView();
-        setSelectedTrip();
-        setEventClickButtonBack();
-        setTitleTripView();
-        setEventEnterETAddLuggage();
-        setLuggageList();
+        return rootView;
     }
 
-
-    private void setEventEnterETAddLuggage() {
+    private void setEventAddLuggage() {
         etAddLuggage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
                     String luggageItem = etAddLuggage.getText().toString().trim();
                     if (!luggageItem.isEmpty()) {
-                        int tripID = selectedTrip.getTripID();
-                        tripLuggageManager.addLuggage(luggageItem,false,tripID,count_luggage);
-                        count_luggage++;
+                        addItemToItemList(luggageItem);
+                        setItemList();
                         etAddLuggage.setText("");
-                        setLuggageList();
                     }
                     return true;
                 }
@@ -82,45 +61,34 @@ public class TripLuggageFragment extends AppCompatActivity{
         });
     }
 
-    private void setSelectedTrip() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            int tripPosition = intent.getIntExtra("trip_position", -1);
+    private void setItemList() {
+        rvLuggageList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-            if (tripPosition != -1) {
-                selectedTrip = tripListManager.getTripAtPosition(tripPosition);
+        itemAdapter = new ItemAdapter(requireContext(), listItem);
+        rvLuggageList.setAdapter(itemAdapter);
+    }
+
+    private void addItemToItemList(String luggageItem) {
+        // Check if the item is already in the list
+        boolean itemExists = false;
+        for (Item item : listItem) {
+            if (item.getName().equals(luggageItem)) {
+                itemExists = true;
+                break;
             }
+        }
+
+        // If the item doesn't exist, add it to the list
+        if (!itemExists) {
+            listItem.add(new Item(0, itemNo, luggageItem));
+            itemNo++;
+            setItemList(); // Update the RecyclerView
         }
     }
 
-    private void setLuggageList() {
-        rvLuggageList.setLayoutManager(new LinearLayoutManager(this));
-
-        int tripID = selectedTrip.getTripID();
-
-        List<Luggage> tripLuggage = tripLuggageManager.getLuggageListByID(tripID);
-
-        luggageAdapter = new LuggageAdapter(this, tripLuggage);
-        rvLuggageList.setAdapter(luggageAdapter);
+    private void setAndGetAllView(View rootView) {
+        etAddLuggage = rootView.findViewById(R.id.etAddLuggage);
+        rvLuggageList = rootView.findViewById(R.id.rvListLuggageItem);
     }
 
-    private void setAndGetAllView() {
-        btnBack = findViewById(R.id.buttonBackViewTrip);
-        tvTitle = findViewById(R.id.tvTitleViewTrip);
-        rvLuggageList = findViewById(R.id.rvListLuggageItem);
-        etAddLuggage = findViewById(R.id.etAddLuggage);
-    }
-
-    private void setEventClickButtonBack() {
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-    }
-
-    private void setTitleTripView() {
-        // Thiết lập tiêu đề cho fragment tại đây nếu cần
-    }
 }
