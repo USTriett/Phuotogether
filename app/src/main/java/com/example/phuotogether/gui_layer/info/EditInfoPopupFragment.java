@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +38,7 @@ public class EditInfoPopupFragment extends DialogFragment {
     private String mParam1;
     private String mParam2;
 
-    private UserInfo user;
+    private User user;
     private EditText usernameEditText;
     private EditText phoneNumberEditText;
     private EditText firstNameEditText;
@@ -82,10 +84,10 @@ public class EditInfoPopupFragment extends DialogFragment {
         viewHold = inflater.inflate(R.layout.fragment_edit_info_popup, container, false);
         Button closeEditFormBtn = viewHold.findViewById(R.id.closeEditFormBtn);
         Bundle args = getArguments();
-        user = args != null ? (UserInfo) args.getSerializable("user") : new UserInfo();
+        user = args != null ? (User) args.getSerializable("user") : new User();
         isNightMode = args.getBoolean("isDarkMode");
         usernameEditText = viewHold.findViewById(R.id.usernameEditText);
-        usernameEditText.setText(user.getUsername());
+        usernameEditText.setText(user.getFullName());
         phoneNumberEditText = viewHold.findViewById(R.id.phoneNumberEditText);
         phoneNumberEditText.setText(user.getPhoneNumber());
         firstNameEditText = viewHold.findViewById(R.id.firstNameEditText);
@@ -105,9 +107,9 @@ public class EditInfoPopupFragment extends DialogFragment {
                         phoneNumberEditText.getText().toString()
                         );
 
-                if(getActivity() instanceof InfoActivity){
-                    InfoActivity infoActivity = (InfoActivity) getActivity();
-                    infoActivity.updateUserInfo(user);
+                if(getActivity() instanceof MainActivity){
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.updateUserInfo(user);
                 }
                 dismiss();
             }
@@ -123,6 +125,6 @@ public class EditInfoPopupFragment extends DialogFragment {
     }
 
     public void updateProfile(String firstName, String lastName, String username, String phoneNumber){
-        user.updateUserInfo(firstName, lastName, phoneNumber, username);
+        user.updateInfo(firstName, lastName, phoneNumber, username);
     }
 }

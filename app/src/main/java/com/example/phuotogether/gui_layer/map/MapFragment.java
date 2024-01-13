@@ -1,9 +1,10 @@
 package com.example.phuotogether.gui_layer.map;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,25 +13,19 @@ import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -49,30 +44,32 @@ import com.example.phuotogether.business_layer.map.MapPresenterListener;
 import com.example.phuotogether.data_access_layer.map.DirectionStepModel;
 import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
 import com.example.phuotogether.data_access_layer.map.MapData;
+import com.example.phuotogether.data_access_layer.map.PlaceModel;
 import com.example.phuotogether.databinding.BottomSheetLocationInfoBinding;
 import com.example.phuotogether.databinding.BottomSheetRouteBinding;
 import com.example.phuotogether.databinding.FragmentMapBinding;
-
-import com.example.phuotogether.data_access_layer.map.PlaceModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -90,6 +87,8 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     private MapPresenter mapPresenter;
     private PlacesClient placesClient;
     private DirectionsManager directionsManager;
+    private MapView mapView;
+
     private BottomSheetBehavior<RelativeLayout> bottomSheetBehavior, bottomSheetBehaviorInfoLocation;
     private DirectionStepAdapter adapter;
     private GooglePlaceAdapter googlePlaceAdapter;
@@ -101,7 +100,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     private Context context;
     private List<DirectionStepModel> stepList;
     private LocationManager locationManager;
-
+    final float ZOOM = 15;
     public static Fragment newInstance() {
         return new MapFragment();
     }
@@ -112,6 +111,13 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
         initializeDependencies();
 
+            // bind views
+//        autoCompleteTextView = rootView.findViewById(R.id.input_search);
+//        myLocationButton = rootView.findViewById(R.id.btn_my_location);
+//        deleteButton = rootView.findViewById(R.id.btn_delete);
+//        profileButton = rootView.findViewById(R.id.btn_profile);
+//        assetManager = getContext().getAssets();
+//        autoCompleteTextView.setThreshold(1); // Start suggestions after typing 1 character
         setupBottomSheetBehaviors();
         setupStepRecyclerView();
         setupAutoCompleteTextView();
@@ -220,12 +226,36 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         binding.btnProfile.setOnClickListener(v -> {
             ProfileFragment profileFragment = new ProfileFragment();
             profileFragment.show(getChildFragmentManager(), "ProfileFragment");
+            TextView downloadOfflineMap = profileFragment.getDownloadOfflineMapTextView();
+            // Get the current visible region and camera position
+            VisibleRegion visibleRegion = mMap.getProjection().getVisibleRegion();
+            CameraPosition cameraPosition = mMap.getCameraPosition();
+
+// Get the bounds of the visible region
+            LatLngBounds latLngBounds = visibleRegion.latLngBounds;
+
+// Get the screen coordinates of the bounds
+            Point southwestPoint = mMap.getProjection().toScreenLocation(latLngBounds.southwest);
+            Point northeastPoint = mMap.getProjection().toScreenLocation(latLngBounds.northeast);
+
+// Calculate the width and height of the visible map area in pixels
+            int mapWidth = northeastPoint.x - southwestPoint.x;
+            int mapHeight = northeastPoint.y - southwestPoint.y;
+
+// Define the zoom level for the tiles
+            int zoomLevel = (int) cameraPosition.zoom;
+
+// Calculate the tile coordinates
+            int tileXStart = (int) (latLngBounds.southwest.longitude * Math.pow(2, zoomLevel) / 256);
+            int tileYStart = (int) (latLngBounds.northeast.latitude * Math.pow(2, zoomLevel) / 256);
+            int tileXEnd = (int) (latLngBounds.northeast.longitude * Math.pow(2, zoomLevel) / 256);
+            int tileYEnd = (int) (latLngBounds.southwest.latitude * Math.pow(2, zoomLevel) / 256);
+
         });
 
         binding.btnMyLocation.setOnClickListener(v -> {
             mapData.getLastKnownLocation();
-        });
-    }
+        });    }
 
     private void setupNearbySearchUI() {
         for (PlaceModel placeModel : AllConstant.placesName) {
@@ -255,6 +285,26 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             }
         });
     }
+    private AssetManager assetManager;
+    private void saveMapImageToAssets(Bitmap snapshot) {
+        OutputStream out = null;
+
+        try {
+            out = assetManager.openFd("map_image.png").createOutputStream();
+            snapshot.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
    private void setupFloatingComponents() {
         binding.floatingInstruction.setVisibility(View.GONE);
@@ -336,7 +386,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             });
         }
     }
-
+    
     private void performDirection(LatLng currentLocation, LatLng destination) {
         switchUIFromSearchingToDirecting();
         isShowingDirection = true;
@@ -414,7 +464,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         binding.floatingInstruction.setVisibility(View.GONE);
     }
-
 
     private LatLng getLatLngFromLocation(Location location) {
         return new LatLng(location.getLatitude(), location.getLongitude());

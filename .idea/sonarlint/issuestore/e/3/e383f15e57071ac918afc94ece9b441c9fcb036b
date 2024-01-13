@@ -1,0 +1,73 @@
+
+k
+java:S1192–"HDefine a constant instead of duplicating this literal "driving" 3 times.(èÂ¹úÿÿÿÿ8Í±ÿ—Î1
+K
+java:S1604“"(Make this anonymous inner class a lambda(ş™Ó§şÿÿÿÿ8Í±ÿ—Î1
+F
+java:S1604ı"(Make this anonymous inner class a lambda(¸êéŸ8Í±ÿ—Î1
+o
+java:S2095¥"QUse try-with-resources or close this "AssetFileDescriptor" in a "finally" clause.(‰»¬‹8‰´ÿ—Î1
+d	java:S116g"ORename this field "ZOOM" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°”É
+7
+java:S1170g"!Make this final field static too.(°”É
+R
+java:S1659\"=Declare "bottomSheetBehaviorInfoLocation" on a separate line.(âõK
+K
+java:S1659`"0Declare "isShowingDirection" on a separate line.(Ì‚ëşÿÿÿÿ
+v
+java:S1450Y"`Remove the "directionsManager" field and declare it as a local variable in the relevant methods.(Àîå
+u
+java:S1450`"ZRemove the "isSearching" field and declare it as a local variable in the relevant methods.(Ì‚ëşÿÿÿÿ
+q
+java:S1450X"[Remove the "placesClient" field and declare it as a local variable in the relevant methods.(Ÿ¨Œ‡
+Q	java:S125s"<This block of commented-out lines of code should be removed.(¯ñ¢Í
+Z
+java:S1481å"7Remove this unused "downloadOfflineMap" local variable.(—åÖ‘ÿÿÿÿÿ8è´ÿ—Î1
+K
+java:S1481ò"-Remove this unused "mapWidth" local variable.(¢‹š8ø´ÿ—Î1
+L
+java:S1481ó".Remove this unused "mapHeight" local variable.(‚â¹°8ø´ÿ—Î1
+M
+java:S1481ù"/Remove this unused "tileXStart" local variable.(êİ›8ø´ÿ—Î1
+M
+java:S1481ú"/Remove this unused "tileYStart" local variable.(ï«É 8ø´ÿ—Î1
+K
+java:S1481û"-Remove this unused "tileXEnd" local variable.(íü»8ø´ÿ—Î1
+P
+java:S1481ü"-Remove this unused "tileYEnd" local variable.(±ğïíÿÿÿÿÿ8ø´ÿ—Î1
+O
+java:S1602€",Remove useless curly braces around statement(Ó¬¬”ÿÿÿÿÿ8ø´ÿ—Î1
+Y
+java:S1874";Remove this use of "setChipCornerRadius"; it is deprecated.(˜ŞóÌ8ˆµÿ—Î1
+e
+java:S1874“"BRemove this use of "setOnCheckedChangeListener"; it is deprecated.(ş™Ó§şÿÿÿÿ8ˆµÿ—Î1
+^	java:S125»"<This block of commented-out lines of code should be removed.(¨şååşÿÿÿÿ8˜µÿ—Î1
+Y
+java:S1117Ã";Rename "adapter" which hides the field declared at line 93.(ƒİ¸³8˜µÿ—Î1
+m
+java:S1874â"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(Ó»×¶şÿÿÿÿ8˜µÿ—Î1
+h
+java:S1117‰"ERename "directionsManager" which hides the field declared at line 89.(ïù¨Ìúÿÿÿÿ8§µÿ—Î1
+e
+java:S1874™"BRemove this use of "setOnCheckedChangeListener"; it is deprecated.(»À¼üÿÿÿÿ8·µÿ—Î1
+U
+java:S5857ã"9Replace this use of a reluctant quantifier with "[^>]*+".(ÇÕ³Öúÿÿÿÿ
+U
+java:S5857›"9Replace this use of a reluctant quantifier with "[^>]*+".(ÇÕ³Öúÿÿÿÿ
+Q
+java:S1161µ":Add the "@Override" annotation above this method signature(ÇêÀİ
+W	java:S125Ü"<This block of commented-out lines of code should be removed.(¸ôÛŒüÿÿÿÿ
+F
+java:S1068X"0Remove this unused "placesClient" private field.(Ÿ¨Œ‡
+K
+java:S1068Y"5Remove this unused "directionsManager" private field.(Àîå
+F
+java:S1068Z"+Remove this unused "mapView" private field.(·Àºúÿÿÿÿ
+Q
+java:S1068_"6Remove this unused "selectedPlaceModel" private field.(¿èì†şÿÿÿÿ
+J
+java:S1068`"/Remove this unused "isSearching" private field.(Ì‚ëşÿÿÿÿ
+W
+java:S1144¡"9Remove this unused private "saveMapImageToAssets" method.(ÙíÄ¯8×µÿ—Î1
+T
+java:S1144…"8Remove this unused private "stopLocationUpdates" method.(İ±¾åüÿÿÿÿ

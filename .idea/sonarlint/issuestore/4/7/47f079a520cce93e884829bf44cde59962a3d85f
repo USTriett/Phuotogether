@@ -1,0 +1,27 @@
+
+C
+java:S1604["(Make this anonymous inner class a lambda(ÈÏÿûÿÿÿÿ
+>
+java:S1604b"(Make this anonymous inner class a lambda(¦Â²Ê
+C
+java:S1604s"(Make this anonymous inner class a lambda(—¶şÆüÿÿÿÿ
+l
+java:S1450""VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘
+l
+java:S1450#"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 
+M
+java:S1135"2Complete the task associated to this TODO comment.(ÜûŠ—øÿÿÿÿ
+M
+java:S1135!"2Complete the task associated to this TODO comment.(ğï¢öúÿÿÿÿ
+M
+java:S11358"2Complete the task associated to this TODO comment.(ßíŠÿÿÿÿÿ
+R
+java:S1874S"7Remove this use of "getSerializable"; it is deprecated.(¡óàıÿÿÿÿ
+O
+java:S1874_":Remove this use of "getFragmentManager"; it is deprecated.(ï¦
+U
+java:S1874y":Remove this use of "getFragmentManager"; it is deprecated.(Õ›Ë—ÿÿÿÿÿ
+A
+java:S1068""+Remove this unused "mParam1" private field.(•Íï‘
+A
+java:S1068#"+Remove this unused "mParam2" private field.(¡ˆ€ 
