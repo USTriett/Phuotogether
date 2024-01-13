@@ -97,7 +97,7 @@ public class DirectionStepModel {
         this.maneuver = maneuver;
     }
 
-    public boolean isUserNearEnd(LatLng userLocation) {
+    public boolean isUserAboutToEndStep(LatLng userLocation, float[] prevDistanceToEnd) {
         double userLat = userLocation.latitude;
         double userLng = userLocation.longitude;
         double endLat = endLocation.getLat();
@@ -107,9 +107,16 @@ public class DirectionStepModel {
         double thresholdDistance = 50.0; // Adjust this value based on your requirements
 
         // Calculate the distance between the user's location and the end of the step
-        float[] distance = new float[1];
-        Location.distanceBetween(userLat, userLng, endLat, endLng, distance);
+        float[] currDistanceToEnd = new float[1];
+        Location.distanceBetween(userLat, userLng, endLat, endLng, currDistanceToEnd);
 
-        return distance[0] <= thresholdDistance;
+        // Return condition
+        boolean result = currDistanceToEnd[0] < prevDistanceToEnd[0] &&
+                currDistanceToEnd[0] <= thresholdDistance;
+
+        // Set the value of prevDistanceToEnd of next step as currDistanceToEnd
+        prevDistanceToEnd[0] = currDistanceToEnd[0];
+
+        return result;
     }
 }

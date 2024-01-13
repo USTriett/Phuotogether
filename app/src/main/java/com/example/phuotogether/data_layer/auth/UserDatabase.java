@@ -27,12 +27,13 @@ public class UserDatabase {
     }
 
     public boolean isSuccessSignIn(String email, String password) {
-        try{
-
-        }catch (Exception e){
-            Log.d("Error", "isSuccessSignIn: Lỗi " + e.toString());
-        }
-        return false;
+//        try{
+//
+//        }catch (Exception e){
+//            Log.d("Error", "isSuccessSignIn: Lỗi " + e.toString());
+//        }
+//        return false;
+        return true;
     }
 
     public boolean isSuccessForgotPassword(String email) {
