@@ -1,22 +1,20 @@
-package com.example.phuotogether.business_layer.map;
+package com.example.phuotogether.businesslogic_layer.map;
 
 
 import android.graphics.Color;
 import android.Manifest;
 import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.phuotogether.R;
-import com.example.phuotogether.data_access_layer.map.DirectionLegModel;
-import com.example.phuotogether.data_access_layer.map.DirectionResponseModel;
-import com.example.phuotogether.data_access_layer.map.DirectionRouteModel;
-import com.example.phuotogether.data_access_layer.map.DirectionStepModel;
+import com.example.phuotogether.data_layer.map.DirectionLegModel;
+import com.example.phuotogether.data_layer.map.DirectionResponseModel;
+import com.example.phuotogether.data_layer.map.DirectionRouteModel;
+import com.example.phuotogether.data_layer.map.DirectionStepModel;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.example.phuotogether.service.RetrofitClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,13 +28,10 @@ import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Arrays;

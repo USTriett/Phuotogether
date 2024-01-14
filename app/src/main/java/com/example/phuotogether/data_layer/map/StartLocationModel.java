@@ -1,4 +1,4 @@
-package com.example.phuotogether.data_access_layer.map;
+package com.example.phuotogether.data_layer.map;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.phuotogether.R;
-import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_layer.map.GooglePlaceModel;
 import com.example.phuotogether.databinding.PlaceItemLayoutBinding;
 
 import java.util.List;

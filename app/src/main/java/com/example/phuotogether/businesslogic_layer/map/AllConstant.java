@@ -1,8 +1,8 @@
-package com.example.phuotogether.business_layer.map;
+package com.example.phuotogether.businesslogic_layer.map;
 
 
 import com.example.phuotogether.R;
-import com.example.phuotogether.data_access_layer.map.PlaceModel;
+import com.example.phuotogether.data_layer.map.PlaceModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;

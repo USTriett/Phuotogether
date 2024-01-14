@@ -1,4 +1,4 @@
-package com.example.phuotogether.business_layer.map;
+package com.example.phuotogether.businesslogic_layer.map;
 
 import android.Manifest;
 import android.app.Activity;

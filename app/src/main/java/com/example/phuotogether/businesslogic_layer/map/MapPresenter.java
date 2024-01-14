@@ -1,4 +1,4 @@
-package com.example.phuotogether.business_layer.map;
+package com.example.phuotogether.businesslogic_layer.map;
 
 
 
@@ -7,18 +7,15 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.android.volley.toolbox.Volley;
 import com.example.phuotogether.R;
-import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
-import com.example.phuotogether.data_access_layer.map.GoogleResponseModel;
-import com.example.phuotogether.gui_layer.map.GooglePlaceAdapter;
+import com.example.phuotogether.data_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_layer.map.GoogleResponseModel;
 import com.example.phuotogether.gui_layer.map.MapFragment;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.example.phuotogether.service.RetrofitClient;
@@ -34,12 +31,10 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;

@@ -1,6 +1,6 @@
 package com.example.phuotogether.gui_layer.map;
 
-import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_layer.map.GooglePlaceModel;
 
 public interface NearLocationInterface {
 

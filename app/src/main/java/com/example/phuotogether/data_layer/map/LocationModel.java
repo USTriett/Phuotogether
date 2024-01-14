@@ -1,13 +1,14 @@
-package com.example.phuotogether.data_access_layer.map;
+package com.example.phuotogether.data_layer.map;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EndLocationModel {
+public class LocationModel {
 
     @SerializedName("lat")
     @Expose
     private Double lat;
+
     @SerializedName("lng")
     @Expose
     private Double lng;

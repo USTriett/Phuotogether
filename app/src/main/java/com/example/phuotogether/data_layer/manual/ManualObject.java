@@ -1,4 +1,4 @@
-package com.example.phuotogether.data_access_layer.manual;
+package com.example.phuotogether.data_layer.manual;
 
 public class ManualObject {
     String mTitle;

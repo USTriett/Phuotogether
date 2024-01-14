@@ -1,6 +1,6 @@
-package com.example.phuotogether.business_layer.map;
+package com.example.phuotogether.businesslogic_layer.map;
 
-import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_layer.map.GooglePlaceModel;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;

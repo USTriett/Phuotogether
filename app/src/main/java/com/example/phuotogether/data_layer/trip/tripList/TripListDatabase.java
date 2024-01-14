@@ -9,22 +9,19 @@ import java.util.List;
 
 public class TripListDatabase {
     private List<Trip> tripList;
-    private int count = 0;
 
     public TripListDatabase() {
-
         this.tripList = new ArrayList<>();
-        tripList.add(new Trip("Tam Ky", "time", R.drawable.binhthuan, count));
-        count++;
+        tripList.add(new Trip("Tam Ky", "time", R.drawable.binhthuan,
+                "HCM", "Tam Ky", "12/12/2023", "12/1/2024"));
     }
 
     public List<Trip> getTripList() {
         return tripList;
     }
 
-    public void addTripList(String tripName, String tripTime, int tripImageID){
-        count++;
-        tripList.add(new Trip(tripName,tripTime,tripImageID,count));
+    public void addTripList(String tripName, String tripTime, int tripImageID, String departurePlace, String arrivalPlace, String startDate, String endDate){
+        tripList.add(new Trip(tripName,tripTime,tripImageID,departurePlace,arrivalPlace,startDate,endDate));
     }
 
 }

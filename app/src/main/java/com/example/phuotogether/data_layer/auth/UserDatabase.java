@@ -1,42 +1,83 @@
 package com.example.phuotogether.data_layer.auth;
 
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.service.RetrofitAPI;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.List;
 
+
+import retrofit2.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
+
+
+import com.example.phuotogether.service.RetrofitClient;
+
 
 public class UserDatabase {
-    public static final MediaType JSON = MediaType.get("application/json");
 
-    OkHttpClient client = new OkHttpClient();
-
-    String post(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        }
+    public interface SignInCallback {
+        void onSignInResult(boolean success, User user);
     }
 
-    public boolean isSuccessSignIn(String email, String password) {
-        try{
+    public void isSuccessSignIn(String email, String password, SignInCallback callback) {
+        RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
+        try {
+            JsonObject body = new JsonObject();
+            body.addProperty("emailortel", email);
+            body.addProperty("password", password);
 
-        }catch (Exception e){
-            Log.d("Error", "isSuccessSignIn: Lỗi " + e.toString());
+            Call<List<UserResponse>> call = myApi.getUserByAccount(email, password);
+            call.enqueue(new Callback<List<UserResponse>>() {
+                @Override
+                public void onResponse(Call<List<UserResponse>> call, Response<List<UserResponse>> response) {
+                    try {
+                        if (response.isSuccessful()) {
+                            UserResponse userResponse = response.body().get(0);
+                            User user = new User(
+                                    userResponse.getId(),
+                                    userResponse.isLoginType(),
+                                    userResponse.getEmailOrTel(),
+                                    userResponse.getPassword(),
+                                    userResponse.getFullName()
+                            );
+                            // callback to SignInManager
+                            callback.onSignInResult(true, user);
+                        } else {
+                            callback.onSignInResult(false, new User(0, false, "", "", ""));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callback.onSignInResult(false, new User(0, false, "", "", ""));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<UserResponse>> call, Throwable t) {
+                    Toast.makeText(null, "Error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false;
     }
 
     public boolean isSuccessForgotPassword(String email) {
-//        return email.equals(VALID_EMAIL);
         return false;
     }
 
