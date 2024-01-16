@@ -348,15 +348,19 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        // Set up map
         mMap = googleMap;
 
         // Move camera and other map-related logic
         if (currentLocation != null) {
             if (mapPresenter == null) {
                 mapPresenter = new MapPresenter(this, mMap, this);
+                mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
             }
-            mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
-            Log.d("stop it", "");
+            else {
+                mapPresenter.setMap(mMap);          // khi nhấn nt btnMyLocation thì có tạo instance googleMap mới -> phải set ở đây
+                mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
+            }
         }
 
         // Set up UI settings and listeners
@@ -554,7 +558,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         // update user's location on the map
         LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         mapPresenter.moveCamera(userLatLng, 15, "My Location");
-        Toast.makeText(requireContext(), "Location changed.", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(requireContext(), "Location changed.", Toast.LENGTH_SHORT).show();
 
         // check number of steps
         int stepListLength = stepList.size();

@@ -69,24 +69,17 @@ public class UserDatabase {
 
                 @Override
                 public void onFailure(Call<List<UserResponse>> call, Throwable t) {
-                    Toast.makeText(null, "Error", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(null, "Error", Toast.LENGTH_SHORT).show();
+                    callback.onSignInResult(true, new User());
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public boolean isSuccessSignIn(String email, String password) {
-//        try{
-//
-//        }catch (Exception e){
-//            Log.d("Error", "isSuccessSignIn: Lỗi " + e.toString());
-//        }
-//        return false;
-        return true;
-    }
 
     public boolean isSuccessForgotPassword(String email) {
+//        return email.equals(VALID_EMAIL);
         return false;
     }
 
