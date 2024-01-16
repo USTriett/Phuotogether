@@ -1,6 +1,7 @@
 package com.example.phuotogether.gui_layer.auth.SignIn;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,6 +82,7 @@ public class SignInFragment extends Fragment {
                             if(getActivity() instanceof MainActivity){
                                 MainActivity activity = (MainActivity) getActivity();
                                 activity.setCurrentUser(currentUser);
+                                activity.signInSuccessful(currentUser);
                             }
                             SignIn();
                             showSuccessToast();

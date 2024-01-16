@@ -15,12 +15,15 @@ import android.widget.Toast;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.trip.tripList.TripListManager;
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.MainActivity;
 
 public class AddtripFragment extends Fragment {
 
     private EditText etNameTrip, etStartDes, etGoalDes, etStartDate, etEndDate;
     private ImageButton btnBack;
     private Button btnSave;
+    private User user;
 
     private TripListManager tripListManager;
     public AddtripFragment() {
@@ -35,9 +38,11 @@ public class AddtripFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        user = new User();
+
         View rootView = inflater.inflate(R.layout.fragment_add_trip, container, false);
 
-        tripListManager = TripListManager.getInstance();
+        tripListManager = TripListManager.getInstance(user);
 
         setAndGetAllView(rootView);
         setEventClickBackButton();

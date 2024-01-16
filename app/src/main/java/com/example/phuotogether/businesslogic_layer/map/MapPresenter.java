@@ -61,7 +61,7 @@ public class MapPresenter {
         this.mMap = googleMap;
     }
 
-    public void performSearch(String selectedSuggestion, LatLng currentLocation) {
+    public void performSearch(String selectedSuggestion, LatLng currentLocation, boolean found) {
         // Search for the selected suggestion
         clearMap(mMap, currentLocation);
         Geocoder geocoder = new Geocoder(mMapFragment.requireContext());
@@ -73,6 +73,7 @@ public class MapPresenter {
             Log.d("MapActivity", "performSearch: " + e.getMessage());
         }
         if (addressList.size() > 0) {
+            found = true;
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(mMapFragment.requireActivity().findViewById(R.id.bottom_sheet_location_info));
@@ -92,6 +93,7 @@ public class MapPresenter {
             moveCamera(latLng, 15, selectedSuggestion);
         }
         else {
+            found = false;
             Log.d("MapActivity", "performSearch: addressList is empty");
         }
     }

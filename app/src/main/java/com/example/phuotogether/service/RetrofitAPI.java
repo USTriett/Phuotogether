@@ -5,6 +5,7 @@ package com.example.phuotogether.service;
 import com.example.phuotogether.data_layer.auth.UserResponse;
 import com.example.phuotogether.data_layer.map.DirectionResponseModel;
 import com.example.phuotogether.data_layer.map.GoogleResponseModel;
+import com.example.phuotogether.data_layer.trip.tripList.TripResponse;
 import com.example.phuotogether.dto.User;
 import com.google.gson.JsonObject;
 
@@ -15,6 +16,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import okhttp3.*;
@@ -32,4 +34,7 @@ public interface RetrofitAPI {
 
     @POST("user/get_user_by_account")
     Call<List<UserResponse>> getUserByAccount(@Query("emailortel") String emailortel, @Query("password") String password);
+
+    @GET("/trip/get_trips_by_userid")
+    Call<List<TripResponse>> getTripsByUserId(@Query("userid") int userId);
 }

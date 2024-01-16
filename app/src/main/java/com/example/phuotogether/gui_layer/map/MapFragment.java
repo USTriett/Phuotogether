@@ -169,7 +169,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             binding.inputSearch.setText(selectedSuggestion);
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
             LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-            mapPresenter.performSearch(selectedSuggestion, currentLocation);
+            mapPresenter.performSearch(selectedSuggestion, currentLocation, true);
         });
 
         binding.inputSearch.setOnEditorActionListener((v, actionId, event) -> {
@@ -181,7 +181,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
                 if (!query.isEmpty()) {
                     LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-                    mapPresenter.performSearch(query, currentLocation);
+                    boolean foundLocation = false;
+                    mapPresenter.performSearch(query, currentLocation, foundLocation);
+                    if (!foundLocation) {
+                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
             }

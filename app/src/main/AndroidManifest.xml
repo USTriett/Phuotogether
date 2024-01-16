@@ -20,9 +20,6 @@
         android:theme="@style/Theme.Phuotogether"
         tools:targetApi="31">
         <activity
-            android:name=".gui_layer.trip.destinationList.DestinationInfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".gui_layer.MainActivity"
             android:exported="true">
             <intent-filter>

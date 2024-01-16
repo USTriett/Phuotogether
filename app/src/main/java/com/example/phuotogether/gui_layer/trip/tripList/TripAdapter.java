@@ -2,6 +2,7 @@ package com.example.phuotogether.gui_layer.trip.tripList;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
     public TripAdapter( Context context, List<Trip> tripList) {
         mContext = context;
         mTripList = tripList;
+        Log.d("TripAdapter", "TripAdapter: " + mTripList.size());
     }
 
     @NonNull
@@ -56,7 +58,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
                 bundle.putSerializable("trip", trip);
 
 //                addFragment(ManualItemFragment.newInstance(itemPosition), TAB_POSITION);
-                TripViewFragment tripViewFragment = new TripViewFragment();
+                TripViewFragment tripViewFragment = TripViewFragment.newInstance(trip);
                 tripViewFragment.setArguments(bundle);
 
                 FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext())
@@ -78,6 +80,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         pagerAdapter.updateFragment(fragment, tabPosition);
     }
 
+    public void setTripList(List<Trip> finalTripList) {
+        mTripList = finalTripList;
+        notifyDataSetChanged();
+    }
+
     public static class TripViewHolder extends RecyclerView.ViewHolder {
         private TextView tripNameTextView;
         private TextView tripDescriptionTextView;
@@ -92,8 +99,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
         public void bind(Trip trip) {
             tripNameTextView.setText(trip.getTripName());
-            tripDescriptionTextView.setText(trip.getTripTime());
-            tripImageView.setImageResource(trip.getTripImageID());
+            tripDescriptionTextView.setText(trip.getStartDate() + " - " + trip.getEndDate());
+            tripImageView.setImageResource(R.drawable.binhthuan);
         }
     }
 }
