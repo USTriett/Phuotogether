@@ -112,7 +112,7 @@ public class DirectionsManager {
 
     public void getDirections(LatLng current, LatLng destination, String mode){
         retrofitAPI = RetrofitClient.getRetrofitClient().create(RetrofitAPI.class);
-        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + current.latitude + "," + current.longitude + "&destination=" + destination.latitude + "," + destination.longitude + "&mode=" + mode + "&key=" + apiKey;
+        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + current.latitude + "," + current.longitude + "&destination=" + destination.latitude + "," + destination.longitude + "&mode=" + mode + "&language=vi&key=" + apiKey;
         Log.d("TAG", "getDirections: " + url);
         retrofitAPI.getDirection(url).enqueue(new Callback<DirectionResponseModel>() {
             @Override
