@@ -24,6 +24,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.trip.tripList.TripListManager;
 import com.example.phuotogether.data_layer.trip.tripList.Trip;
+import com.example.phuotogether.dto.User;
 import com.example.phuotogether.gui_layer.MainActivity;
 import com.example.phuotogether.gui_layer.manual.ManualItemFragment;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;

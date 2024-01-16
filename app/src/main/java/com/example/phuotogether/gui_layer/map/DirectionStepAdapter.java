@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.phuotogether.data_access_layer.map.DirectionStepModel;
+import com.example.phuotogether.data_layer.map.DirectionStepModel;
 import com.example.phuotogether.databinding.StepItemLayoutBinding;
 
 import java.util.List;

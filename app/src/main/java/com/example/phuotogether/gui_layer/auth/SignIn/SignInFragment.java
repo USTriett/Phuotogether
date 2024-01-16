@@ -2,6 +2,7 @@ package com.example.phuotogether.gui_layer.auth.SignIn;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ import androidx.fragment.app.FragmentManager;
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.auth.SignIn.SignInManager;
 import com.example.phuotogether.data_layer.auth.UserDatabase;
+import com.example.phuotogether.data_layer.auth.UserResponse;
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.MainActivity;
 
 
 public class SignInFragment extends Fragment {
@@ -64,24 +68,34 @@ public class SignInFragment extends Fragment {
 
     private void setEventClickSignInButton() {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 String emailString = etEmail.getText().toString();
                 String passwordString = etPassword.getText().toString();
-
-                if (signInManager.isSuccessSignIn(emailString, passwordString)) {
-                    setAllNotificationOff();
-                    showSuccessToast();
-                    SignIn();
-//                    startActivity(new Intent(getActivity(), TripListActivity.class));
-                } else {
-                    signInManager.handleSignInError(emailString, passwordString, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
-                }
+                signInManager.validate(emailString, passwordString, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
+                signInManager.isSuccessSignIn(emailString, passwordString, new SignInManager.SignInCallback() {
+                    @Override
+                    public void onSignInResult(boolean success, User currentUser) {
+                        if (success) {
+                            if(getActivity() instanceof MainActivity){
+                                MainActivity activity = (MainActivity) getActivity();
+                                activity.setCurrentUser(currentUser);
+                            }
+                            SignIn();
+                            showSuccessToast();
+                        } else {
+                            setAllNotificationOff();
+                            signInManager.handleSignInError(tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
+                        }
+                    }
+            });
             }
         });
     }
 
     private void SignIn() {
+        Log.d("SignInFragment", "SignIn: ");
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FrameLayout frameLayout = getActivity().findViewById(R.id.signin_container);
         getActivity().getSupportFragmentManager().beginTransaction()

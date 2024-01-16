@@ -6,7 +6,7 @@
 
         <variable
             name="googlePlaceModel"
-            type="com.example.phuotogether.data_access_layer.map.GooglePlaceModel" />
+            type="com.example.phuotogether.data_layer.map.GooglePlaceModel" />
 
         <variable
             name="listener"

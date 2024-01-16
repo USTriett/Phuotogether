@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     MainFragmentPagerAdapter mPagerAdapter;
     private int mCurrentTabPosition;
     private boolean isDarkMode = false;
+    private User currentUser;
     //endregion
 
     public MainFragmentPagerAdapter getPagerAdapter(){
@@ -156,6 +157,13 @@ public class MainActivity extends AppCompatActivity {
             return currentFragment;
         }
         return null;
+    }
+
+    public void setCurrentUser(User user){
+        this.currentUser = user;
+    }
+    public User getCurrentUser(){
+        return this.currentUser;
     }
 
 }

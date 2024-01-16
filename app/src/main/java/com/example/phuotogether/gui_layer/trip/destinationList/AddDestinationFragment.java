@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.example.phuotogether.businesslogic_layer.trip.tripDestinations.TripDestinationsManager;
-import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_layer.map.GooglePlaceModel;
 import com.example.phuotogether.data_layer.trip.tripList.Trip;
 import com.example.phuotogether.databinding.FragmentAddPlaceBinding;
 import com.example.phuotogether.dto.PlannedDestination;
@@ -83,8 +83,7 @@ public class AddDestinationFragment extends Fragment {
                 plannedDestination.setLocationName(selectedPlace.getName());
                 plannedDestination.setLocationAddress(selectedPlace.getFormattedAddress());
                 tripDestinationsManager.addDestination(plannedDestination);
-
-                requireActivity().finish();
+                requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
