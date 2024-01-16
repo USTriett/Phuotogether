@@ -6,8 +6,9 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="maps_api_key">AIzaSyD4xNXO1w_zIAgCtmA4b247jmzVj3M6oNw</string>
-    <string name="place_api_key">AIzaSyA8J3axDUaVP0BsPMfmCxvMNHr1MjDN7Dk</string>
+    <string name="maps_api_key">AIzaSyCl2PBKLn0jILonkq3kLx7Qw8CSwgUW6_o</string>
+    <string name="place_api_key">AIzaSyCl2PBKLn0jILonkq3kLx7Qw8CSwgUW6_o</string>
+    <string name="direction_api_key">AIzaSyCl2PBKLn0jILonkq3kLx7Qw8CSwgUW6_o</string>
     <string name="map_page">Bản đồ</string>
     <string name="trip_page">Hành trình</string>
     <string name="manual_page">Cẩm nang</string>

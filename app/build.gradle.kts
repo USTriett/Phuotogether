@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.phuotogether"
-        minSdk = 30
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -32,9 +32,32 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
+    val lifecycle_version = "2.6.2"
+
+        // ViewModel
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
+        // LiveData
+    implementation ("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
+        // Lifecycles only (without ViewModel or LiveData)
+    implementation ("androidx.lifecycle:lifecycle-runtime:$lifecycle_version")
+
+        // Saved state module for ViewModel
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+
+        // Annotation processor
+    annotationProcessor ("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+        // alternately - if using Java8, use the following instead of lifecycle-compiler
+    implementation ("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     implementation("com.kyleduo.switchbutton:library:2.1.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -49,6 +72,7 @@ dependencies {
 
     // Maps SDK for Android
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
+
     // Location SDK for Android
     implementation ("com.google.android.gms:play-services-location:19.0.1")
 
@@ -57,5 +81,16 @@ dependencies {
 
     // volley
     implementation ("com.android.volley:volley:1.2.1")
+
+    // retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    // Glide
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+
 
 }
