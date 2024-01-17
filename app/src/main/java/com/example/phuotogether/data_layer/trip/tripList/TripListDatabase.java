@@ -7,6 +7,7 @@ import com.example.phuotogether.dto.User;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.example.phuotogether.service.RetrofitClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,32 @@ public class TripListDatabase {
     }
 
 
-    public void addTripList(String tripName, String tripTime, int tripImageID, String departurePlace, String arrivalPlace, String startDate, String endDate){
-        tripList.add(new Trip(tripName,tripTime,tripImageID,departurePlace,arrivalPlace,startDate,endDate));
+    public void addTripList(User user,String tripName, String tripTime, int tripImageID, String departurePlace, String arrivalPlace, String startDate, String endDate){
+        Log.d("TripListDatabase", "addTripList: " + user.getFullName());
+        RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
+        AddTripRequestModel addTripRequestModel = new AddTripRequestModel(user.getId(), tripName, departurePlace, arrivalPlace, startDate, endDate);
+        Call<List<TripResponse>> call = myApi.insertTrip(addTripRequestModel);
+
+        call.enqueue(new Callback<List<TripResponse>>() {
+            @Override
+            public void onResponse(Call<List<TripResponse>> call, Response<List<TripResponse>> response) {
+                if (!response.isSuccessful()) {
+                    try {
+                        Log.d("TripListDatabase", "Error Body: " + response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Log.d("TripListDatabase", "onResponse: " + response.body().get(0).getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TripResponse>> call, Throwable t) {
+                Log.d("TripListDatabase", "onFailure: " + t.getMessage());
+            }
+        });
     }
 
     public void fetchTripList(int userId, FetchTripCallback callback) {

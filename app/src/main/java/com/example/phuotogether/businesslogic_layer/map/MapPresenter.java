@@ -110,25 +110,28 @@ public class MapPresenter {
         }
     }
     public void moveCamera(LatLng latLng, float zoom, String title) {
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        if (marker != null) {
-            Log.d("blue dot not null", "");
-            marker.remove();
+        if (mMap != null){
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+            if (marker != null) {
+                Log.d("blue dot not null", "");
+                marker.remove();
+            }
+            if (!title.equals("My Location")) {
+                Log.d("blue dot not my location", "");
+                marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true)
+                        .title(title));
+                marker.setTitle(title);
+                markerList.add(marker);
+            }
+            else {
+                Log.d("blue dot my location", "");
+                marker = mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot_pic)).position(latLng).draggable(true)
+                        .title(title));
+                marker.setTitle(title);
+                markerList.add(marker);
+            }
         }
-        if (!title.equals("My Location")) {
-            Log.d("blue dot not my location", "");
-            marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true)
-                    .title(title));
-            marker.setTitle(title);
-            markerList.add(marker);
-        }
-        else {
-            Log.d("blue dot my location", "");
-            marker = mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot_pic)).position(latLng).draggable(true)
-                    .title(title));
-            marker.setTitle(title);
-            markerList.add(marker);
-        }
+
     }
 
     public void performAutoComplete(String query) {

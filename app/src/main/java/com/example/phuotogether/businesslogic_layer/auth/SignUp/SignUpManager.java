@@ -1,14 +1,39 @@
 package com.example.phuotogether.businesslogic_layer.auth.SignUp;
 
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.phuotogether.data_layer.auth.UserDatabase;
+
 import java.util.regex.Pattern;
 
 public class SignUpManager {
-    public boolean isSuccessSignUp(String email, String password, String confirmPassword, Boolean isCheckBoxChecked){
-        return (isCheckBoxChecked && isValidEmail(email) && isValidPassword(password) && confirmPassword.equals(password));
+    private UserDatabase userRepository;
+
+
+
+    public interface SignUpCallback {
+        void onSignUpResult(boolean success);
+    }
+
+    public SignUpManager(UserDatabase userRepository) {
+        this.userRepository = userRepository;
+    }
+    public void isSuccessSignUp(String email, String password, String fullName, SignUpCallback callback){
+        Log.d("SignUpManager", "isSuccessSignUp: " + email + password + fullName);
+        userRepository.isSuccessSignUp(email, password, fullName, new UserDatabase.SignUpCallback() {
+            @Override
+            public void onSignUpResult(boolean success) {
+                if (success) {
+                    // call back to SignUpFragment
+                    callback.onSignUpResult(true);
+                } else {
+                    callback.onSignUpResult(false);
+                }
+            }
+        });
     }
 
     public void handleSignUpError(String stringEmail, String stringPassword, String stringConfirmPassword, Boolean isCheckBoxChecked, TextView tvEmptyEmail, TextView tvEmptyPassword, TextView tvEmptyConfirmPassword, TextView tvInvalidEmail, TextView tvInvalidPassword, TextView tvWrongConfirmPassword, TextView tvNoneCheck){
@@ -57,7 +82,8 @@ public class SignUpManager {
     }
 
     private boolean isValidEmail(String email) {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+//        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return true;
     }
 
     private boolean isValidPassword(String password) {
@@ -88,5 +114,9 @@ public class SignUpManager {
             }
         }
         return false;
+    }
+
+    public void validate(String stringEmail, String stringPassword, String stringConfirmPassword, String stringFullName, Boolean isCheckBoxChecked, TextView tvEmptyEmailNotificationSignup, TextView tvEmptyPasswordNotificationSignup, TextView tvEmptyConfirmPasswordNotificationSignup, TextView tvEmptyFullNameNotificationSignup, TextView tvNoneCheckNotificationSignup, TextView tvInvalidEmailNotificationSignup, TextView tvInvalidPasswordNotificationSignup, TextView tvWrongConfirmPasswordNotificationSignup) {
+
     }
 }

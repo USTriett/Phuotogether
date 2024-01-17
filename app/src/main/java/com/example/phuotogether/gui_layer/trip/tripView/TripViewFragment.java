@@ -88,7 +88,7 @@ public class TripViewFragment extends Fragment implements FragmentUpdateListener
 
     private void setupViewPager(ViewPager viewPager) {
         TripViewPagerAdapter adapter = new TripViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new TripLuggageFragment(), "Hành lý");
+        adapter.addFragment(new TripLuggageFragment().newInstance(selectedTrip), "Hành lý");
         adapter.addFragment(new TripScheduleFragment().newInstance(selectedTrip), "Lịch trình");
 
         viewPager.setAdapter(adapter);

@@ -46,10 +46,11 @@ public class TripListManager {
         });
     }
 
-    public void addTrip(String tripName, String startDate, String endDate, String startDes, String goalDes) {
+    public void addTrip(User user, String tripName, String startDate, String endDate, String startDes, String goalDes) {
+        Log.d("TripListManager", "addTrip: " +user.getId());
         String date = startDate + " - " + endDate;
         int imageID = R.drawable.binhthuan;
-        tripListDatabase.addTripList(tripName, date, imageID, startDes, goalDes, startDate, endDate);
+        tripListDatabase.addTripList(user,tripName, date, imageID, startDes, goalDes, startDate, endDate);
     }
 
     public boolean isSuccessAddTrip(String tripName, String startDes, String goalDes, String startDate, String endDate) {

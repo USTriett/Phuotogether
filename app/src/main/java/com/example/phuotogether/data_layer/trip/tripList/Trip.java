@@ -32,6 +32,10 @@ public class Trip implements Serializable {
         this.endDate = endDate;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public int getTripImageID() {
         return tripImageID;
     }

@@ -49,6 +49,7 @@ public class TripListFragment extends Fragment implements FragmentUpdateListener
     @Override
     public void onUpdate(User user) {
         this.user = user;
+        Log.d("TripListFragment", "onUpdate: " + user.getId());
         setTripList();
     }
 
@@ -72,7 +73,7 @@ public class TripListFragment extends Fragment implements FragmentUpdateListener
         btnAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddtripFragment addTripFragment = new AddtripFragment();
+                AddtripFragment addTripFragment = new AddtripFragment(user);
 //                TripLuggageFragment tripLuggageFragment = new TripLuggageFragment();
 
                 MainFragmentPagerAdapter pagerAdapter = ((MainActivity)requireContext()).getPagerAdapter();

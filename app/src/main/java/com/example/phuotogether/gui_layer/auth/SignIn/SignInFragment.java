@@ -25,6 +25,7 @@ import com.example.phuotogether.data_layer.auth.UserDatabase;
 import com.example.phuotogether.data_layer.auth.UserResponse;
 import com.example.phuotogether.dto.User;
 import com.example.phuotogether.gui_layer.MainActivity;
+import com.example.phuotogether.gui_layer.auth.SignUp.SignUpFragment;
 
 
 public class SignInFragment extends Fragment {
@@ -62,7 +63,8 @@ public class SignInFragment extends Fragment {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(getActivity(), SignUpActivity.class));
+                SignUpFragment signUpFragment = new SignUpFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().add(R.id.signin_container, signUpFragment).commit();
             }
         });
     }

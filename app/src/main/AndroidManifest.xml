@@ -45,9 +45,6 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".gui_layer.auth.SignUp.SignUpActivity"
-            android:exported="true" />
-        <activity
             android:name=".gui_layer.auth.ForgotPassword.ForgotPasswordActivity"
             android:exported="true" />
         <activity

@@ -91,40 +91,50 @@
         </ImageButton>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="30dp"
-        android:id="@+id/rvListLuggageItem">
+        android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:orientation="horizontal">
-        <ImageButton
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/add_icon"
-            android:background="@drawable/transparent_background"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp">
+            android:orientation="vertical">
 
-        </ImageButton>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Thêm đồ dùng..."
-            android:background="@drawable/transparent_background"
-            android:id="@+id/etAddLuggage">
-        </EditText>
+            <!-- Your RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvListLuggageItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="30dp"/>
 
-    </LinearLayout>
+            <!-- Your LinearLayout with ImageButton and EditText -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add_icon"
+                    android:background="@drawable/transparent_background"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"/>
+
+                <EditText
+                    android:id="@+id/etAddLuggage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Thêm đồ dùng..."
+                    android:background="@drawable/transparent_background"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 
 </LinearLayout>

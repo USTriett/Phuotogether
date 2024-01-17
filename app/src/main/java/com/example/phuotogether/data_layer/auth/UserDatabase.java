@@ -34,7 +34,42 @@ public class UserDatabase {
     public interface SignInCallback {
         void onSignInResult(boolean success, User user);
     }
+    public interface SignUpCallback {
+        void onSignUpResult(boolean success);
+    }
+    public void isSuccessSignUp(String emailortel, String password,String fullname, SignUpCallback callback) {
+        Log.d("UserDatabase", "isSuccessSignUp: " + emailortel + password + fullname);
+        RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
+        try {
+            Call<List<UserResponse>> call = myApi.insertUser(new SignupRequestModel(emailortel, false, password, fullname));
+            call.enqueue(new Callback<List<UserResponse>>() {
+                @Override
+                public void onResponse(Call<List<UserResponse>> call, Response<List<UserResponse>> response) {
+                    if (!response.isSuccessful()) {
+                        try {
+                            Log.d("UserDatabase", "Error Body: " + response.errorBody().string());
+                            callback.onSignUpResult(false);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else {
+                        Log.d("UserDatabase", "onResponse: " + response.body().get(0).getFullName());
+                        callback.onSignUpResult(true);
+                    }
+                }
 
+                @Override
+                public void onFailure(Call<List<UserResponse>> call, Throwable t) {
+
+                }
+
+            });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void isSuccessSignIn(String email, String password, SignInCallback callback) {
         RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
         try {
@@ -42,7 +77,7 @@ public class UserDatabase {
             body.addProperty("emailortel", email);
             body.addProperty("password", password);
 
-            Call<List<UserResponse>> call = myApi.getUserByAccount(email, password);
+            Call<List<UserResponse>> call = myApi.getUserByAccount(new LoginRequestModel(email, password));
             call.enqueue(new Callback<List<UserResponse>>() {
                 @Override
                 public void onResponse(Call<List<UserResponse>> call, Response<List<UserResponse>> response) {

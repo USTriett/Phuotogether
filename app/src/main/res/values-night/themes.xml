@@ -13,9 +13,9 @@
     </style>
     <style name="BottomNavigation" parent="Theme.Material3.Dark.NoActionBar">
         <item name="itemTextColor">@color/colorOnSurfaceContainerDark</item>
-        <item name="itemIconTint">@color/colorOnSurfaceContainerDark</item>
+<!--        <item name="itemIconTint">@color/colorOnSurfaceContainerDark</item>-->
         <item name="itemActiveIndicatorStyle">@style/App.Custom.Indicator</item>
-        <item name="itemBackground">@color/colorSurfaceContainerDark</item>
+<!--        <item name="itemBackground">@color/colorSurfaceContainerDark</item>-->
     </style>
 
     <!-- Color of vector images -->
