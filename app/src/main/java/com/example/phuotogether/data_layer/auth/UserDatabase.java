@@ -105,7 +105,7 @@ public class UserDatabase {
                 @Override
                 public void onFailure(Call<List<UserResponse>> call, Throwable t) {
                     //Toast.makeText(null, "Error", Toast.LENGTH_SHORT).show();
-                    callback.onSignInResult(true, new User());
+                    callback.onSignInResult(false, new User());
                 }
             });
         } catch (Exception e) {
