@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:elevation="7dp"
     android:padding="20dp"
+    style="@style/AppBottomSheetDialogTheme"
     app:behavior_peekHeight="100dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
@@ -20,7 +20,6 @@
             android:id="@+id/txtSheetTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/quantum_black_100"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -29,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textColor="@color/quantum_grey500"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -42,7 +40,6 @@
             android:paddingVertical="6dp"
             android:text="Start"
             android:textSize="16dp"
-            android:backgroundTint="@color/blue"
             android:textStyle="bold"/>
 
         <Button
@@ -54,37 +51,16 @@
             android:paddingVertical="6dp"
             android:text="Stop"
             android:textSize="16dp"
-            android:backgroundTint="@color/blue"
             android:textStyle="bold"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtSheetRoute"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/timeLayout"
-        android:layout_marginTop="10dp"
-        android:text="Fastest route"
-        android:textColor="@color/quantum_grey600"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/txtSheetRoute"
-        android:layout_marginTop="10dp"
-        android:background="@color/quantum_black_divider" />
 
     <TextView
         android:id="@+id/txtSheetSteps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view"
-        android:layout_marginTop="20dp"
+        android:layout_below="@+id/timeLayout"
+        android:layout_marginVertical="10dp"
         android:text="Steps"
-        android:textColor="@color/quantum_black_text"
         android:textSize="20dp"
         android:textStyle="bold" />
 

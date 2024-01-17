@@ -129,7 +129,6 @@
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/travelMode"
-                    style="@style/CustomChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -142,30 +141,29 @@
                         android:id="@+id/btnChipDriving"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checkable="true"
                         android:text="Driving"
-                        app:checkedIconEnabled="true" />
+                        style="@style/CustomChipTransport" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/btnChipWalking"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:text="Walking"/>
+                        android:text="Walking"
+                        style="@style/CustomChipTransport"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/btnChipBike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:text="Bike"/>
+                        android:text="Bike"
+                        style="@style/CustomChipTransport"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/btnChipTrain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checkable="true"
-                        android:text="Transit" />
+                        android:text="Transit"
+                        style="@style/CustomChipTransport" />
 
 
                 </com.google.android.material.chip.ChipGroup>
@@ -256,14 +254,13 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/placesGroup"
-                style="@style/CustomChip"
                 app:chipMinTouchTargetSize="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:selectionRequired="true"
                 app:singleLine="true"
-                android:elevation="5dp"
-                app:chipCornerRadius="20dp"
-                app:singleSelection="true" />
+                app:singleSelection="true"
+                style="@style/CustomChipPlaces"/>
 
         </HorizontalScrollView>
 
@@ -289,7 +286,7 @@
         android:layout_margin="16dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="#013220">
+        style="@style/InstructionCardView">
         <TextView
             android:id="@+id/floating_instruction_text"
             android:layout_width="match_parent"
@@ -297,7 +294,8 @@
             android:padding="20dp"
             android:text="Instruction Text"
             android:textStyle="bold"
-            android:textSize="24dp" />
+            android:textSize="24dp"
+            style="@style/InstructionTextView"/>
     </androidx.cardview.widget.CardView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_my_location"

@@ -1,5 +1,8 @@
 package com.example.phuotogether.gui_layer.map;
 
+import static com.example.phuotogether.gui_layer.map.MapFragment.getDisplayedInstruction;
+import static com.example.phuotogether.gui_layer.map.MapFragment.getSpokenInstruction;
+
 import android.os.Build;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -34,9 +37,9 @@ public class DirectionStepAdapter extends RecyclerView.Adapter<DirectionStepAdap
             DirectionStepModel stepModel = directionStepModels.get(position);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                holder.binding.txtStepHtml.setText(Html.fromHtml(stepModel.getHtmlInstructions(), Html.FROM_HTML_MODE_LEGACY));
+                holder.binding.txtStepHtml.setText(Html.fromHtml(getDisplayedInstruction(stepModel.getHtmlInstructions()), Html.FROM_HTML_MODE_LEGACY));
             } else {
-                holder.binding.txtStepHtml.setText(Html.fromHtml(stepModel.getHtmlInstructions()));
+                holder.binding.txtStepHtml.setText(Html.fromHtml(getDisplayedInstruction(stepModel.getHtmlInstructions())));
             }
 
             holder.binding.txtStepTime.setText(stepModel.getDuration().getText());
