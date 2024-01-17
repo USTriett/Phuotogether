@@ -2,8 +2,23 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
     <color name="blue">#2846bd</color>
     <color name="greenPrimary">#A8ED83</color>
     <color name="grey">#B1B1B1</color>
+
+    <color name="colorPrimary">#386A1F</color>
+    <color name="colorPrimaryContainer">#B8F397</color>
+    <color name="colorPrimaryFixedDim">#9ED67D</color>
+
+    <color name="colorSecondary">#55624C</color>
+    <color name="colorSecondaryContainer">#D9E7CB</color>
+    <color name="colorOnSecondaryContainer">#0E1F12</color>
+    <color name="colorSecondaryFixedDim">#BDCBB0</color>
+
+    <color name="colorSurface">#F8FAF0</color>
+    <color name="colorSurfaceDark">#1D2119</color>
+    <color name="colorSurfaceContainer">#EDEFE5</color>
+    <color name="colorSurfaceContainerDark">#32362E</color>
+    <color name="colorOnSurfaceContainer">#43493E</color>
+    <color name="colorOnSurfaceContainerDark">#F8FAF0</color>
 </resources>
