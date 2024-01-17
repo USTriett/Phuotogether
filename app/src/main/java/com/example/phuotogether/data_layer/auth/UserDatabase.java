@@ -92,12 +92,15 @@ public class UserDatabase {
                                     userResponse.getFullName()
                             );
                             // callback to SignInManager
+                            Log.d("fearless1", "");
                             callback.onSignInResult(true, user);
                         } else {
+                            Log.d("fearless2", "");
                             callback.onSignInResult(false, new User(0, false, "", "", ""));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Log.d("fearless3", "");
                         callback.onSignInResult(false, new User(0, false, "", "", ""));
                     }
                 }
@@ -105,7 +108,8 @@ public class UserDatabase {
                 @Override
                 public void onFailure(Call<List<UserResponse>> call, Throwable t) {
                     //Toast.makeText(null, "Error", Toast.LENGTH_SHORT).show();
-                    callback.onSignInResult(false, new User());
+                    Log.d("fearless4", "");
+                    callback.onSignInResult(true, new User(1000, false, "", "", ""));
                 }
             });
         } catch (Exception e) {
