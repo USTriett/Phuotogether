@@ -2,7 +2,9 @@ package com.example.phuotogether.gui_layer.trip.tripView;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,6 +46,7 @@ public class TripScheduleFragment extends Fragment {
 
     private static Trip selectedTrip;
     private TripDestinationsManager tripDestinationsManager;
+    boolean fragmentAlreadyLoaded = false;
 
     public TripScheduleFragment() {
     }
@@ -116,10 +119,11 @@ public class TripScheduleFragment extends Fragment {
                     Log.d("SearchPlacesActivity", "onCreate: " + place.getName());
                     AddDestinationFragment addDestinationFragment = AddDestinationFragment.newInstance(place, selectedTrip);
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.tripschedule, addDestinationFragment);
+                    fragmentTransaction.add(R.id.tripschedule, addDestinationFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 });
+
 
                 // Tạo và đặt Adapter cho RecyclerView
                 PopularDestinationsAdapter popularDestinationsAdapter = new PopularDestinationsAdapter(popularPlaces, requireContext(), selectedTrip);
@@ -128,6 +132,14 @@ public class TripScheduleFragment extends Fragment {
 
             }
         });
+
+        requireActivity().getSupportFragmentManager().addOnBackStackChangedListener(
+                new FragmentManager.OnBackStackChangedListener() {
+                    public void onBackStackChanged() {
+                        onResume();
+                    }
+                });
+
         return binding.getRoot();
     }
 
@@ -170,4 +182,5 @@ public class TripScheduleFragment extends Fragment {
 
 
     }
+
 }

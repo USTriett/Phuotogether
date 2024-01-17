@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +16,28 @@ import android.widget.Toast;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.trip.tripList.TripListManager;
+import com.example.phuotogether.databinding.FragmentAddTripBinding;
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.FragmentUpdateListener;
+import com.example.phuotogether.gui_layer.MainActivity;
 
 public class AddtripFragment extends Fragment {
 
     private EditText etNameTrip, etStartDes, etGoalDes, etStartDate, etEndDate;
     private ImageButton btnBack;
     private Button btnSave;
-
+    private User user;
+    private FragmentAddTripBinding binding;
     private TripListManager tripListManager;
-    public AddtripFragment() {
-    }
+    public AddtripFragment(User user) {
+        this.user = user;
+        Log.d("AddtripFragment", "AddtripFragment: " + user.getId());
+        tripListManager = TripListManager.getInstance(user);
 
-    public static AddtripFragment newInstance() {
-        return new AddtripFragment();
+
+    }
+    public static AddtripFragment newInstance(User user) {
+        return new AddtripFragment(user);
     }
 
     @Override
@@ -35,32 +45,26 @@ public class AddtripFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.fragment_add_trip, container, false);
-
-        tripListManager = TripListManager.getInstance();
-
-        setAndGetAllView(rootView);
-        setEventClickBackButton();
+        binding = FragmentAddTripBinding.inflate(inflater, container, false);
         setEventClickSaveButton();
-
-        return rootView;
+        setEventClickBackButton();
+        return binding.getRoot();
     }
 
     private void setEventClickSaveButton() {
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        binding.buttonSaveAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tripName = etNameTrip.getText().toString();
-                String startDes = etStartDes.getText().toString();
-                String goalDes = etGoalDes.getText().toString();
-                String startDate = etStartDate.getText().toString();
-                String endDate = etEndDate.getText().toString();
+                String tripName = binding.etNameTripAddTrip.getText().toString();
+                String startDes = binding.etStartDesAddTrip.getText().toString();
+                String goalDes = binding.etGoalDesAndTrip.getText().toString();
+                String startDate = binding.etStartDateAddTrip.getText().toString();
+                String endDate = binding.etEndDateAddTrip.getText().toString();
 
-                if (tripListManager.isSuccessAddTrip(tripName, startDes, goalDes, startDate, endDate)){
-                    tripListManager.addTrip(tripName,startDate,endDate,startDes,goalDes);
-                    showSuccessToast();
-                    requireActivity().getSupportFragmentManager().popBackStack();
-                }
+                Log.d("AddtripFragment", "onClick: " + tripName + " " + startDes + " " + goalDes + " " + startDate + " " + endDate);
+                tripListManager.addTrip(user,tripName,startDate,endDate,startDes,goalDes);
+                showSuccessToast();
+                requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
@@ -75,7 +79,7 @@ public class AddtripFragment extends Fragment {
     }
 
     private void setEventClickBackButton() {
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        binding.buttonBackAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requireActivity().getSupportFragmentManager().popBackStack();

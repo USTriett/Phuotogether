@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.dto.PlannedDestination;
+import com.example.phuotogether.gui_layer.MainActivity;
 
 
 import java.util.List;
@@ -42,9 +44,11 @@ public class DestinationListAdapter extends RecyclerView.Adapter<DestinationList
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, DestinationInfoActivity.class);
-                intent.putExtra("destination", destination);
-                mContext.startActivity(intent);
+                DestinationInfoFragment destinationInfoFragment = DestinationInfoFragment.newInstance(destination);
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.tripschedule, destinationInfoFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }

@@ -20,9 +20,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".gui_layer.trip.destinationList.DestinationInfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".gui_layer.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -47,9 +44,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".gui_layer.auth.SignUp.SignUpActivity"
-            android:exported="true" />
         <activity
             android:name=".gui_layer.auth.ForgotPassword.ForgotPasswordActivity"
             android:exported="true" />

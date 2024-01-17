@@ -183,7 +183,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             binding.inputSearch.setText(selectedSuggestion);
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
             LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-            mapPresenter.performSearch(selectedSuggestion, currentLocation);
+            mapPresenter.performSearch(selectedSuggestion, currentLocation, true);
         });
 
         binding.inputSearch.setOnEditorActionListener((v, actionId, event) -> {
@@ -195,7 +195,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
                 if (!query.isEmpty()) {
                     LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-                    mapPresenter.performSearch(query, currentLocation);
+                    boolean foundLocation = false;
+                    mapPresenter.performSearch(query, currentLocation, foundLocation);
+                    if (!foundLocation) {
+                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
             }
@@ -350,19 +354,25 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        Log.d("MapFragment", "onMapReady: ");
         // Set up map
         mMap = googleMap;
 
         // Move camera and other map-related logic
         if (currentLocation != null) {
             if (mapPresenter == null) {
+                Log.d("MapFragment", "onMapReady: mapPresenter is null");
                 mapPresenter = new MapPresenter(this, mMap, this);
                 mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
             }
             else {
+                Log.d("MapFragment", "onMapReady: mapPresenter is not null");
                 mapPresenter.setMap(mMap);          // khi nhấn nt btnMyLocation thì có tạo instance googleMap mới -> phải set ở đây
                 mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
             }
+        }
+        else {
+            Log.d("MapFragment", "onMapReady: currentLocation is null");
         }
 
         // Set up UI settings and listeners
@@ -556,7 +566,8 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Log.d("MapFragment", "onLocationChanged: ");
+        MapPresenter mapPresenter = new MapPresenter(this, mMap, this);
         // update user's location on the map
         LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         mapPresenter.moveCamera(userLatLng, 15, "My Location");

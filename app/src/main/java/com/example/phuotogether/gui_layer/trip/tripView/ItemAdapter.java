@@ -67,6 +67,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
     }
 
+    public void addItemList(List<Item> listItem) {
+        luggageList.clear();
+        luggageList.addAll(listItem);
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return luggageList.size();
