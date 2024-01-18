@@ -67,16 +67,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
-            >
+            android:paddingVertical="10dp">
             <Button
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:text="Edit Profile"
-                android:id="@+id/editInfoBtn"
-                />
+                android:id="@+id/editInfoBtn"/>
 
         </RelativeLayout>
 
@@ -84,143 +82,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#f6f6f6"
-                >
+                android:textAlignment="center"
+                android:text="Content"
+                android:layout_marginLeft="30dp"
+                android:textSize="20sp"
+                android:paddingVertical="4dp"
+                android:textStyle="bold"/>
+            <androidx.cardview.widget.CardView
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginBottom="4dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="15dp"
+                style="@style/ManualItemCardView">
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="Content"
-                    android:layout_marginLeft="30dp"
-                    android:textSize="27sp"
-                    android:paddingVertical="10dp"
-                    android:textStyle="bold"
-                    />
-
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#f6f6f6"
-
-                >
-                <androidx.cardview.widget.CardView
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="match_parent"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="15dp"
-
-                    >
-
-                    <TextView
-                        android:padding="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/heart_svgrepo_com"
-                        android:drawableEnd="@drawable/right_arrow_svgrepo_com"
-                        android:drawablePadding="8dp"
-                        android:gravity="center_vertical"
-
-                        android:text="Images"
-                        android:textSize="22sp"
-
-                        />
-
-
-                </androidx.cardview.widget.CardView>
-
-            </RelativeLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <RelativeLayout
+                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#f6f6f6"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:text="Options"
-                        android:layout_marginLeft="30dp"
-                        android:padding="10dp"
-                        android:textSize="27sp"
-                        android:textStyle="bold"
-                        />
-
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="30dp"
-                    android:background="#f6f6f6"
-                    >
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        >
-
-                    </androidx.cardview.widget.CardView>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="10"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_weight="9"
-                        android:layout_height="50dp"
-                        android:drawableStart="@drawable/download_icon"
-                        android:gravity="center_vertical"
-                        android:drawablePadding="8dp"
-                        android:text="Dark mode"
-                        android:textSize="22sp"
-
-                        />
-                    <Switch
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="8dp"
-                        android:id="@+id/nightModeSwitch"
-
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:drawableStart="@drawable/logout_2_svgrepo_com"
-                    android:gravity="center_vertical"
+                    android:drawableStart="@drawable/heart_svgrepo_com"
+                    android:drawableEnd="@drawable/right_arrow_svgrepo_com"
                     android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:text="Images"
+                    android:textSize="22sp"/>
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Options"
+                android:layout_marginLeft="30dp"
+                android:textSize="20sp"
+                android:paddingVertical="4dp"
+                android:textStyle="bold"/>
+            <androidx.cardview.widget.CardView
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginBottom="4dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="15dp"
+                style="@style/ManualItemCardView">
+                <TextView
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/logout_2_svgrepo_com"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
                     android:text="Logout"
-                    android:textSize="22sp"
-
-                    />
-
-            </LinearLayout>
-                </RelativeLayout>
-
-
-
-
-            </LinearLayout>
+                    android:textSize="22sp"/>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
 </LinearLayout>

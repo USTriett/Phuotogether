@@ -85,7 +85,7 @@ public class InfoFullOptionsFragment extends Fragment {
         user = (User) getArguments().getSerializable("user");
         updateUserInfo(user);
         isNightMode = getArguments().getBoolean("isDarkMode");
-        Switch nightSwitch = viewHold.findViewById(R.id.nightModeSwitch);
+        //Switch nightSwitch = viewHold.findViewById(R.id.nightModeSwitch);
         avatar = viewHold.findViewById(R.id.avatarUser);
         avatar.setAlpha(1.0f);
         Uri selectedImageUri = null;
@@ -99,23 +99,23 @@ public class InfoFullOptionsFragment extends Fragment {
 
             }
         });
-        nightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-//                    buttonView.
-                    Log.d("", "onCheckedChanged: setNightmode");
-                    isNightMode = true;
-                }
-                else{
-                    isNightMode = false;
-                }
-                if(getActivity() instanceof MainActivity){
-                    ((MainActivity) getActivity()).setThemeMode(isNightMode);
-
-                }
-            }
-        });
+//        nightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+////                    buttonView.
+//                    Log.d("", "onCheckedChanged: setNightmode");
+//                    isNightMode = true;
+//                }
+//                else{
+//                    isNightMode = false;
+//                }
+//                if(getActivity() instanceof MainActivity){
+//                    ((MainActivity) getActivity()).setThemeMode(isNightMode);
+//
+//                }
+//            }
+//        });
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
