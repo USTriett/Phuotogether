@@ -10,6 +10,7 @@ import com.example.phuotogether.data_layer.map.GoogleResponseModel;
 import com.example.phuotogether.data_layer.trip.tripList.AddTripRequestModel;
 import com.example.phuotogether.data_layer.trip.tripList.DeleteTripRequestModel;
 import com.example.phuotogether.data_layer.trip.tripList.TripResponse;
+import com.example.phuotogether.data_layer.trip.tripList.UpdateTripSettingRequestModel;
 import com.example.phuotogether.data_layer.trip.tripView.LuggageItemRequestModel;
 import com.example.phuotogether.data_layer.trip.tripView.LuggageItemResponse;
 import com.example.phuotogether.dto.Trip;
@@ -62,6 +63,10 @@ public interface RetrofitAPI {
 
     @HTTP(method = "DELETE", path = "trip/delete_trip", hasBody = true)
     Call<List<TripResponse>> deleteTrip(@Body DeleteTripRequestModel deleteTripRequestModel);
+
+    @HTTP(method = "PUT", path = "trip/update_trip", hasBody = true)
+    Call<List<TripResponse>> updateTripSetting(@Body UpdateTripSettingRequestModel updateTripSettingRequestModel);
+
 
 
     // item ---------------------------------------------------

@@ -38,7 +38,7 @@ public class TripViewFragment extends Fragment implements FragmentUpdateListener
     public static final int TAB_POSITION = 1;
     private ImageButton btnBack;
     private TextView tvTitle;
-    private TripListManager tripListManager;
+    private static TripListManager selectedTripListManager;
     private static Trip selectedTrip;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -53,11 +53,13 @@ public class TripViewFragment extends Fragment implements FragmentUpdateListener
     @Override
     public void onUpdate(User user) {
         this.user = user;
+        Log.d("TESTUSER", user.getFullName());
     }
 
-    public static TripViewFragment newInstance(Trip trip) {
+    public static TripViewFragment newInstance(Trip trip, TripListManager tripListManager) {
         TripViewFragment fragment = new TripViewFragment();
         selectedTrip = trip;
+        selectedTripListManager = tripListManager;
         Log.d("TripViewFragment", "newInstance: " + selectedTrip.getTripName());
         return fragment;
     }
@@ -92,7 +94,7 @@ public class TripViewFragment extends Fragment implements FragmentUpdateListener
         TripViewPagerAdapter adapter = new TripViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new TripLuggageFragment().newInstance(selectedTrip), "Hành lý");
         adapter.addFragment(new TripScheduleFragment().newInstance(selectedTrip), "Lịch trình");
-        adapter.addFragment(new TripSettingFragment().newInstance(selectedTrip), "Cài đặt");
+        adapter.addFragment(new TripSettingFragment().newInstance(selectedTrip, selectedTripListManager), "Cài đặt");
 
         viewPager.setAdapter(adapter);
     }

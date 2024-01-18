@@ -39,7 +39,6 @@ public class TripListFragment extends Fragment implements FragmentUpdateListener
     private RecyclerView tripRecyclerView;
     private TripListManager tripListManager;
     private User user = new User();
-    private MainActivity mainActivity;
     private List<Trip> finalTripList = new ArrayList<>();
 
 
@@ -114,9 +113,4 @@ public class TripListFragment extends Fragment implements FragmentUpdateListener
         });
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        setTripList();
-//    }
 }

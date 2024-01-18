@@ -84,7 +84,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
                 bundle.putSerializable("trip", trip);
 
 //                addFragment(ManualItemFragment.newInstance(itemPosition), TAB_POSITION);
-                TripViewFragment tripViewFragment = TripViewFragment.newInstance(trip);
+                TripViewFragment tripViewFragment = TripViewFragment.newInstance(trip, tripListManager);
                 tripViewFragment.setArguments(bundle);
 
                 FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext())

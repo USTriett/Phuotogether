@@ -27,6 +27,10 @@ public class TripListDatabase {
     public interface AddTripCallback {
         void onAddTripResult(boolean success);
     }
+
+    public interface UpdateTripCallBack{
+        void onUpdateTripResult(boolean success);
+    }
     public TripListDatabase() {
         this.tripList = new ArrayList<>();
     }
@@ -53,6 +57,37 @@ public class TripListDatabase {
                 else {
                     Log.d("TripListDatabase", "onResponse: " + response.body().get(0).getName());
                     callback.onAddTripResult(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TripResponse>> call, Throwable t) {
+                Log.d("TripListDatabase", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void updateTrip(Trip trip, String tripName, String departurePlace, String arrivalPlace, String startDate, String endDate,
+                           UpdateTripCallBack callback){
+        RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
+        UpdateTripSettingRequestModel updateTripSettingRequestModel = new UpdateTripSettingRequestModel(trip.getId(), tripName, departurePlace, arrivalPlace, startDate, endDate);
+
+        Call<List<TripResponse>> call = myApi.updateTripSetting(updateTripSettingRequestModel);
+
+        call.enqueue(new Callback<List<TripResponse>>() {
+            @Override
+            public void onResponse(Call<List<TripResponse>> call, Response<List<TripResponse>> response) {
+                if (!response.isSuccessful()) {
+                    try {
+                        Log.d("TripListDatabase", "Error Body: " + response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    callback.onUpdateTripResult(false);
+                }
+                else {
+                    Log.d("TripListDatabase", "onResponse: " + response.body().get(0).getName());
+                    callback.onUpdateTripResult(true);
                 }
             }
 

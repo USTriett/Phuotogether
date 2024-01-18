@@ -22,10 +22,6 @@ import com.example.phuotogether.gui_layer.FragmentUpdateListener;
 import com.example.phuotogether.gui_layer.MainActivity;
 
 public class AddtripFragment extends Fragment {
-
-    private EditText etNameTrip, etStartDes, etGoalDes, etStartDate, etEndDate;
-    private ImageButton btnBack;
-    private Button btnSave;
     private User user;
     private FragmentAddTripBinding binding;
     private TripListManager tripListManager;
@@ -93,15 +89,5 @@ public class AddtripFragment extends Fragment {
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
-    }
-
-    private void setAndGetAllView(View view) {
-        etNameTrip = view.findViewById(R.id.etNameTripAddTrip);
-        etStartDes = view.findViewById(R.id.etStartDesAddTrip);
-        etGoalDes = view.findViewById(R.id.etGoalDesAndTrip);
-        etStartDate = view.findViewById(R.id.etStartDateAddTrip);
-        etEndDate = view.findViewById(R.id.etEndDateAddTrip);
-        btnBack = view.findViewById(R.id.buttonBackAddTrip);
-        btnSave = view.findViewById(R.id.buttonSaveAddTrip);
     }
 }
