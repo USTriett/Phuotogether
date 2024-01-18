@@ -1,6 +1,7 @@
 package com.example.phuotogether.gui_layer;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -19,7 +20,10 @@ import com.example.phuotogether.gui_layer.info.InfoFragment;
 import com.example.phuotogether.gui_layer.manual.ManualFragment;
 import com.example.phuotogether.gui_layer.map.MapFragment;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
+import com.example.phuotogether.gui_layer.trip.destinationList.AddDestinationFragment;
 import com.example.phuotogether.gui_layer.trip.tripList.TripListFragment;
+import com.example.phuotogether.gui_layer.trip.tripView.TripScheduleFragment;
+import com.example.phuotogether.gui_layer.trip.tripView.TripViewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     MainFragmentPagerAdapter mPagerAdapter;
     private int mCurrentTabPosition;
     private boolean isDarkMode = false;
+    private User currentUser;
+    private boolean isUserSignedIn = false;
     //endregion
 
     public MainFragmentPagerAdapter getPagerAdapter(){
@@ -46,6 +52,24 @@ public class MainActivity extends AppCompatActivity {
         //TODO check accesstoken
         return false;
     }
+    private void updateFragments() {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof FragmentUpdateListener) {
+                ((FragmentUpdateListener) fragment).onUpdate(currentUser);
+            }
+        }
+    }
+
+    public boolean isUserSignedIn() {
+        return isUserSignedIn;
+    }
+
+    public void signInSuccessful(User user) {
+        isUserSignedIn = true;
+
+        // Notify all fragments to update their content
+        updateFragments();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(3);
 
         mBottomNavigationView = findViewById(R.id.bottomNavigationView);
+        mBottomNavigationView.setItemIconTintList(null);
         if(!isSignedIn()){
             FrameLayout mainFrame = findViewById(R.id.signin_container);
             SignInFragment signInFragment = new SignInFragment();
@@ -118,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
                 // Not needed for this use case
             }
         });
+
+
     }
 
     @Override
@@ -142,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         if(getCurrentFragment() instanceof InfoFragment){
             ((InfoFragment) getCurrentFragment()).updateUser(user);
         }
+
     }
     //endregion
     public Fragment getCurrentFragment(){
@@ -157,5 +185,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+
+    public void setCurrentUser(User user){
+        this.currentUser = user;
+    }
+
 
 }

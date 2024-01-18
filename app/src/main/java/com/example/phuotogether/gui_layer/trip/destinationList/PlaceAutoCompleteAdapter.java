@@ -10,8 +10,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.phuotogether.R;
-import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_layer.map.GooglePlaceModel;
 
 import java.util.ArrayList;
 import java.util.List;

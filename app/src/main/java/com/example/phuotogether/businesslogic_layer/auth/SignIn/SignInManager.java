@@ -5,48 +5,58 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.phuotogether.data_layer.auth.UserDatabase;
+import com.example.phuotogether.data_layer.auth.UserResponse;
+import com.example.phuotogether.dto.User;
 
-public class SignInManager {
+public class SignInManager  {
     private UserDatabase userRepository;
-
+    private boolean isSuccess = false;
     public SignInManager(UserDatabase userRepository) {
         this.userRepository = userRepository;
     }
-    private boolean isSuccess = false;
-    public boolean isSuccessSignIn(String emailString, String passwordString) {
 
+    public interface SignInCallback {
+        void onSignInResult(boolean success, User user);
+    }
+    public void isSuccessSignIn(String emailString, String passwordString, SignInCallback callback) {
         userRepository.isSuccessSignIn(emailString, passwordString, new UserDatabase.SignInCallback() {
             @Override
-            public void onSignInResult(boolean success, String response) {
-                Log.d("res", "onSignInResult: " + response + " " +success);
-                isSuccess = success;
+            public void onSignInResult(boolean success, User user) {
+                if (success) {
+                    // call back to SignInFragment
+                    callback.onSignInResult(true, user);
+                } else {
+                    callback.onSignInResult(false, user);
+                }
             }
         });
-        return isSuccess;
     }
 
-    public void handleSignInError(String email, String password, TextView tvEmptyEmail, TextView tvEmptyPassword, TextView tvWrongEmail, TextView tvWrongPassword) {
-        // Implement logic to handle error messages
-        if (email.isEmpty() && !password.isEmpty()){
+
+
+    public void handleSignInError(TextView tvEmptyEmail, TextView tvEmptyPassword, TextView tvWrongEmail, TextView tvWrongPassword) {
+        tvEmptyEmail.setVisibility(View.GONE);
+        tvEmptyPassword.setVisibility(View.GONE);
+        tvWrongEmail.setVisibility(View.VISIBLE);
+        tvWrongPassword.setVisibility(View.VISIBLE);
+    }
+
+    public void validate(String emailString, String passwordString, TextView tvEmptyEmail, TextView tvEmptyPassword, TextView tvWrongEmail, TextView tvWrongPassword) {
+        if (emailString.isEmpty() && !passwordString.isEmpty()){
             tvWrongEmail.setVisibility(View.GONE);
             tvWrongPassword.setVisibility(View.GONE);
             tvEmptyPassword.setVisibility(View.GONE);
             tvEmptyEmail.setVisibility(View.VISIBLE);
-        } else if (password.isEmpty() && !email.isEmpty()){
+        } else if (passwordString.isEmpty() && !emailString.isEmpty()){
             tvWrongEmail.setVisibility(View.GONE);
             tvWrongPassword.setVisibility(View.GONE);
             tvEmptyEmail.setVisibility(View.GONE);
             tvEmptyPassword.setVisibility(View.VISIBLE);
-        } else if (email.isEmpty() && password.isEmpty()){
+        } else if (emailString.isEmpty() && passwordString.isEmpty()){
             tvWrongEmail.setVisibility(View.GONE);
             tvWrongPassword.setVisibility(View.GONE);
             tvEmptyEmail.setVisibility(View.VISIBLE);
             tvEmptyPassword.setVisibility(View.VISIBLE);
-        } else if (!isSuccessSignIn(email, password)){
-            tvEmptyEmail.setVisibility(View.GONE);
-            tvEmptyPassword.setVisibility(View.GONE);
-            tvWrongEmail.setVisibility(View.VISIBLE);
-            tvWrongPassword.setVisibility(View.VISIBLE);
         } else{
             tvEmptyEmail.setVisibility(View.GONE);
             tvEmptyPassword.setVisibility(View.GONE);

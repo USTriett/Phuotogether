@@ -9,14 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.phuotogether.R;
-import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
-import com.example.phuotogether.data_access_layer.map.PhotoModel;
+import com.example.phuotogether.data_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_layer.map.PhotoModel;
 import com.example.phuotogether.data_layer.trip.tripList.Trip;
+import com.example.phuotogether.gui_layer.trip.tripView.TripScheduleFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +58,8 @@ public class PopularDestinationsAdapter extends RecyclerView.Adapter<PopularDest
             public void onClick(View v) {
                 Log.d("SearchPlacesActivity", "onCreate: " + popularPlaces.getName());
                 AddDestinationFragment addDestinationFragment = AddDestinationFragment.newInstance(popularPlaces, selectedTrip);
-                FragmentTransaction fragmentTransaction = ((SearchDestinationActivity) context).getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container1, addDestinationFragment);
+                FragmentTransaction fragmentTransaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.tripschedule, addDestinationFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

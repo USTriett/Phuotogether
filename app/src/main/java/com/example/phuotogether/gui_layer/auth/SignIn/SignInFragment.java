@@ -1,7 +1,10 @@
 package com.example.phuotogether.gui_layer.auth.SignIn;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,10 @@ import androidx.fragment.app.FragmentManager;
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.auth.SignIn.SignInManager;
 import com.example.phuotogether.data_layer.auth.UserDatabase;
+import com.example.phuotogether.data_layer.auth.UserResponse;
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.MainActivity;
+import com.example.phuotogether.gui_layer.auth.SignUp.SignUpFragment;
 
 
 public class SignInFragment extends Fragment {
@@ -57,31 +64,51 @@ public class SignInFragment extends Fragment {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(getActivity(), SignUpActivity.class));
+                SignUpFragment signUpFragment = new SignUpFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().add(R.id.signin_container, signUpFragment).commit();
             }
         });
     }
 
     private void setEventClickSignInButton() {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 String emailString = etEmail.getText().toString();
                 String passwordString = etPassword.getText().toString();
-
-                if (signInManager.isSuccessSignIn(emailString, passwordString)) {
-                    setAllNotificationOff();
-                    showSuccessToast();
-                    SignIn();
-//                    startActivity(new Intent(getActivity(), TripListActivity.class));
-                } else {
-                    signInManager.handleSignInError(emailString, passwordString, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
-                }
+                signInManager.validate(emailString, passwordString, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
+                signInManager.isSuccessSignIn(emailString, passwordString, new SignInManager.SignInCallback() {
+                    @Override
+                    public void onSignInResult(boolean success, User currentUser) {
+                        if (success) {
+                            loadingHandler(currentUser);
+                        } else {
+                            setAllNotificationOff();
+                            signInManager.handleSignInError(tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
+                        }
+                    }
+            });
             }
         });
     }
+    private void loadingHandler(User currentUser) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(getActivity() instanceof MainActivity){
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.setCurrentUser(currentUser);
+                    activity.signInSuccessful(currentUser);
+                }
+                SignIn();
+                showSuccessToast();
+            }
+        }, 0); // delay
+    }
 
     private void SignIn() {
+        Log.d("SignInFragment", "SignIn: ");
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FrameLayout frameLayout = getActivity().findViewById(R.id.signin_container);
         getActivity().getSupportFragmentManager().beginTransaction()

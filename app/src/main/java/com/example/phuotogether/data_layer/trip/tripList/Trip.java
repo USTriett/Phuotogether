@@ -3,6 +3,8 @@ package com.example.phuotogether.data_layer.trip.tripList;
 import java.io.Serializable;
 
 public class Trip implements Serializable {
+    private int id;
+    private int userID;
     private String tripName;
     private String tripTime;
     private String departurePlace;
@@ -10,6 +12,16 @@ public class Trip implements Serializable {
     private String startDate;
     private String endDate;
     private int tripImageID;
+
+    public Trip(int id, int userID, String tripName, String startDate, String endDate,String departurePlace, String arrivalPlace) {
+        this.id = id;
+        this.userID = userID;
+        this.tripName = tripName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.departurePlace = departurePlace;
+        this.arrivalPlace = arrivalPlace;
+    }
 
     public Trip(String tripName, String tripTime, int tripImageID,
                 String departurePlace, String arrivalPlace, String startDate, String endDate) {
@@ -20,6 +32,10 @@ public class Trip implements Serializable {
         this.arrivalPlace = arrivalPlace;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getTripImageID() {

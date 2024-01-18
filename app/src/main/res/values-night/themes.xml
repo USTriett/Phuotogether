@@ -1,7 +1,85 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Phuotogether" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.Phuotogether" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@color/colorSurfaceDark</item>
+        <item name="android:textColor">@color/colorOnSecondaryContainerDark</item>
+        <item name="colorPrimary">@color/colorPrimaryFixedDim</item>
+        <item name="colorPrimaryFixed">@color/colorPrimaryFixedDim</item>
+        <item name="colorSurface">@color/colorSurfaceDark</item>
     </style>
+
+    <!-- Navigation bar -->
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/colorSecondaryFixedDim</item>
+    </style>
+    <style name="BottomNavigation">
+        <item name="itemActiveIndicatorStyle">@style/App.Custom.Indicator</item>
+        <item name="itemBackground">@color/colorSurfaceContainerDark</item>
+    </style>
+
+    <!-- Color of vector images -->
+    <style name="MyVectorImageStyle" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:tint">@color/colorOnSurfaceContainerDark</item>
+    </style>
+
+    <!-- Top bar -->
+    <style name="TopBar" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:background">@drawable/search_view_background_dark</item>
+        <item name="android:textColor">@color/colorOnSurfaceContainerDark</item>
+    </style>
+
+    <!-- Chips transport-->
+    <style name="CustomChipTransport" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:checkable">true</item>
+        <item name="chipCornerRadius">10dp</item>
+        <item name="chipBackgroundColor">@color/custom_chip_background_color_state_dark</item>
+        <item name="android:textColor">@color/custom_chip_text_color_state_dark</item>
+        <item name="chipStrokeColor">@color/custom_chip_text_color_state_dark</item>
+        <item name="chipStrokeWidth">1dp</item>
+    </style>
+
+    <!-- Chips places -->
+    <style name="CustomChipPlaces" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:checkable">true</item>
+        <item name="chipBackgroundColor">@color/custom_chip_background_color_state_dark</item>
+        <item name="android:textColor">@color/custom_chip_text_color_state_dark</item>
+        <item name="chipStrokeColor">@color/custom_chip_text_color_state_dark</item>
+        <item name="chipIconTint">@color/custom_chip_text_color_state_dark</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:background">@color/colorSurfaceDark</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/AppBottomSheetDialogAnimation</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">     @android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+    </style>
+
+    <style name="AppBottomSheetDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <!-- Step CardView -->
+    <style name="StepCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardBackgroundColor">@color/colorSecondaryContainerDark</item>
+    </style>
+    <style name="StepTextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/colorOnSecondaryContainerDark</item>
+    </style>
+
+    <!-- Instruction Text -->
+    <style name="InstructionCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/colorSecondaryContainerDark</item>
+    </style>
+    <style name="InstructionTextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/colorOnSecondaryContainerDark</item>
+    </style>
+
 </resources>
+

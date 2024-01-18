@@ -26,14 +26,21 @@
             android:layout_height="wrap_content"
             app:menu="@menu/navigation"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:itemIconTint="@android:color/white"
-            app:itemTextColor="@android:color/white" />
+            app:labelVisibilityMode="labeled"
+            style="@style/BottomNavigation"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/signin_container"
+        android:backgroundTint="#ffffff"
+        android:layout_alignParentBottom="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/signup_container"
         android:backgroundTint="#ffffff"
         android:layout_alignParentBottom="true" />
 

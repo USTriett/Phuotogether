@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:networkSecurityConfig="@xml/network_security_config"
@@ -17,13 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Phuotogether"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".gui_layer.trip.destinationList.DestinationInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".gui_layer.trip.destinationList.SearchDestinationActivity"
-            android:exported="false" />
         <activity
             android:name=".gui_layer.MainActivity"
             android:exported="true">
@@ -49,9 +45,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".gui_layer.auth.SignUp.SignUpActivity"
-            android:exported="true" />
         <activity
             android:name=".gui_layer.auth.ForgotPassword.ForgotPasswordActivity"
             android:exported="true" />

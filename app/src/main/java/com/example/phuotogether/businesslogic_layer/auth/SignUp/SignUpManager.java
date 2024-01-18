@@ -1,17 +1,49 @@
 package com.example.phuotogether.businesslogic_layer.auth.SignUp;
 
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.phuotogether.data_layer.auth.UserDatabase;
+
 import java.util.regex.Pattern;
 
 public class SignUpManager {
-    public boolean isSuccessSignUp(String email, String password, String confirmPassword, Boolean isCheckBoxChecked){
-        return (isCheckBoxChecked && isValidEmail(email) && isValidPassword(password) && confirmPassword.equals(password));
+    private UserDatabase userRepository;
+
+
+
+    public interface SignUpCallback {
+        void onSignUpResult(boolean success);
     }
 
-    public void handleSignUpError(String stringEmail, String stringPassword, String stringConfirmPassword, Boolean isCheckBoxChecked, TextView tvEmptyEmail, TextView tvEmptyPassword, TextView tvEmptyConfirmPassword, TextView tvInvalidEmail, TextView tvInvalidPassword, TextView tvWrongConfirmPassword, TextView tvNoneCheck){
+    public SignUpManager(UserDatabase userRepository) {
+        this.userRepository = userRepository;
+    }
+    public void isSuccessSignUp(String email, String password, String fullName, SignUpCallback callback){
+        Log.d("SignUpManager", "isSuccessSignUp: " + email + password + fullName);
+        userRepository.isSuccessSignUp(email, password, fullName, new UserDatabase.SignUpCallback() {
+            @Override
+            public void onSignUpResult(boolean success) {
+                if (success) {
+                    // call back to SignUpFragment
+                    callback.onSignUpResult(true);
+                } else {
+                    callback.onSignUpResult(false);
+                }
+            }
+        });
+    }
+
+    public boolean handleSignUpError(String stringEmail, String stringPassword,
+                                  String stringConfirmPassword,
+                                  Boolean isCheckBoxChecked,
+                                  TextView tvEmptyEmail,
+                                  TextView tvEmptyPassword, TextView tvEmptyConfirmPassword,
+                                  TextView tvInvalidEmail, TextView tvInvalidPassword,
+                                  TextView tvWrongConfirmPassword, TextView tvNoneCheck){
+        boolean isValid = true;
         if (!stringEmail.isEmpty()){
             tvEmptyEmail.setVisibility(View.GONE);
         }
@@ -23,37 +55,45 @@ public class SignUpManager {
         }
         if (stringEmail.isEmpty()){
             tvEmptyEmail.setVisibility(View.VISIBLE);
+            isValid = false;
         }
         if (stringPassword.isEmpty()){
             tvEmptyPassword.setVisibility(View.VISIBLE);
+            isValid = false;
         }
         if (stringConfirmPassword.isEmpty()){
             tvEmptyConfirmPassword.setVisibility(View.VISIBLE);
+            isValid = false;
         }
         if (!isValidEmail(stringEmail) && !stringEmail.isEmpty()){
             tvInvalidEmail.setVisibility(View.VISIBLE);
+            isValid = false;
         }
         if (isValidEmail(stringEmail)){
             tvInvalidEmail.setVisibility(View.GONE);
         }
         if (!isValidPassword(stringPassword) && !stringPassword.isEmpty()){
             tvInvalidPassword.setVisibility(View.VISIBLE);
+            isValid = false;
         }
         if (isValidPassword(stringPassword)){
             tvInvalidPassword.setVisibility(View.GONE);
         }
         if (!stringConfirmPassword.equals(stringPassword) && !stringConfirmPassword.isEmpty()){
             tvWrongConfirmPassword.setVisibility(View.VISIBLE);
+            isValid = false;
         }
         if (stringConfirmPassword.equals(stringPassword) && !stringConfirmPassword.isEmpty()){
             tvWrongConfirmPassword.setVisibility(View.GONE);
         }
         if (!isCheckBoxChecked){
             tvNoneCheck.setVisibility(View.VISIBLE);
+            isValid = false;
         }
         if (isCheckBoxChecked){
             tvNoneCheck.setVisibility(View.GONE);
         }
+        return isValid;
     }
 
     private boolean isValidEmail(String email) {
@@ -88,5 +128,9 @@ public class SignUpManager {
             }
         }
         return false;
+    }
+
+    public void validate(String stringEmail, String stringPassword, String stringConfirmPassword, String stringFullName, Boolean isCheckBoxChecked, TextView tvEmptyEmailNotificationSignup, TextView tvEmptyPasswordNotificationSignup, TextView tvEmptyConfirmPasswordNotificationSignup, TextView tvEmptyFullNameNotificationSignup, TextView tvNoneCheckNotificationSignup, TextView tvInvalidEmailNotificationSignup, TextView tvInvalidPasswordNotificationSignup, TextView tvWrongConfirmPasswordNotificationSignup) {
+
     }
 }

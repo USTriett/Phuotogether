@@ -2,7 +2,7 @@ package com.example.phuotogether.dto;
 import java.io.Serializable;
 public class User implements Serializable{
     private int id;
-    private boolean loginType;
+    private boolean loginType; // true is email, false is phone number
     private String email;
 
     private String phoneNumber;

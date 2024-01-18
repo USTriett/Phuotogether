@@ -1,50 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:layout_marginVertical="10dp"
+    style="@style/StepCardView">
 
-    <TextView
-        android:id="@+id/txtStepHtml"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Turn Left"
-        android:textColor="@color/quantum_black_text"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:layout_margin="20dp">
+        <TextView
+            android:id="@+id/txtStepHtml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Turn Left"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/txtStepTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtStepHtml"
-        android:layout_marginTop="5dp"
-        android:text="12 min"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txtStepTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtStepHtml"
+            android:layout_marginTop="5dp"
+            android:text="12 min"
+            android:textSize="16dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/txtStepTime">
         <TextView
             android:id="@+id/txtStepDistance"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:orientation="horizontal"
+            android:layout_below="@+id/txtStepTime"
             android:layout_marginTop="5dp"
             android:text="15 Km"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textSize="16dp"/>
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:background="@color/quantum_black_divider" />
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".gui_layer.trip.destinationList.DestinationInfoFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Điểm đến"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/tvDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2/3/2023  |  8:00 - 9:00"
+            android:textSize="20sp"
+            android:textColor="@color/blue"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/tvWeather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dự báo thời tiết"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/tvDensity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dự báo mật độ người"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>

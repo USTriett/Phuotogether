@@ -13,6 +13,7 @@ import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,15 +37,15 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import com.android.volley.toolbox.Volley;
 import com.example.phuotogether.R;
-import com.example.phuotogether.business_layer.map.AllConstant;
-import com.example.phuotogether.business_layer.map.DirectionListener;
-import com.example.phuotogether.business_layer.map.DirectionsManager;
-import com.example.phuotogether.business_layer.map.MapPresenter;
-import com.example.phuotogether.business_layer.map.MapPresenterListener;
-import com.example.phuotogether.data_access_layer.map.DirectionStepModel;
-import com.example.phuotogether.data_access_layer.map.GooglePlaceModel;
-import com.example.phuotogether.data_access_layer.map.MapData;
-import com.example.phuotogether.data_access_layer.map.PlaceModel;
+import com.example.phuotogether.businesslogic_layer.map.AllConstant;
+import com.example.phuotogether.businesslogic_layer.map.DirectionListener;
+import com.example.phuotogether.businesslogic_layer.map.DirectionsManager;
+import com.example.phuotogether.businesslogic_layer.map.MapPresenter;
+import com.example.phuotogether.businesslogic_layer.map.MapPresenterListener;
+import com.example.phuotogether.data_layer.map.DirectionStepModel;
+import com.example.phuotogether.data_layer.map.GooglePlaceModel;
+import com.example.phuotogether.data_layer.map.MapData;
+import com.example.phuotogether.data_layer.map.PlaceModel;
 import com.example.phuotogether.databinding.BottomSheetLocationInfoBinding;
 import com.example.phuotogether.databinding.BottomSheetRouteBinding;
 import com.example.phuotogether.databinding.FragmentMapBinding;
@@ -98,12 +99,17 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     // for text to speech
     private TextToSpeech textToSpeech;
     private Context context;
-    private List<DirectionStepModel> stepList;
+    private List<DirectionStepModel> stepList = new ArrayList<>();
+    private float[] prevDistanceToEnd = {0.0f};
+
+
+
     private LocationManager locationManager;
     final float ZOOM = 15;
     public static Fragment newInstance() {
         return new MapFragment();
     }
+    private boolean isTrackingLocation = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,7 +131,15 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         setupNearbySearchUI();
         setupFloatingComponents();
 
+        startLocationUpdates();
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        stopLocationUpdates();
     }
 
     private void initializeDependencies() {
@@ -169,7 +183,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             binding.inputSearch.setText(selectedSuggestion);
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
             LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-            mapPresenter.performSearch(selectedSuggestion, currentLocation);
+            mapPresenter.performSearch(selectedSuggestion, currentLocation, true);
         });
 
         binding.inputSearch.setOnEditorActionListener((v, actionId, event) -> {
@@ -181,7 +195,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
                 if (!query.isEmpty()) {
                     LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-                    mapPresenter.performSearch(query, currentLocation);
+                    boolean foundLocation = false;
+                    mapPresenter.performSearch(query, currentLocation, foundLocation);
+                    if (!foundLocation) {
+                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
             }
@@ -259,16 +277,17 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     private void setupNearbySearchUI() {
         for (PlaceModel placeModel : AllConstant.placesName) {
+//            Context styledContext = new ContextThemeWrapper(requireContext(), R.style.CustomChipPlaces);
+//            Chip chip = new Chip(styledContext);
             Chip chip = new Chip(requireContext());
-            chip.setChipBackgroundColorResource(R.color.white);
+            //chip.setChipBackgroundColorResource(R.color.white);
             chip.setText(placeModel.getName());
             chip.setId(placeModel.getId());
             chip.setPadding(8, 8, 8, 8);
-            chip.setTextColor(getResources().getColor(R.color.black, null));
+            //chip.setTextColor(getResources().getColor(R.color.black, null));
             chip.setChipIcon(ResourcesCompat.getDrawable(getResources(), placeModel.getDrawableId(), null));
             chip.setCheckable(true);
             chip.setCheckedIconVisible(false);
-            chip.setChipCornerRadius(50);
             binding.placesGroup.addView(chip);
         }
 
@@ -335,12 +354,25 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        Log.d("MapFragment", "onMapReady: ");
+        // Set up map
         mMap = googleMap;
 
+        // Move camera and other map-related logic
         if (currentLocation != null) {
-            // Move camera and other map-related logic
-            mapPresenter = new MapPresenter(this, mMap, this);
-            mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
+            if (mapPresenter == null) {
+                Log.d("MapFragment", "onMapReady: mapPresenter is null");
+                mapPresenter = new MapPresenter(this, mMap, this);
+                mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
+            }
+            else {
+                Log.d("MapFragment", "onMapReady: mapPresenter is not null");
+                mapPresenter.setMap(mMap);          // khi nhấn nt btnMyLocation thì có tạo instance googleMap mới -> phải set ở đây
+                mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
+            }
+        }
+        else {
+            Log.d("MapFragment", "onMapReady: currentLocation is null");
         }
 
         // Set up UI settings and listeners
@@ -381,6 +413,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             bottomSheetLocationInfoBinding.btnShowDirection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     performDirection(getLatLngFromLocation(currentLocation), latLng);
                 }
             });
@@ -472,30 +505,43 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     @Override
     public void onDirectionReceived(String startLocation1, String endLocation1,
                                     String time, String distance, List<DirectionStepModel> steps) {
+
+        adapter.setDirectionStepModels(steps);
+        stepList = steps;
         binding.txtStartLocation.setText(startLocation1);
         binding.txtEndLocation.setText(endLocation1);
         bottomSheetRouteBinding.txtSheetTime.setText(time);
         bottomSheetRouteBinding.txtSheetDistance.setText(distance);
-        textToSpeech.speak("Here is the direction to " + endLocation1, TextToSpeech.QUEUE_FLUSH, null, null);
+        textToSpeech.speak("Đây là hướng dẫn chỉ đường đến " + getSpokenInstruction(endLocation1), TextToSpeech.QUEUE_FLUSH, null, null);
+
+
+        for (int i = 0; i < stepList.size(); i++){
+            String instruction = stepList.get(i).getHtmlInstructions();
+            Log.d("test step " + String.valueOf(i), instruction);
+            Log.d("test step " + String.valueOf(i), getDisplayedInstruction(instruction));
+            Log.d("test step " + String.valueOf(i), getSpokenInstruction(instruction));
+        }
 
         bottomSheetRouteBinding.btnStartInstruction.setOnClickListener(v -> {
             String rawInstruction = steps.get(0).getHtmlInstructions();
-            String cleanInstruction = rawInstruction.replaceAll("<.*?>", "").replaceAll("<div=\"[^\"]*\">", "");
-            Log.d("first location is", cleanInstruction);
-            textToSpeech.speak(cleanInstruction, TextToSpeech.QUEUE_FLUSH, null, null);
+            String displayedInstruction = getDisplayedInstruction(rawInstruction);
+            String spokenInstruction = getSpokenInstruction(rawInstruction);
+            Log.d("First location is", displayedInstruction);
+            textToSpeech.speak(spokenInstruction, TextToSpeech.QUEUE_FLUSH, null, null);
 
             binding.directionLayout.setVisibility(View.GONE);
             binding.floatingInstruction.setVisibility(View.VISIBLE);
-            binding.floatingInstructionText.setText(cleanInstruction);
-        });
-        adapter.setDirectionStepModels(steps);
+            binding.floatingInstructionText.setText(displayedInstruction);
 
-        stepList = steps;
-        startLocationUpdates();                         // track user's location
+            isTrackingLocation = true;                         // track user's location
+        });
+
 
         bottomSheetRouteBinding.btnStopInstruction.setOnClickListener(v -> {
             binding.floatingInstruction.setVisibility(View.GONE);
             binding.directionLayout.setVisibility(View.VISIBLE);
+
+            isTrackingLocation = false;                          // stop tracking user's location
         });
     }
 
@@ -504,7 +550,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             // Check location permissions
             if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 // Register for location updates
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, this);
             } else {
                 // Handle the case where permissions are not granted
                 // You should request permissions here or handle it according to your app's logic
@@ -521,29 +567,59 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     @Override
     public void onLocationChanged(Location location) {
-
-        // update user's location on the mapơ
+        Log.d("MapFragment", "onLocationChanged: ");
+        MapPresenter mapPresenter = new MapPresenter(this, mMap, this);
+        // update user's location on the map
         LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         mapPresenter.moveCamera(userLatLng, 15, "My Location");
-        Toast.makeText(requireContext(), "Location changed.", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(requireContext(), "Location changed.", Toast.LENGTH_SHORT).show();
+
+        // check number of steps
+        int stepListLength = stepList.size();
+        if (stepListLength == 0)
+            return;
 
         // check if the user's location is within any step's bounds
-        int stepListLength = stepList.size();
-        for (int i = 0; i < stepListLength - 1; i++) {
+        for (int i = 0; i < stepListLength; i++) {
             DirectionStepModel currentStep = stepList.get(i);
-            if (currentStep.isUserNearEnd(userLatLng)) {
+            if (currentStep.isUserAboutToEndStep(userLatLng, prevDistanceToEnd)) {
+                if (i < stepListLength - 1){
+                    // get instruction
+                    DirectionStepModel nextStep = stepList.get(i + 1);
+                    String rawInstruction = nextStep.getHtmlInstructions();
+                    String displayedInstruction = getDisplayedInstruction(rawInstruction);
+                    String spokenInstruction = getSpokenInstruction(rawInstruction);
 
-                // get instruction
-                DirectionStepModel nextStep = stepList.get(i + 1);
-                String rawInstruction = nextStep.getHtmlInstructions();
-                String cleanInstruction = rawInstruction.replaceAll("<.*?>", "").replaceAll("<div=\"[^\"]*\">", "");
-
-                // update instruction on the map
-                textToSpeech.speak(cleanInstruction, TextToSpeech.QUEUE_FLUSH, null, null);
-                binding.floatingInstructionText.setText(cleanInstruction);
-                break;
+                    // update instruction on the map
+                    binding.floatingInstructionText.setText(displayedInstruction);
+                    if (!textToSpeech.isSpeaking()) textToSpeech.speak(spokenInstruction, TextToSpeech.QUEUE_FLUSH, null, null);
+                    break;
+                }
+                else {
+                    String arrivedInstruction = "You have arrived at the destination.";
+                    binding.floatingInstructionText.setText(arrivedInstruction);
+                    if (!textToSpeech.isSpeaking()) textToSpeech.speak(arrivedInstruction, TextToSpeech.QUEUE_FLUSH, null, null);
+                    stepList.clear();
+                }
             }
         }
+    }
+
+    public static String getDisplayedInstruction(String rawInstruction){
+        String displayedInstruction = rawInstruction
+                .replace("Đ.", "Đường")
+                .replaceAll("<div style=\"[^\"]*\">", ". ")           // div này sử dụng cho kết thúc câu
+                .replaceAll("<.*?>", "");
+        return displayedInstruction;
+    }
+
+    public static String getSpokenInstruction(String rawInstruction){
+        String spokenInstruction = rawInstruction
+                .replace("Đ.", "Đường")
+                .replaceAll("<div style=\"[^\"]*\">", ". ")           // div này sử dụng cho kết thúc câu
+                .replaceAll("<.*?>", "")
+                .replaceAll("/", " xuyệt ");
+        return spokenInstruction;
     }
 
     @Override
@@ -594,7 +670,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
             // Set the language for speech synthesis.
-            int result = textToSpeech.setLanguage(Locale.US);
+            int result = textToSpeech.setLanguage(Locale.getDefault());
 
             // Check if the language is supported.
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {

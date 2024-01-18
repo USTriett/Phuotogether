@@ -1,7 +1,5 @@
 package com.example.phuotogether.gui_layer.manual;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phuotogether.R;
-import com.example.phuotogether.data_access_layer.manual.ManualObject;
+import com.example.phuotogether.data_layer.manual.ManualObject;
 import com.example.phuotogether.gui_layer.MainActivity;
-import com.example.phuotogether.gui_layer.navigation.FragmentUpdateCallback;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
 
 import java.util.ArrayList;

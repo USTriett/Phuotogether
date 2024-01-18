@@ -24,6 +24,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.trip.tripList.TripListManager;
 import com.example.phuotogether.data_layer.trip.tripList.Trip;
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.FragmentUpdateListener;
 import com.example.phuotogether.gui_layer.MainActivity;
 import com.example.phuotogether.gui_layer.manual.ManualItemFragment;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
@@ -32,22 +34,30 @@ import com.example.phuotogether.gui_layer.trip.addTrip.AddtripFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class TripViewFragment extends Fragment {
+public class TripViewFragment extends Fragment implements FragmentUpdateListener {
     public static final int TAB_POSITION = 1;
     private ImageButton btnBack;
     private TextView tvTitle;
     private TripListManager tripListManager;
-    private Trip selectedTrip;
+    private static Trip selectedTrip;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private User user;
     private int[] tabIcons = {
             R.drawable.luggage_icon,
             R.drawable.schedule_icon,
             R.drawable.diary_icon
     };
 
-    public static TripViewFragment newInstance() {
+    @Override
+    public void onUpdate(User user) {
+        this.user = user;
+    }
+
+    public static TripViewFragment newInstance(Trip trip) {
         TripViewFragment fragment = new TripViewFragment();
+        selectedTrip = trip;
+        Log.d("TripViewFragment", "newInstance: " + selectedTrip.getTripName());
         return fragment;
     }
 
@@ -56,9 +66,8 @@ public class TripViewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_view_trip, container, false);
-        tripListManager = TripListManager.getInstance();
+
         setAndGetAllView(rootView);
-        setSelectedTrip();
         setTitleTripView();
         setEventClickButtonBack();
 
@@ -79,23 +88,12 @@ public class TripViewFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         TripViewPagerAdapter adapter = new TripViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new TripLuggageFragment(), "Hành lý");
+        adapter.addFragment(new TripLuggageFragment().newInstance(selectedTrip), "Hành lý");
         adapter.addFragment(new TripScheduleFragment().newInstance(selectedTrip), "Lịch trình");
 
         viewPager.setAdapter(adapter);
     }
 
-    private void setSelectedTrip() {
-        Bundle bundle = getArguments();
-
-        if (bundle != null) {
-            int tripPosition = bundle.getInt("trip_position", -1);
-
-            if (tripPosition != -1) {
-                selectedTrip = tripListManager.getTripAtPosition(tripPosition);
-            }
-        }
-    }
 
     private void setTitleTripView() {
         String titleTripView = selectedTrip.getTripName();

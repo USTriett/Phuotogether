@@ -1,11 +1,55 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Phuotogether" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
+    <style name="Base.Theme.Phuotogether" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/colorSurface</item>
+        <item name="android:textColor">@color/colorOnSecondaryContainer</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryFixed">@color/colorPrimaryFixedDim</item>
+        <item name="colorSurface">@color/colorSurface</item>
+    </style>
+
+    <!-- Navigation bar -->
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/colorSecondaryFixedDim</item>
+    </style>
+    <style name="BottomNavigation">
+        <item name="itemTextColor">@color/colorPrimary</item>
+        <item name="itemActiveIndicatorStyle">@style/App.Custom.Indicator</item>
+        <item name="itemBackground">@color/colorSurfaceContainer</item>
+    </style>
+
+    <!-- Color of vector images -->
+    <style name="MyVectorImageStyle" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:tint">@color/colorOnSurfaceContainer</item>
+    </style>
+
+    <!-- Top bar -->
+    <style name="TopBar" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:background">@drawable/search_view_background</item>
+        <item name="android:textColor">@color/colorOnSurfaceContainer</item>
+    </style>
+
+    <!-- Chips transport -->
+    <style name="CustomChipTransport" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:checkable">true</item>
+        <item name="chipCornerRadius">10dp</item>
+        <item name="chipBackgroundColor">@color/custom_chip_background_color_state</item>
+        <item name="android:textColor">@color/custom_chip_text_color_state</item>
+        <item name="chipStrokeColor">@color/custom_chip_text_color_state</item>
+        <item name="chipStrokeWidth">1dp</item>
+    </style>
+
+    <!-- Chips places -->
+    <style name="CustomChipPlaces" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:checkable">true</item>
+        <item name="chipBackgroundColor">@color/custom_chip_background_color_state</item>
+        <item name="android:textColor">@color/custom_chip_text_color_state</item>
+        <item name="chipStrokeColor">@color/custom_chip_text_color_state</item>
+        <item name="chipIconTint">@color/custom_chip_text_color_state</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@color/colorSurface</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -19,6 +63,23 @@
     <style name="AppBottomSheetDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <!-- Step CardView -->
+    <style name="StepCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardBackgroundColor">@color/colorSecondaryContainer</item>
+    </style>
+    <style name="StepTextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/colorOnSecondaryContainer</item>
+    </style>
+
+    <!-- Instruction Text -->
+    <style name="InstructionCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/colorPrimary</item>
+    </style>
+    <style name="InstructionTextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <style name="ProfileDialogStyle" parent="Theme.AppCompat.Light.Dialog">
@@ -37,11 +98,7 @@
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
     </style>
-    <style name="CustomChip" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="chipCornerRadius">20dp</item>
-        <item name="backgroundTint">@color/white</item>
-        <item name="chipStrokeWidth">0dp</item>
-    </style>
+
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="android:background">@drawable/search_view_background</item>
     </style>
