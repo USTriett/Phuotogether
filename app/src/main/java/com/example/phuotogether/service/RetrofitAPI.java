@@ -12,10 +12,12 @@ import com.example.phuotogether.data_layer.trip.tripList.DeleteTripRequestModel;
 import com.example.phuotogether.data_layer.trip.tripList.TripResponse;
 import com.example.phuotogether.data_layer.trip.tripView.LuggageItemRequestModel;
 import com.example.phuotogether.data_layer.trip.tripView.LuggageItemResponse;
+import com.example.phuotogether.data_layer.user.AvatarUserRequestModel;
 import com.example.phuotogether.dto.Trip;
 import com.example.phuotogether.dto.User;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -77,6 +79,6 @@ public interface RetrofitAPI {
     // planned destination ---------------------------------------------------
 
 
-
-
+    @POST("user/update_avatar")
+    Call<List<Response>> updateAvatar(@Body AvatarUserRequestModel avatarUserRequestModel);
 }

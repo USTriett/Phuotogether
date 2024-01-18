@@ -1,0 +1,16 @@
+
+g
+java:S11924"QDefine a constant instead of duplicating this literal "TripListFragment" 3 times.(ÊéÔ
+>
+java:S1604A"(Make this anonymous inner class a lambda(ó‘Éö
+C
+java:S1604K"(Make this anonymous inner class a lambda(ÖòŠøÿÿÿÿ
+C
+java:S1604i"(Make this anonymous inner class a lambda(ÆıäÌıÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(öñ¤–
+u
+java:S1450'"_Remove the "tripRecyclerView" field and declare it as a local variable in the relevant methods.(Ë›–”
+Q	java:S125O"<This block of commented-out lines of code should be removed.(ô¸‹î
+P	java:S125v"<This block of commented-out lines of code should be removed.(©Ğ’I
+F
+java:S1068*"0Remove this unused "mainActivity" private field.(Ü²÷ò

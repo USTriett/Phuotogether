@@ -1,0 +1,13 @@
+
+g
+java:S1192="LDefine a constant instead of duplicating this literal "onFailure: " 3 times.(¼éŒöıÿÿÿÿ
+g
+java:S1192%"QDefine a constant instead of duplicating this literal "TripListDatabase" 8 times.(åÈŸ£
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Ù°Ìüıÿÿÿÿ
+V	java:S107#"<Method has 9 parameters, which is greater than 7 authorized.(Áõ¶Úıÿÿÿÿ
+[
+java:S1172#"@Remove these unused method parameters "tripTime", "tripImageID".(Áõ¶Úıÿÿÿÿ
+J
+java:S1172B"/Remove this unused method parameter "callback".(¨Îñ«ùÿÿÿÿ
+C
+java:S1068"(Remove this unused "user" private field.(’Ø¾ıÿÿÿÿ

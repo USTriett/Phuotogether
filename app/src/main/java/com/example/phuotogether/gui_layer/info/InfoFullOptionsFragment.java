@@ -1,5 +1,6 @@
 package com.example.phuotogether.gui_layer.info;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,6 +36,7 @@ public class InfoFullOptionsFragment extends Fragment {
     private String mParam2;
     private User user;
     private View viewHold;
+    private ImageView avatar;
 
     private EditInfoPopupFragment editFragment;
 
@@ -84,15 +86,17 @@ public class InfoFullOptionsFragment extends Fragment {
         updateUserInfo(user);
         isNightMode = getArguments().getBoolean("isDarkMode");
         Switch nightSwitch = viewHold.findViewById(R.id.nightModeSwitch);
-
-        avatarOptionsFragment = new AvatarOptionsFragment();
-        ImageView avatar = viewHold.findViewById(R.id.avatarUser);
+        avatar = viewHold.findViewById(R.id.avatarUser);
+        avatar.setAlpha(1.0f);
+        Uri selectedImageUri = null;
+        avatarOptionsFragment = new AvatarOptionsFragment(avatar, selectedImageUri);
 
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("", "Avatar Clicked");
                 avatarOptionsFragment.show(getFragmentManager(), "Avatar Options");
+
             }
         });
         nightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
