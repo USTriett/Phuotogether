@@ -23,8 +23,8 @@ java:S1450"_Remove the "tvForgotPassword" field and declare it as a local vari
 ]	java:S125*"<This block of commented-out lines of code should be removed.(Ì¹Ž”ÿÿÿÿÿ8âóÈšÎ1
 ]	java:S125/"<This block of commented-out lines of code should be removed.(¿œ§‹øÿÿÿÿ8âóÈšÎ1
 X	java:S125<"<This block of commented-out lines of code should be removed.(ó»¸·8âóÈšÎ1
-X	java:S125L"<This block of commented-out lines of code should be removed.(òý½ý8èóÈšÎ1
-o	java:S100T"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(È‹çÒýÿÿÿÿ8èóÈšÎ1
+X	java:S125L"<This block of commented-out lines of code should be removed.(òý½ý8Œ›žÎ1
+o	java:S100T"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(È‹çÒýÿÿÿÿ8¦¤—žÎ1
 O
 java:S1068"3Remove this unused "btnSignInWithGG" private field.(Œ‚èI8ïóÈšÎ1
 O

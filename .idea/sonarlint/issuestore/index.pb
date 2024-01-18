@@ -19,3 +19,5 @@ v
 Fapp/src/main/java/com/example/phuotogether/service/RetrofitClient.java,6\c\6cf11d7ffed6345912337a3f08fa2523a31cf621
 D
 app/build.gradle.kts,d\2\d2a4383452aad84a18429a5844d31330a012a9e6
+ç
+]app/src/main/java/com/example/phuotogether/businesslogic_layer/auth/SignIn/SignInManager.java,c\1\c1a9c6f2c65bc5398bf7ed2cc72f7dbb8c37b494

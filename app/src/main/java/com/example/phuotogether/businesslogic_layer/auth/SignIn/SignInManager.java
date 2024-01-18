@@ -1,5 +1,6 @@
 package com.example.phuotogether.businesslogic_layer.auth.SignIn;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,9 +12,17 @@ public class SignInManager {
     public SignInManager(UserDatabase userRepository) {
         this.userRepository = userRepository;
     }
-
+    private boolean isSuccess = false;
     public boolean isSuccessSignIn(String emailString, String passwordString) {
-        return userRepository.isSuccessSignIn(emailString, passwordString);
+
+        userRepository.isSuccessSignIn(emailString, passwordString, new UserDatabase.SignInCallback() {
+            @Override
+            public void onSignInResult(boolean success, String response) {
+                Log.d("res", "onSignInResult: " + response + " " +success);
+                isSuccess = success;
+            }
+        });
+        return isSuccess;
     }
 
     public void handleSignInError(String email, String password, TextView tvEmptyEmail, TextView tvEmptyPassword, TextView tvWrongEmail, TextView tvWrongPassword) {
