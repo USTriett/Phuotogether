@@ -26,7 +26,7 @@ public class TripDestinationsManager {
         void onAddLocationResult(boolean success, Location location);
     }
     public interface AddDestinationCallback {
-        void onAddDestinationResult(boolean success);
+        void onAddDestinationResult(boolean success, String code);
     }
     public interface DeleteDestinationCallback {
         void onDeleteDestinationResult(boolean success);
@@ -75,12 +75,12 @@ public class TripDestinationsManager {
     public void addPlannedDestination(PlannedDestination destination, AddDestinationCallback callback) {
         destinationListDatabase.addPlannedDestination(destination, new DestinationListDatabase.AddDestinationCallback() {
             @Override
-            public void onAddDestinationResult(boolean success) {
+            public void onAddDestinationResult(boolean success, String code) {
                 if (success) {
-                    callback.onAddDestinationResult(true);
+                    callback.onAddDestinationResult(true, "0");
                 }
                 else {
-                    callback.onAddDestinationResult(false);
+                    callback.onAddDestinationResult(false, code);
                 }
             }
         });

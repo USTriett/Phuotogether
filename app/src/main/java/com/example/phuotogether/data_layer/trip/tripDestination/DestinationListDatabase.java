@@ -9,6 +9,7 @@ import com.example.phuotogether.dto.PlannedDestination;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.example.phuotogether.service.RetrofitClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class DestinationListDatabase {
     }
 
     public interface AddDestinationCallback {
-        void onAddDestinationResult(boolean success);
+        void onAddDestinationResult(boolean success, String code);
     }
 
     public interface DeleteDestinationCallback {
@@ -84,17 +85,31 @@ public class DestinationListDatabase {
             @Override
             public void onResponse(Call<List<DestinationListResponse>> call, retrofit2.Response<List<DestinationListResponse>> response) {
                 if (response.isSuccessful()) {
-                    callback.onAddDestinationResult(true);
+                    callback.onAddDestinationResult(true, "0");
                 }
                 else {
-                    callback.onAddDestinationResult(false);
+                    String errorBodyString = null;
+                    try {
+                        errorBodyString = response.errorBody().string();
+                        Log.d("UserDatabase", "Error Body: " + errorBodyString);
+
+                        int codeStartIndex = errorBodyString.indexOf("'code': '") + "'code': '".length();
+                        int codeEndIndex = errorBodyString.indexOf("'", codeStartIndex);
+                        String errorCode = errorBodyString.substring(codeStartIndex, codeEndIndex);
+                        Log.d("errorcode", errorCode);
+
+                        callback.onAddDestinationResult(false, errorCode);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
             }
 
             @Override
             public void onFailure(Call<List<DestinationListResponse>> call, Throwable t) {
                 Log.d("DestinationListDatabase", "onFailure: " + t.getMessage());
-                callback.onAddDestinationResult(false);
+                callback.onAddDestinationResult(false, null);
             }
         });
     }

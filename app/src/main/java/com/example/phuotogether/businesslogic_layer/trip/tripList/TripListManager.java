@@ -30,7 +30,7 @@ public class TripListManager {
         void onDeleteTripResult(boolean success);
     }
     public interface AddTripCallback {
-        void onAddTripResult(boolean success);
+        void onAddTripResult(boolean success, String code);
     }
 
     public interface UpdateTripCallback {
@@ -88,13 +88,13 @@ public class TripListManager {
         int imageID = R.drawable.binhthuan;
         tripListDatabase.addTripList(user,tripName, date, imageID, startDes, goalDes, startDate, endDate, new TripListDatabase.AddTripCallback() {
             @Override
-            public void onAddTripResult(boolean success) {
+            public void onAddTripResult(boolean success, String code) {
                 if (success) {
                     Log.d("TripListManager", "onAddTripResult: " + success);
-                    callback.onAddTripResult(true);
+                    callback.onAddTripResult(true, "0");
                 }
                 else {
-                    callback.onAddTripResult(false);
+                    callback.onAddTripResult(false, code);
                 }
             }
         });

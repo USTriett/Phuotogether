@@ -55,6 +55,7 @@ public class MapPresenter {
         this.mMap = mMap;
         this.mapPresenterListener = mapPresenterListener;
         directionsManager = new DirectionsManager(Volley.newRequestQueue(mMapFragment.requireContext()), mMap, mapFragment);
+        directionsManager.setContext(mMapFragment.requireContext());
     }
 
     public void setMap(GoogleMap googleMap) {

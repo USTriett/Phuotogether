@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.phuotogether.businesslogic_layer.trip.tripDestinations.TripDestinationsManager;
 import com.example.phuotogether.data_layer.map.GooglePlaceModel;
@@ -103,10 +104,15 @@ public class AddDestinationFragment extends Fragment {
                                     destinationNo,
                                     beginTime,endTime,note), new TripDestinationsManager.AddDestinationCallback() {
                                 @Override
-                                public void onAddDestinationResult(boolean success) {
+                                public void onAddDestinationResult(boolean success, String code) {
                                     if (success) {
                                         destinationNo++;
                                         requireActivity().getSupportFragmentManager().popBackStack();
+                                    }
+                                    else {
+                                        if (code.equals("22007")) {
+                                            Toast.makeText(requireContext(), "Vui lòng điền đúng format thời gian : HH:mm", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 }
                             });

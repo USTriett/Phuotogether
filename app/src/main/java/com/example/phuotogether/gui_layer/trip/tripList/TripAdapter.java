@@ -150,21 +150,24 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
     public static class TripViewHolder extends RecyclerView.ViewHolder {
         private TextView tripNameTextView;
-        private TextView tripDescriptionTextView;
+        private TextView tripBeginTextView;
+        private TextView tripEndTextView;
         private ImageView tripImageView;
         private ImageButton tripDeleteButton;
 
         public TripViewHolder(@NonNull View itemView) {
             super(itemView);
             tripNameTextView = itemView.findViewById(R.id.tripName);
-            tripDescriptionTextView = itemView.findViewById(R.id.tripTime);
+            tripBeginTextView = itemView.findViewById(R.id.tripBeginTime);
+            tripEndTextView = itemView.findViewById(R.id.tripEndTime);
             tripImageView = itemView.findViewById(R.id.tripImage);
             tripDeleteButton = itemView.findViewById(R.id.btnDeleteTrip);
         }
 
         public void bind(Trip trip) {
             tripNameTextView.setText(trip.getTripName());
-            tripDescriptionTextView.setText(trip.getStartDate() + " ~ " + trip.getEndDate());
+            tripBeginTextView.setText(trip.getStartDate());
+            tripEndTextView.setText(trip.getEndDate());
         }
     }
 }

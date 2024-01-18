@@ -25,7 +25,7 @@ public class TripListDatabase {
         void onDeleteTripResult(boolean success);
     }
     public interface AddTripCallback {
-        void onAddTripResult(boolean success);
+        void onAddTripResult(boolean success, String code);
     }
 
     public interface UpdateTripCallBack{
@@ -48,15 +48,23 @@ public class TripListDatabase {
             public void onResponse(Call<List<TripResponse>> call, Response<List<TripResponse>> response) {
                 if (!response.isSuccessful()) {
                     try {
+                        String errorBodyString = response.errorBody().string();
+                        Log.d("UserDatabase", "Error Body: " + errorBodyString);
+
+                        int codeStartIndex = errorBodyString.indexOf("'code': '") + "'code': '".length();
+                        int codeEndIndex = errorBodyString.indexOf("'", codeStartIndex);
+                        String errorCode = errorBodyString.substring(codeStartIndex, codeEndIndex);
+                        Log.d("fearless2", "");
+                        callback.onAddTripResult(false, errorCode);
                         Log.d("TripListDatabase", "Error Body: " + response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    callback.onAddTripResult(false);
+
                 }
                 else {
                     Log.d("TripListDatabase", "onResponse: " + response.body().get(0).getName());
-                    callback.onAddTripResult(true);
+                    callback.onAddTripResult(true, "0");
                 }
             }
 

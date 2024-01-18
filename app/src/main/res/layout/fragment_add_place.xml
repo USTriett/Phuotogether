@@ -42,7 +42,7 @@
             android:id="@+id/tvDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ngay: "
+            android:text="Ngày: "
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="15dp"/>
@@ -51,7 +51,7 @@
             android:id="@+id/tvTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thoi gian: "
+            android:text="Thời gian (HH:mm): "
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="15dp"/>
@@ -69,7 +69,8 @@
                     android:id="@+id/etArriveTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Arrival time"
+                    android:hint="Thời gian đến"
+
                     />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -82,7 +83,7 @@
                     android:id="@+id/etLeaveTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Leaving time"
+                    android:hint="Thời gian rời"
                     />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

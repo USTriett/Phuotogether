@@ -40,14 +40,41 @@
                 android:id="@+id/tripName"
                 >
             </TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="8dp"
+                android:text="Bắt đầu:"
+                android:textStyle="bold">
+            </TextView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/tripTime">
+                android:id="@+id/tripBeginTime">
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:layout_marginHorizontal="8dp"
+                android:text="Kết thúc:"
+                android:textStyle="bold">
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/tripEndTime">
             </TextView>
         </LinearLayout>
         <ImageButton

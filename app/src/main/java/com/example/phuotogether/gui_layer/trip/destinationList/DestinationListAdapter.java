@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -104,20 +105,46 @@ public class DestinationListAdapter extends RecyclerView.Adapter<DestinationList
             btnDeleteDestination.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tripDestinationsManager.deleteDestination(destination, new TripDestinationsManager.DeleteDestinationCallback() {
-                        @Override
-                        public void onDeleteDestinationResult(boolean success) {
-                            if (success) {
-                                destinationList.remove(destination);
-                                notifyDataSetChanged();
-                                if (onUpdateDestinationListenr != null) {
-                                    onUpdateDestinationListenr.onUpdateDestination();
-                                }
-                            }
-                        }
-                    });
+                    showDialog(destination);
+
+//                    tripDestinationsManager.deleteDestination(destination, new TripDestinationsManager.DeleteDestinationCallback() {
+//                        @Override
+//                        public void onDeleteDestinationResult(boolean success) {
+//                            if (success) {
+//                                destinationList.remove(destination);
+//                                notifyDataSetChanged();
+//                                if (onUpdateDestinationListenr != null) {
+//                                    onUpdateDestinationListenr.onUpdateDestination();
+//                                }
+//                            }
+//                        }
+//                    });
                 }
             });
+        }
+
+        private void showDialog(PlannedDestination destination) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle("Xóa điểm đến");
+            builder.setMessage("Bạn có chắc chắn muốn xóa điểm đến này không?");
+            builder.setPositiveButton("Xóa", (dialog, which) -> {
+                tripDestinationsManager.deleteDestination(destination, new TripDestinationsManager.DeleteDestinationCallback() {
+                    @Override
+                    public void onDeleteDestinationResult(boolean success) {
+                        if (success) {
+                            destinationList.remove(destination);
+                            notifyDataSetChanged();
+                            if (onUpdateDestinationListenr != null) {
+                                onUpdateDestinationListenr.onUpdateDestination();
+                            }
+                        }
+                    }
+                });
+            });
+            builder.setNegativeButton("Hủy", (dialog, which) -> {
+                dialog.dismiss();
+            });
+            builder.show();
         }
     }
 

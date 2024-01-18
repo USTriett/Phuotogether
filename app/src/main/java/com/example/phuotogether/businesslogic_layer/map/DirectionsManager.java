@@ -1,11 +1,13 @@
 package com.example.phuotogether.businesslogic_layer.map;
 
 
+import android.content.Context;
 import android.graphics.Color;
 import android.Manifest;
 import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
@@ -50,6 +52,11 @@ public class DirectionsManager {
     private Polyline currentPolyline;
     private RetrofitAPI retrofitAPI;
     private DirectionListener directionListener;
+    private Context context;
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
     public DirectionsManager(RequestQueue requestQueue, GoogleMap googleMap, DirectionListener listener) {
         this.requestQueue = requestQueue;
         this.googleMap = googleMap;
@@ -176,10 +183,12 @@ public class DirectionsManager {
                             LatLng center = new LatLng((startLocation.latitude + endLocation.latitude) / 2, (startLocation.longitude + endLocation.longitude) / 2);
                             float zoomLevel = 16;
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, zoomLevel));
-
-
                         } else {
                             Log.d("TAG", "onResponse2: " + response);
+                            if (directionListener != null) {
+                                directionListener.onDirectionReceived("", "", "", "", null);
+                            }
+
                         }
                     } else {
                         Log.d("TAG", "onResponse3: " + response);

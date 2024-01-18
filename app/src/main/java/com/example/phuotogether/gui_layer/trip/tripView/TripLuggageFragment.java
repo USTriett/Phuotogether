@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -119,6 +120,7 @@ public class TripLuggageFragment extends Fragment implements OnLuggageItemAction
         for (Item item : listItem) {
             if (item.getName().equals(luggageItem)) {
                 itemExists = true;
+                Toast.makeText(requireContext(), "Đã có vật dụng này trong danh sách", Toast.LENGTH_SHORT).show();
                 break;
             }
         }

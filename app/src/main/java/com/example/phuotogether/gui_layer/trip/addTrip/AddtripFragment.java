@@ -56,16 +56,22 @@ public class AddtripFragment extends Fragment {
                 String goalDes = binding.etGoalDesAndTrip.getText().toString();
                 String startDate = binding.etStartDateAddTrip.getText().toString();
                 String endDate = binding.etEndDateAddTrip.getText().toString();
-
+                if (HandleError(tripName, startDes, goalDes, startDate, endDate)){
+                    return;
+                }
                 Log.d("AddtripFragment", "onClick: " + tripName + " " + startDes + " " + goalDes + " " + startDate + " " + endDate);
                 tripListManager.addTrip(user, tripName, startDate, endDate, startDes, goalDes, new TripListManager.AddTripCallback() {
                             @Override
-                            public void onAddTripResult(boolean success) {
+                            public void onAddTripResult(boolean success, String code) {
                                 if (success) {
                                     showSuccessToast();
                                     requireActivity().getSupportFragmentManager().popBackStack();
                                 } else {
-                                    HandleError(tripName, startDes, goalDes, startDate, endDate);
+
+                                    if (code.equals("23514")) {
+                                        Toast.makeText(requireContext(), "Ngày bắt đầu phải trước ngày kết thúc", Toast.LENGTH_SHORT).show();
+                                    }
+
                                     Toast.makeText(requireContext(), "Thêm hành trình thất bại", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -74,36 +80,44 @@ public class AddtripFragment extends Fragment {
         });
     }
 
-    private void HandleError(String tripName, String startDes, String goalDes, String startDate, String endDate) {
+    private boolean HandleError(String tripName, String startDes, String goalDes, String startDate, String endDate) {
+        boolean isError = false;
         if (tripName.isEmpty()){
             binding.tvEmptyNameNotification.setVisibility(View.VISIBLE);
+            isError = true;
         } else {
             binding.tvEmptyNameNotification.setVisibility(View.GONE);
         }
 
         if (startDes.isEmpty()){
             binding.tvEmptyStartDesNotification.setVisibility(View.VISIBLE);
+            isError = true;
         } else {
             binding.tvEmptyStartDesNotification.setVisibility(View.GONE);
         }
 
         if (goalDes.isEmpty()){
             binding.tvEmptyGoalDesNotification.setVisibility(View.VISIBLE);
+            isError = true;
         } else {
             binding.tvEmptyGoalDesNotification.setVisibility(View.GONE);
         }
 
         if (startDate.isEmpty() || endDate.isEmpty()){
             binding.tvEmptyDateNotification.setVisibility(View.VISIBLE);
+            isError = true;
         } else {
             binding.tvEmptyDateNotification.setVisibility(View.GONE);
         }
 
         if (!tripName.isEmpty() && !startDes.isEmpty() && !goalDes.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()){
             binding.tvWrongDateNotification.setVisibility(View.VISIBLE);
+            isError = true;
         } else {
             binding.tvWrongDateNotification.setVisibility(View.GONE);
         }
+
+        return isError;
     }
 
     private void showSuccessToast() {
