@@ -243,6 +243,8 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             binding.btnProfile.setVisibility(View.VISIBLE);
             if (bottomSheetBehaviorInfoLocation.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
                 bottomSheetBehaviorInfoLocation.setState(BottomSheetBehavior.STATE_HIDDEN);
+                bottomSheetLocationInfoBinding.txtPlaceTitle.setText((""));
+                bottomSheetLocationInfoBinding.txtAddress.setText("");
             }
             if (binding.placesRecyclerView.getVisibility() == View.VISIBLE) {
                 binding.placesRecyclerView.setVisibility(View.GONE);
@@ -423,6 +425,8 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             showIsSearchingUI();
 
             bottomSheetBehaviorInfoLocation.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bottomSheetLocationInfoBinding.txtPlaceTitle.setText(("Dropped pin"));
+            bottomSheetLocationInfoBinding.txtAddress.setText(pinnedLatLng.latitude + ", " + pinnedLatLng.longitude);
             if (isShowingDirection) {
                 restoreUIComponents();
             }
