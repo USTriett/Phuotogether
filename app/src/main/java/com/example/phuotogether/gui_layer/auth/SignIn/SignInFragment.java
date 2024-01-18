@@ -3,6 +3,7 @@ package com.example.phuotogether.gui_layer.auth.SignIn;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,13 +82,7 @@ public class SignInFragment extends Fragment {
                     @Override
                     public void onSignInResult(boolean success, User currentUser) {
                         if (success) {
-                            if(getActivity() instanceof MainActivity){
-                                MainActivity activity = (MainActivity) getActivity();
-                                activity.setCurrentUser(currentUser);
-                                activity.signInSuccessful(currentUser);
-                            }
-                            SignIn();
-                            showSuccessToast();
+                            loadingHandler(currentUser);
                         } else {
                             setAllNotificationOff();
                             signInManager.handleSignInError(tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
@@ -96,6 +91,20 @@ public class SignInFragment extends Fragment {
             });
             }
         });
+    }
+    private void loadingHandler(User currentUser) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(getActivity() instanceof MainActivity){
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.setCurrentUser(currentUser);
+                    activity.signInSuccessful(currentUser);
+                }
+                SignIn();
+                showSuccessToast();
+            }
+        }, 0); // delay
     }
 
     private void SignIn() {

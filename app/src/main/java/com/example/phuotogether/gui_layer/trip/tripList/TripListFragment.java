@@ -64,8 +64,10 @@ public class TripListFragment extends Fragment implements FragmentUpdateListener
         requireActivity().getSupportFragmentManager().addOnBackStackChangedListener(
                 new FragmentManager.OnBackStackChangedListener() {
                     public void onBackStackChanged() {
+                        Log.d("TripListFragment", "onBackStackChanged: ");
                         setTripList();
-                    }});
+                    }
+                });
         return rootView;
     }
 
@@ -92,22 +94,29 @@ public class TripListFragment extends Fragment implements FragmentUpdateListener
         btnAddTrip = view.findViewById(R.id.btnAddTrip);
         tripRecyclerView = view.findViewById(R.id.recycleViewListTrip);
         tripRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        tripAdapter = new TripAdapter(getActivity(), finalTripList);
+        tripAdapter = new TripAdapter(requireContext(),finalTripList, tripListManager);
         tripRecyclerView.setAdapter(tripAdapter);
     }
 
     private void setTripList() {
         tripListManager = TripListManager.getInstance(user);
-
+        tripAdapter.setTripListManager(tripListManager);
+        Log.d("TripListFragment", "setTripList: " + user.getId());
         tripListManager.getTripList(new TripListManager.FetchTripListCallback() {
             @Override
             public void onFetchTripResult(boolean success, List<Trip> tripList) {
                 if (success) {
                     Log.d("TripListDatabase", "onFetchTripResult: " + tripList.size());
                     tripAdapter.setTripList(tripList);
+                    tripAdapter.notifyDataSetChanged();
                 }
             }
         });
-
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        setTripList();
+//    }
 }

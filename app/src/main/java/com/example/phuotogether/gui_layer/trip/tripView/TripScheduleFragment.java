@@ -1,7 +1,9 @@
 package com.example.phuotogether.gui_layer.trip.tripView;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -43,7 +45,7 @@ import retrofit2.Response;
 public class TripScheduleFragment extends Fragment {
 
     private FragmentTripScheduleBinding binding;
-
+    private Context fragmentContext;
     private static Trip selectedTrip;
     private TripDestinationsManager tripDestinationsManager;
     boolean fragmentAlreadyLoaded = false;
@@ -51,10 +53,10 @@ public class TripScheduleFragment extends Fragment {
     public TripScheduleFragment() {
     }
 
-    // TODO: Rename and change types and number of parameters
     public static TripScheduleFragment newInstance(Trip trip) {
         TripScheduleFragment fragment = new TripScheduleFragment();
         selectedTrip = trip;
+        Log.d("TripScheduleFragment", "newInstance: " + selectedTrip.getArrivalPlace());
         return fragment;
     }
 
@@ -62,6 +64,7 @@ public class TripScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        fragmentContext = container.getContext();
         binding= FragmentTripScheduleBinding.inflate(inflater, container, false);
         binding.rvDestinationList.setLayoutManager(new LinearLayoutManager(getActivity()));
         tripDestinationsManager = TripDestinationsManager.getInstance();
@@ -80,6 +83,22 @@ public class TripScheduleFragment extends Fragment {
                 return false;
             }
         });
+
+
+
+        requireActivity().getSupportFragmentManager().addOnBackStackChangedListener(
+                new FragmentManager.OnBackStackChangedListener() {
+                    public void onBackStackChanged() {
+                        onResume();
+                    }
+                });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ArrayList<GooglePlaceModel> popularPlaces = new ArrayList<>();
         fetchPopularPlaces(new OnDataFetchedListener() {
             @Override
@@ -132,18 +151,8 @@ public class TripScheduleFragment extends Fragment {
 
             }
         });
-
-        requireActivity().getSupportFragmentManager().addOnBackStackChangedListener(
-                new FragmentManager.OnBackStackChangedListener() {
-                    public void onBackStackChanged() {
-                        onResume();
-                    }
-                });
-
-        return binding.getRoot();
+        Log.e("TripScheduleFragment", "onViewCreated: ");
     }
-
-
     @Override
     public void onResume() {
         Log.e("TripScheduleFragment", "onResume: ");
@@ -165,12 +174,18 @@ public class TripScheduleFragment extends Fragment {
         retrofitAPI.getPopularPlaces(url).enqueue(new Callback<GoogleResponseModel>() {
             @Override
             public void onResponse(Call<GoogleResponseModel> call, Response<GoogleResponseModel> response) {
+                Log.d("SearchPlacesActivity", "onResponse: " + response.code());
                 if (response.isSuccessful()) {
                     GoogleResponseModel googleResponseModel = response.body();
                     if (googleResponseModel.getError() == null) {
                         ArrayList<GooglePlaceModel> data = new ArrayList<>(googleResponseModel.getGooglePlaceModelList());
+                        Log.d("SearchPlacesActivity", "onResponse: " + data.size());
                         listener.onDataFetched(data);
                     }
+                    Log.d("SearchPlacesActivity", "onResponse: " + googleResponseModel.getGooglePlaceModelList().size());
+                }
+                else {
+                    Log.d("SearchPlacesActivity", "onResponse: " + response.errorBody());
                 }
             }
 
@@ -179,8 +194,18 @@ public class TripScheduleFragment extends Fragment {
                 Log.d("SearchPlacesActivity", "onFailure: " + t.getMessage());
             }
         });
-
-
     }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fragmentContext = context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentContext = null;
+    }
+
 
 }
