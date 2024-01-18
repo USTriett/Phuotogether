@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class SignInFragment extends Fragment {
     private ImageButton btnSignInWithGG, btnSignInWithFB, btnBack;
     private TextView tvForgotPassword, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword;
     private SignInManager signInManager;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -75,12 +77,14 @@ public class SignInFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                showProgressBar(true);
                 String emailString = etEmail.getText().toString();
                 String passwordString = etPassword.getText().toString();
                 signInManager.validate(emailString, passwordString, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
                 signInManager.isSuccessSignIn(emailString, passwordString, new SignInManager.SignInCallback() {
                     @Override
                     public void onSignInResult(boolean success, User currentUser) {
+                        showProgressBar(false);
                         if (success) {
                             loadingHandler(currentUser);
                         } else {
@@ -105,6 +109,14 @@ public class SignInFragment extends Fragment {
                 showSuccessToast();
             }
         }, 0); // delay
+    }
+
+    private void showProgressBar(boolean show) {
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void SignIn() {
@@ -146,5 +158,6 @@ public class SignInFragment extends Fragment {
         tvWrongEmail = rootView.findViewById(R.id.tvWrongEmailNotification);
         tvEmptyPassword = rootView.findViewById(R.id.tvEmptyPasswordNotification);
         tvWrongPassword = rootView.findViewById(R.id.tvWrongPasswordNotification);
+        progressBar = rootView.findViewById(R.id.progressBarSignIn);
     }
 }

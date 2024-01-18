@@ -219,4 +219,11 @@
             android:id="@+id/buttonSignInFacebook">
         </ImageButton>
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBarSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"/>
 </LinearLayout>
