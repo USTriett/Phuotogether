@@ -21,6 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Address"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="15sp"
         android:layout_marginTop="5dp"
         android:layout_below="@id/txtPlaceTitle"/>
