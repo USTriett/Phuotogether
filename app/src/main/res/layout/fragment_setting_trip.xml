@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên hành trình:"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_marginBottom="6dp">
+        </TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập tên mới"
+            android:background="@drawable/edittext_border_background"
+            android:padding="12dp"
+            android:id="@+id/etChangeNameSetting"
+            android:layout_marginBottom="25dp">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Điểm đi:"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_marginBottom="6dp">
+        </TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Chọn điểm đi mới"
+            android:background="@drawable/edittext_border_background"
+            android:padding="12dp"
+            android:id="@+id/etChangeStartDesSetting"
+            android:layout_marginBottom="25dp">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Điểm đến:"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_marginBottom="6dp">
+        </TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Chọn điểm đến mới"
+            android:background="@drawable/edittext_border_background"
+            android:padding="12dp"
+            android:id="@+id/etChangeGoalDesSetting"
+            android:layout_marginBottom="25dp">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian:"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_marginBottom="6dp">
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:gravity="center">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Ngày khởi hành"
+                android:background="@drawable/edittext_border_background"
+                android:inputType="date"
+                android:padding="12dp"
+                android:id="@+id/etChangeStartDateSetting">
+            </EditText>
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textSize="20dp"
+                android:gravity="center">
+            </TextView>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Ngày kết thúc"
+                android:background="@drawable/edittext_border_background"
+                android:inputType="date"
+                android:padding="12dp"
+                android:id="@+id/etChangeEndDateSetting">
+            </EditText>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LƯU THAY ĐỔI"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:id="@+id/buttonSaveChangeSetting">
+        </Button>
+
+    </LinearLayout>
+
+</LinearLayout>

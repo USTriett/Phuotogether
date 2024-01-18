@@ -14,22 +14,22 @@
         android:id="@+id/txtPlaceTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Place title"
+        android:text="Dropped pin"
         android:textSize="20sp"/>
-    <TextView
-        android:id="@+id/txtAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Address"
-        android:textSize="15sp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/txtPlaceTitle"/>
+<!--    <TextView-->
+<!--        android:id="@+id/txtAddress"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Address"-->
+<!--        android:textSize="15sp"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_below="@id/txtPlaceTitle"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/txtAddress"
+        android:layout_below="@id/txtPlaceTitle"
         >
         <Button
             android:id="@+id/btnShowDirection"

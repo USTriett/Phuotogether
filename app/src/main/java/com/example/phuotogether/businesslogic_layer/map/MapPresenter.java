@@ -55,6 +55,7 @@ public class MapPresenter {
         this.mMap = mMap;
         this.mapPresenterListener = mapPresenterListener;
         directionsManager = new DirectionsManager(Volley.newRequestQueue(mMapFragment.requireContext()), mMap, mapFragment);
+        directionsManager.setContext(mMapFragment.requireContext());
     }
 
     public void setMap(GoogleMap googleMap) {
@@ -67,8 +68,21 @@ public class MapPresenter {
         Geocoder geocoder = new Geocoder(mMapFragment.requireContext());
         List<Address> addressList = new ArrayList<>();
 
+        boolean toastShown = false;
+
         try {
             addressList = geocoder.getFromLocationName(selectedSuggestion, 1);
+
+            if (addressList.size() == 0) {
+                // Check if the toast has already been shown
+                if (!toastShown) {
+                    Toast.makeText(mMapFragment.requireContext(), "No result found", Toast.LENGTH_SHORT).show();
+                    toastShown = true; // Set the flag to true
+                }
+            } else {
+                // Reset the flag if the search is successful
+                toastShown = false;
+            }
         } catch (IOException e) {
             Log.d("MapActivity", "performSearch: " + e.getMessage());
         }
@@ -96,7 +110,7 @@ public class MapPresenter {
         }
         else {
             found = false;
-            Log.d("MapActivity", "performSearch: addressList is empty");
+            Log.d("MapActivity", "performSearch: " + "not found");
         }
     }
     public void clearMap(GoogleMap mMap, LatLng currentLatLng) {

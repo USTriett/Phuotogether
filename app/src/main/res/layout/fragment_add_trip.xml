@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hành trình / Tên hành  / Settings"
+            android:text="Hành trình / Thêm hành trình"
             android:textStyle="bold"
             android:textSize="20dp"
             android:layout_gravity="center"
@@ -56,9 +56,19 @@
             android:hint="Nhập tên hành trình"
             android:background="@drawable/edittext_border_background"
             android:padding="12dp"
-            android:id="@+id/etNameTripAddTrip"
-            android:layout_marginBottom="25dp">
+            android:id="@+id/etNameTripAddTrip">
         </EditText>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vui lòng nhập tên hành trình"
+            android:paddingLeft="20dp"
+            android:textColor="#FF0000"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"
+            android:id="@+id/tvEmptyNameNotification">
+        </TextView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,6 +76,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textSize="20dp"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="6dp">
         </TextView>
 
@@ -75,9 +86,18 @@
             android:hint="Chọn điểm đi"
             android:background="@drawable/edittext_border_background"
             android:padding="12dp"
-            android:id="@+id/etStartDesAddTrip"
-            android:layout_marginBottom="25dp">
+            android:id="@+id/etStartDesAddTrip">
         </EditText>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vui lòng nhập điểm đi"
+            android:paddingLeft="20dp"
+            android:textColor="#FF0000"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"
+            android:id="@+id/tvEmptyStartDesNotification">
+        </TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,7 +105,8 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textSize="20dp"
-            android:layout_marginBottom="6dp">
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="25dp">
         </TextView>
 
         <EditText
@@ -94,9 +115,19 @@
             android:hint="Chọn điểm đến"
             android:background="@drawable/edittext_border_background"
             android:padding="12dp"
-            android:id="@+id/etGoalDesAndTrip"
-            android:layout_marginBottom="25dp">
+            android:id="@+id/etGoalDesAndTrip">
         </EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vui lòng nhập điểm đến"
+            android:paddingLeft="20dp"
+            android:textColor="#FF0000"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"
+            android:id="@+id/tvEmptyGoalDesNotification">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -105,7 +136,8 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textSize="20dp"
-            android:layout_marginBottom="6dp">
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="25dp">
         </TextView>
 
         <LinearLayout
@@ -142,6 +174,29 @@
             </EditText>
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vui nhập đầy đủ thời gian"
+            android:paddingLeft="20dp"
+            android:textColor="#FF0000"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"
+            android:id="@+id/tvEmptyDateNotification">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nhập sai thời gian"
+            android:paddingLeft="20dp"
+            android:textColor="#FF0000"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"
+            android:id="@+id/tvWrongDateNotification">
+        </TextView>
+
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -154,7 +209,6 @@
             android:paddingBottom="6dp"
             android:id="@+id/buttonSaveAddTrip">
         </Button>
-
     </LinearLayout>
 
 </LinearLayout>

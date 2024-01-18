@@ -145,6 +145,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     private void initializeDependencies() {
         directionsManager = new DirectionsManager(Volley.newRequestQueue(requireContext()), mMap, this);
+        directionsManager.setContext(requireContext());
         Places.initialize(requireContext(), getString(R.string.place_api_key));
         placesClient = Places.createClient(requireContext());
         mapData = new MapData(this);
@@ -180,6 +181,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         binding.inputSearch.setThreshold(1);
 
         binding.inputSearch.setOnItemClickListener((parent, view, position, id) -> {
+            Log.d("MapActivity", "onItemClick: ");
             String selectedSuggestion = (String) parent.getItemAtPosition(position);
             binding.inputSearch.setText(selectedSuggestion);
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
@@ -196,11 +198,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
                 if (!query.isEmpty()) {
                     LatLng currentLatLng = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-                    boolean foundLocation = false;
+                    boolean foundLocation = true;
                     mapPresenter.performSearch(query, currentLatLng, foundLocation);
-                    if (!foundLocation) {
-                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT).show();
-                    }
+//                    if (!foundLocation) {
+//                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT).show();
+//                    }
                 }
                 return true;
             }
@@ -355,7 +357,6 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     @Override
     public void onLastLocationReceived(Location location) {
         currentLocation = location;
-        pinnedLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         SupportMapFragment ggMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (ggMapFragment != null) {
             ggMapFragment.getMapAsync(this);
@@ -512,6 +513,8 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         binding.relLayout1.setVisibility(View.VISIBLE);
         binding.placesGroup.setVisibility(View.VISIBLE);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        bottomSheetRouteBinding.txtSheetSteps.setText("");
+        adapter.setDirectionStepModels(null);
         binding.floatingInstruction.setVisibility(View.GONE);
     }
 
@@ -522,7 +525,13 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     @Override
     public void onDirectionReceived(String startLocation1, String endLocation1,
                                     String time, String distance, List<DirectionStepModel> steps) {
-
+        if (steps == null || steps.size() == 0) {
+            Toast.makeText(requireContext(), "Không tìm thâý đường đi", Toast.LENGTH_SHORT).show();
+            bottomSheetRouteBinding.txtSheetSteps.setText("Không tìm thấy đường đi");
+            bottomSheetRouteBinding.txtSheetTime.setText("");
+            bottomSheetRouteBinding.txtSheetDistance.setText("");
+            return;
+        }
         adapter.setDirectionStepModels(steps);
         stepList = steps;
         binding.txtStartLocation.setText(startLocation1);

@@ -4,8 +4,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.info.InfoFragment;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -27,6 +29,7 @@ import retrofit2.Response;
 
 
 import com.example.phuotogether.service.RetrofitClient;
+import com.google.gson.JsonParser;
 
 
 public class UserDatabase {
@@ -35,27 +38,33 @@ public class UserDatabase {
         void onSignInResult(boolean success, User user);
     }
     public interface SignUpCallback {
-        void onSignUpResult(boolean success);
+        void onSignUpResult(boolean success, String code);
     }
     public void isSuccessSignUp(String emailortel, String password,String fullname, SignUpCallback callback) {
         Log.d("UserDatabase", "isSuccessSignUp: " + emailortel + password + fullname);
         RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
+        boolean loginType = emailOrTel(emailortel);
         try {
-            Call<List<UserResponse>> call = myApi.insertUser(new SignupRequestModel(emailortel, false, password, fullname));
+            Call<List<UserResponse>> call = myApi.insertUser(new SignupRequestModel(emailortel, loginType, password, fullname));
             call.enqueue(new Callback<List<UserResponse>>() {
                 @Override
                 public void onResponse(Call<List<UserResponse>> call, Response<List<UserResponse>> response) {
                     if (!response.isSuccessful()) {
                         try {
-                            Log.d("UserDatabase", "Error Body: " + response.errorBody().string());
-                            callback.onSignUpResult(false);
+                            String errorBodyString = response.errorBody().string();
+                            Log.d("UserDatabase", "Error Body: " + errorBodyString);
+
+                            int codeStartIndex = errorBodyString.indexOf("'code': '") + "'code': '".length();
+                            int codeEndIndex = errorBodyString.indexOf("'", codeStartIndex);
+                            String errorCode = errorBodyString.substring(codeStartIndex, codeEndIndex);
+                            callback.onSignUpResult(false, errorCode);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                     else {
                         Log.d("UserDatabase", "onResponse: " + response.body().get(0).getFullName());
-                        callback.onSignUpResult(true);
+                        callback.onSignUpResult(true, response.body().get(0).getFullName());
                     }
                 }
 
@@ -84,7 +93,7 @@ public class UserDatabase {
                     try {
                         if (response.isSuccessful()) {
                             UserResponse userResponse = response.body().get(0);
-                            User user = new User(
+                            User user = User.getInstance(
                                     userResponse.getId(),
                                     userResponse.isLoginType(),
                                     userResponse.getEmailOrTel(),
@@ -93,15 +102,22 @@ public class UserDatabase {
                             );
                             // callback to SignInManager
                             Log.d("fearless1", "");
+
                             callback.onSignInResult(true, user);
                         } else {
+                            String errorBodyString = response.errorBody().string();
+                            Log.d("UserDatabase", "Error Body: " + errorBodyString);
+
+                            int codeStartIndex = errorBodyString.indexOf("'code': '") + "'code': '".length();
+                            int codeEndIndex = errorBodyString.indexOf("'", codeStartIndex);
+                            String errorCode = errorBodyString.substring(codeStartIndex, codeEndIndex);
                             Log.d("fearless2", "");
-                            callback.onSignInResult(false, new User(0, false, "", "", ""));
+                            callback.onSignInResult(false, User.getInstance(0, false, "", "", ""));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.d("fearless3", "");
-                        callback.onSignInResult(false, new User(0, false, "", "", ""));
+                        callback.onSignInResult(false, User.getInstance(0, false, "", "", ""));
                     }
                 }
 
@@ -109,7 +125,7 @@ public class UserDatabase {
                 public void onFailure(Call<List<UserResponse>> call, Throwable t) {
                     //Toast.makeText(null, "Error", Toast.LENGTH_SHORT).show();
                     Log.d("fearless4", "");
-                    callback.onSignInResult(true, new User(1000, false, "", "", ""));
+                    callback.onSignInResult(true, User.getInstance(1000, false, "", "", ""));
                 }
             });
         } catch (Exception e) {
@@ -120,6 +136,10 @@ public class UserDatabase {
     public boolean isSuccessForgotPassword(String email) {
 //        return email.equals(VALID_EMAIL);
         return false;
+    }
+
+    private boolean emailOrTel(String emailOrTel) {
+        return emailOrTel.contains("@");
     }
 
 }

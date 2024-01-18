@@ -1,7 +1,9 @@
 package com.example.phuotogether.gui_layer.trip.tripView;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +30,7 @@ import com.example.phuotogether.dto.PlannedDestination;
 import com.example.phuotogether.gui_layer.trip.destinationList.AddDestinationFragment;
 import com.example.phuotogether.gui_layer.trip.destinationList.DestinationListAdapter;
 import com.example.phuotogether.gui_layer.trip.destinationList.OnDataFetchedListener;
+import com.example.phuotogether.gui_layer.trip.destinationList.OnUpdateDestinationListenr;
 import com.example.phuotogether.gui_layer.trip.destinationList.PlaceAutoCompleteAdapter;
 import com.example.phuotogether.gui_layer.trip.destinationList.PopularDestinationsAdapter;
 import com.example.phuotogether.service.RetrofitAPI;
@@ -40,21 +43,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TripScheduleFragment extends Fragment {
+public class TripScheduleFragment extends Fragment implements OnUpdateDestinationListenr {
 
     private FragmentTripScheduleBinding binding;
-
+    private Context fragmentContext;
     private static Trip selectedTrip;
     private TripDestinationsManager tripDestinationsManager;
     boolean fragmentAlreadyLoaded = false;
+    private List<PlannedDestination> plannedDestinationList;
 
     public TripScheduleFragment() {
     }
 
-    // TODO: Rename and change types and number of parameters
     public static TripScheduleFragment newInstance(Trip trip) {
         TripScheduleFragment fragment = new TripScheduleFragment();
         selectedTrip = trip;
+        Log.d("TripScheduleFragment", "newInstance: " + selectedTrip.getArrivalPlace());
         return fragment;
     }
 
@@ -62,14 +66,30 @@ public class TripScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        fragmentContext = container.getContext();
         binding= FragmentTripScheduleBinding.inflate(inflater, container, false);
         binding.rvDestinationList.setLayoutManager(new LinearLayoutManager(getActivity()));
         tripDestinationsManager = TripDestinationsManager.getInstance();
 
-        List<PlannedDestination> plannedDestinationList = tripDestinationsManager.getDestinationList();
-        Log.e("TripScheduleFragment", "onCreateView: " + plannedDestinationList.size());
-        DestinationListAdapter destinationListAdapter = new DestinationListAdapter(getActivity(),plannedDestinationList);
-        binding.rvDestinationList.setAdapter(destinationListAdapter);
+        plannedDestinationList = new ArrayList<>();
+        tripDestinationsManager.getDestinationList(selectedTrip.getId(), new TripDestinationsManager.FetchDestinationCallback() {
+            @Override
+            public void onFetchDestinationResult(boolean success, List<PlannedDestination> destinationList) {
+                if (success) {
+                    Log.d("TripScheduleFragment", "onFetchDestinationResult: " + destinationList.size());
+                    plannedDestinationList.clear();
+                    plannedDestinationList.addAll(destinationList);
+                    TextView numberDestination = binding.noDestination;
+                    numberDestination.setText("Bạn có " + destinationList.size() + " điểm đến trong lịch trình");
+                    DestinationListAdapter destinationListAdapter = new DestinationListAdapter(getActivity(),destinationList, tripDestinationsManager);
+                    destinationListAdapter.setOnUpdateDestinationListenr(TripScheduleFragment.this);
+                    binding.rvDestinationList.setAdapter(destinationListAdapter);
+                }
+            }
+        });
+//        Log.e("TripScheduleFragment", "onCreateView: " + plannedDestinationList.size());
+//        DestinationListAdapter destinationListAdapter = new DestinationListAdapter(getActivity(),plannedDestinationList);
+//        binding.rvDestinationList.setAdapter(destinationListAdapter);
 
 
         binding.autocompleteSearch.setOnTouchListener(new View.OnTouchListener() {
@@ -80,6 +100,21 @@ public class TripScheduleFragment extends Fragment {
                 return false;
             }
         });
+
+
+        requireActivity().getSupportFragmentManager().addOnBackStackChangedListener(
+                new FragmentManager.OnBackStackChangedListener() {
+                    public void onBackStackChanged() {
+                        onResume();
+                    }
+                });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ArrayList<GooglePlaceModel> popularPlaces = new ArrayList<>();
         fetchPopularPlaces(new OnDataFetchedListener() {
             @Override
@@ -117,7 +152,8 @@ public class TripScheduleFragment extends Fragment {
                     GooglePlaceModel place = adapter.getItem(position);
                     binding.autocompleteSearch.setText(place.getName());
                     Log.d("SearchPlacesActivity", "onCreate: " + place.getName());
-                    AddDestinationFragment addDestinationFragment = AddDestinationFragment.newInstance(place, selectedTrip);
+                    int destinationNo = plannedDestinationList.size() + 1;
+                    AddDestinationFragment addDestinationFragment = AddDestinationFragment.newInstance(place, selectedTrip, destinationNo);
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.add(R.id.tripschedule, addDestinationFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -132,31 +168,35 @@ public class TripScheduleFragment extends Fragment {
 
             }
         });
-
-        requireActivity().getSupportFragmentManager().addOnBackStackChangedListener(
-                new FragmentManager.OnBackStackChangedListener() {
-                    public void onBackStackChanged() {
-                        onResume();
-                    }
-                });
-
-        return binding.getRoot();
+        Log.e("TripScheduleFragment", "onViewCreated: ");
     }
-
-
     @Override
     public void onResume() {
         Log.e("TripScheduleFragment", "onResume: ");
         super.onResume();
-        List<PlannedDestination> plannedDestinationList = tripDestinationsManager.getDestinationList();
-        if (plannedDestinationList.size() >0 ) {
-            TextView numberDestination = binding.noDestination;
-            numberDestination.setText("Bạn có " + plannedDestinationList.size() + " điểm đến trong lịch trình");
-            binding.rvPopularPlaces.setVisibility(View.GONE);
-            binding.rvDestinationList.setVisibility(View.VISIBLE);
-            DestinationListAdapter destinationListAdapter = new DestinationListAdapter(getActivity(), plannedDestinationList);
-            binding.rvDestinationList.setAdapter(destinationListAdapter);
-        }
+        tripDestinationsManager.getDestinationList(selectedTrip.getId(), new TripDestinationsManager.FetchDestinationCallback() {
+            @Override
+            public void onFetchDestinationResult(boolean success, List<PlannedDestination> destinationList) {
+                if (success) {
+                    Log.d("TripScheduleFragment", "onFetchDestinationResult: " + destinationList.size());
+                    plannedDestinationList.clear();
+                    plannedDestinationList.addAll(destinationList);
+                    TextView numberDestination = binding.noDestination;
+                    numberDestination.setText("Bạn có " + destinationList.size() + " điểm đến trong lịch trình");
+                    DestinationListAdapter destinationListAdapter = new DestinationListAdapter(getActivity(),destinationList, tripDestinationsManager);
+                    destinationListAdapter.setOnUpdateDestinationListenr(TripScheduleFragment.this);
+                    binding.rvDestinationList.setAdapter(destinationListAdapter);
+                }
+            }
+        });
+//        if (plannedDestinationList.size() >0 ) {
+//            TextView numberDestination = binding.noDestination;
+//            numberDestination.setText("Bạn có " + plannedDestinationList.size() + " điểm đến trong lịch trình");
+//            binding.rvPopularPlaces.setVisibility(View.GONE);
+//            binding.rvDestinationList.setVisibility(View.VISIBLE);
+//            DestinationListAdapter destinationListAdapter = new DestinationListAdapter(getActivity(), plannedDestinationList);
+//            binding.rvDestinationList.setAdapter(destinationListAdapter);
+//        }
     }
     public void fetchPopularPlaces(OnDataFetchedListener listener) {
         RetrofitAPI retrofitAPI = RetrofitClient.getRetrofitClient().create(RetrofitAPI.class);
@@ -165,12 +205,18 @@ public class TripScheduleFragment extends Fragment {
         retrofitAPI.getPopularPlaces(url).enqueue(new Callback<GoogleResponseModel>() {
             @Override
             public void onResponse(Call<GoogleResponseModel> call, Response<GoogleResponseModel> response) {
+                Log.d("SearchPlacesActivity", "onResponse: " + response.code());
                 if (response.isSuccessful()) {
                     GoogleResponseModel googleResponseModel = response.body();
                     if (googleResponseModel.getError() == null) {
                         ArrayList<GooglePlaceModel> data = new ArrayList<>(googleResponseModel.getGooglePlaceModelList());
+                        Log.d("SearchPlacesActivity", "onResponse: " + data.size());
                         listener.onDataFetched(data);
                     }
+                    Log.d("SearchPlacesActivity", "onResponse: " + googleResponseModel.getGooglePlaceModelList().size());
+                }
+                else {
+                    Log.d("SearchPlacesActivity", "onResponse: " + response.errorBody());
                 }
             }
 
@@ -179,8 +225,23 @@ public class TripScheduleFragment extends Fragment {
                 Log.d("SearchPlacesActivity", "onFailure: " + t.getMessage());
             }
         });
-
-
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fragmentContext = context;
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentContext = null;
+    }
+
+
+    @Override
+    public void onUpdateDestination() {
+        Log.d("TripScheduleFragment", "onUpdateDestination: ");
+        onResume();
+    }
 }

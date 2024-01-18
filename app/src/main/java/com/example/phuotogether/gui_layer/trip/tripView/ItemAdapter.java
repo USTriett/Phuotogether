@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,7 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.businesslogic_layer.trip.tripView.TripLuggageManager;
 import com.example.phuotogether.dto.Item;
+import com.example.phuotogether.dto.Trip;
 
 
 import java.util.List;
@@ -30,11 +33,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private List<Item> luggageList;
     private Context context;
+    private TripLuggageManager tripLuggageManager;
+    private int tripId;
+    private OnLuggageItemActionListener onLuggageItemActionListener;
+
+    public void setOnLuggageItemActionListener(OnLuggageItemActionListener onLuggageItemActionListener) {
+        this.onLuggageItemActionListener = onLuggageItemActionListener;
+    }
 
 
-    public ItemAdapter(Context context, List<Item> luggageList) {
+    public ItemAdapter(Context context, List<Item> luggageList, TripLuggageManager tripLuggageManager, int tripId) {
         this.context = context;
         this.luggageList = luggageList;
+        this.tripLuggageManager = tripLuggageManager;
+        this.tripId = tripId;
     }
 
 
@@ -62,15 +74,37 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private void deleteLuggageItem(int position) {
         if (position != RecyclerView.NO_POSITION) {
+            Log.d("ItemAdapter", "deleteLuggageItem: " + luggageList.size());
             luggageList.remove(position);
-            notifyItemRemoved(position);
+
+            Log.d("ItemAdapter", "deleteLuggageItem: " + luggageList.size());
+            tripLuggageManager.updateItemList(tripId,luggageList,new TripLuggageManager.AddItemCallback() {
+                @Override
+                public void onAddItemResult(boolean success) {
+                    if (success) {
+                        notifyItemRemoved(position);
+                        if (onLuggageItemActionListener != null) {
+                            onLuggageItemActionListener.onItemDeleted(luggageList);
+                        }
+                        Toast.makeText(context, "Xóa vật dụng thành công", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(context, "Xóa vật dụng thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 
     public void addItemList(List<Item> listItem) {
+        Log.d("ItemAdapter", "addItemList: " + listItem.size());
         luggageList.clear();
         luggageList.addAll(listItem);
         notifyDataSetChanged();
+    }
+    public void addItem(Item item) {
+        luggageList.add(item);
+        notifyItemInserted(luggageList.size() - 1);
     }
     @Override
     public int getItemCount() {

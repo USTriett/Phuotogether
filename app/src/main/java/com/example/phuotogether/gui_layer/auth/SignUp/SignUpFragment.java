@@ -1,10 +1,12 @@
 package com.example.phuotogether.gui_layer.auth.SignUp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,29 +74,52 @@ public class SignUpFragment extends Fragment {
                 String stringFullName = binding.editTextFullNameSignup.getText().toString();
                 Boolean isCheckBoxChecked = getCheckBoxState();
 
-//                signUpManager.handleSignUpError(stringEmail, stringPassword, stringConfirmPassword, isCheckBoxChecked, binding.tvEmptyEmailNotificationSignup
-//                        , binding.tvEmptyPasswordNotificationSignup
-//                        , binding.tvEmptyConfirmPasswordNotificationSignup
-//                        , binding.tvNoneCheckNotificationSignup
-//                        , binding.tvInvalidEmailNotificationSignup
-//                        , binding.tvInvalidPasswordNotificationSignup
-//                        , binding.tvWrongConfirmPasswordNotificationSignup);
+                boolean isValid = signUpManager.handleSignUpError(stringEmail, stringPassword, stringConfirmPassword, isCheckBoxChecked, binding.tvEmptyEmailNotificationSignup
+                        , binding.tvEmptyPasswordNotificationSignup
+                        , binding.tvEmptyConfirmPasswordNotificationSignup
+                        , binding.tvInvalidEmailNotificationSignup
+                        , binding.tvInvalidPasswordNotificationSignup
+                        , binding.tvWrongConfirmPasswordNotificationSignup
+                        , binding.tvNoneCheckNotificationSignup);
+
+                if (!isValid) {
+                    return;
+                }
                 Log.d("TAG", "onClick: " + stringEmail + stringPassword + stringConfirmPassword + stringFullName + isCheckBoxChecked);
                 signUpManager.isSuccessSignUp(stringEmail, stringPassword, stringFullName, new SignUpManager.SignUpCallback() {
                     @Override
-                    public void onSignUpResult(boolean success) {
+                    public void onSignUpResult(boolean success, String code) {
                         if (success) {
                             Log.d("TAG", "onSignUpResult: " + success);
-                            Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FrameLayout frameLayout = getActivity().findViewById(R.id.signup_container);
-                            requireActivity().getSupportFragmentManager().beginTransaction().remove(SignUpFragment.this).commit();
-                            frameLayout.setVisibility(View.GONE);
+                            // show loading
+                            loadingHandler();
+                        }
+                        else {
+                            Log.d("TAG", "onSignUpResult: " + success);
+                            if (code.equals("23505")) {
+                                Toast.makeText(getContext(), "Email đã tồn tại", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (code.equals("22001")) {
+                                Toast.makeText(getContext(), "Email hoặc mật khẩu quá dài", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
             }
         });
+    }
+
+    private void loadingHandler() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FrameLayout frameLayout = getActivity().findViewById(R.id.signup_container);
+                requireActivity().getSupportFragmentManager().beginTransaction().remove(SignUpFragment.this).commit();
+                frameLayout.setVisibility(View.GONE);
+            }
+        }, 0); // delay
     }
 
     private Boolean getCheckBoxState() {

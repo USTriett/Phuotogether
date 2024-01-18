@@ -1,0 +1,24 @@
+
+h
+java:S1192"MDefine a constant instead of duplicating this literal "onResponse: " 4 times.(ª÷°üÿÿÿÿ
+f
+java:S1192."PDefine a constant instead of duplicating this literal "TripListManager" 3 times.(…“äë
+p
+java:S1192x"UDefine a constant instead of duplicating this literal "SearchPlacesActivity" 6 times.(‘°Œıÿÿÿÿ
+>
+java:S16046"(Make this anonymous inner class a lambda(Ù‹÷Å
+C
+java:S1604D"(Make this anonymous inner class a lambda(’½¸äüÿÿÿÿ
+C
+java:S1604V"(Make this anonymous inner class a lambda(öµ‡¸úÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(İğ®ı
+X
+java:S1126G"BReplace this if-then-else statement by a single method invocation.(‡î·À
+F
+java:S1172d"0Remove this unused method parameter "startDate".(¦ö¨Í
+W
+java:S1126e"AReplace this if-then-else statement by a single return statement.(ˆÏ´
+a
+java:S1764e"KCorrect one of the identical sub-expressions on both sides of operator "||"(ˆÏ´
+V	java:S125m"<This block of commented-out lines of code should be removed.(²ç¯ùÿÿÿÿ
+xsecrets:S6334w"_Make sure this Google API Key is either secured or revoked, changed, and removed from the code.(öÊÏ˜

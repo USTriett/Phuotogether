@@ -22,10 +22,6 @@ import com.example.phuotogether.gui_layer.FragmentUpdateListener;
 import com.example.phuotogether.gui_layer.MainActivity;
 
 public class AddtripFragment extends Fragment {
-
-    private EditText etNameTrip, etStartDes, etGoalDes, etStartDate, etEndDate;
-    private ImageButton btnBack;
-    private Button btnSave;
     private User user;
     private FragmentAddTripBinding binding;
     private TripListManager tripListManager;
@@ -60,13 +56,68 @@ public class AddtripFragment extends Fragment {
                 String goalDes = binding.etGoalDesAndTrip.getText().toString();
                 String startDate = binding.etStartDateAddTrip.getText().toString();
                 String endDate = binding.etEndDateAddTrip.getText().toString();
-
+                if (HandleError(tripName, startDes, goalDes, startDate, endDate)){
+                    return;
+                }
                 Log.d("AddtripFragment", "onClick: " + tripName + " " + startDes + " " + goalDes + " " + startDate + " " + endDate);
-                tripListManager.addTrip(user,tripName,startDate,endDate,startDes,goalDes);
-                showSuccessToast();
-                requireActivity().getSupportFragmentManager().popBackStack();
+                tripListManager.addTrip(user, tripName, startDate, endDate, startDes, goalDes, new TripListManager.AddTripCallback() {
+                            @Override
+                            public void onAddTripResult(boolean success, String code) {
+                                if (success) {
+                                    showSuccessToast();
+                                    requireActivity().getSupportFragmentManager().popBackStack();
+                                } else {
+
+                                    if (code.equals("23514")) {
+                                        Toast.makeText(requireContext(), "Ngày bắt đầu phải trước ngày kết thúc", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    Toast.makeText(requireContext(), "Thêm hành trình thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
+    }
+
+    private boolean HandleError(String tripName, String startDes, String goalDes, String startDate, String endDate) {
+        boolean isError = false;
+        if (tripName.isEmpty()){
+            binding.tvEmptyNameNotification.setVisibility(View.VISIBLE);
+            isError = true;
+        } else {
+            binding.tvEmptyNameNotification.setVisibility(View.GONE);
+        }
+
+        if (startDes.isEmpty()){
+            binding.tvEmptyStartDesNotification.setVisibility(View.VISIBLE);
+            isError = true;
+        } else {
+            binding.tvEmptyStartDesNotification.setVisibility(View.GONE);
+        }
+
+        if (goalDes.isEmpty()){
+            binding.tvEmptyGoalDesNotification.setVisibility(View.VISIBLE);
+            isError = true;
+        } else {
+            binding.tvEmptyGoalDesNotification.setVisibility(View.GONE);
+        }
+
+        if (startDate.isEmpty() || endDate.isEmpty()){
+            binding.tvEmptyDateNotification.setVisibility(View.VISIBLE);
+            isError = true;
+        } else {
+            binding.tvEmptyDateNotification.setVisibility(View.GONE);
+        }
+
+        if (!tripName.isEmpty() && !startDes.isEmpty() && !goalDes.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()){
+            binding.tvWrongDateNotification.setVisibility(View.VISIBLE);
+            isError = true;
+        } else {
+            binding.tvWrongDateNotification.setVisibility(View.GONE);
+        }
+
+        return isError;
     }
 
     private void showSuccessToast() {
@@ -85,15 +136,5 @@ public class AddtripFragment extends Fragment {
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
-    }
-
-    private void setAndGetAllView(View view) {
-        etNameTrip = view.findViewById(R.id.etNameTripAddTrip);
-        etStartDes = view.findViewById(R.id.etStartDesAddTrip);
-        etGoalDes = view.findViewById(R.id.etGoalDesAndTrip);
-        etStartDate = view.findViewById(R.id.etStartDateAddTrip);
-        etEndDate = view.findViewById(R.id.etEndDateAddTrip);
-        btnBack = view.findViewById(R.id.buttonBackAddTrip);
-        btnSave = view.findViewById(R.id.buttonSaveAddTrip);
     }
 }

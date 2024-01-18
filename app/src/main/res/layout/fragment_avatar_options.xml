@@ -8,6 +8,7 @@
     >
 
     <com.example.phuotogether.gui_layer.info.AvatarOptionsListView
+        android:id="@+id/avatarOptionListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

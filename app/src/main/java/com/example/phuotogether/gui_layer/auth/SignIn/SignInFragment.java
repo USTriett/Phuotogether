@@ -3,6 +3,7 @@ package com.example.phuotogether.gui_layer.auth.SignIn;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.auth.SignIn.SignInManager;
@@ -26,6 +29,7 @@ import com.example.phuotogether.data_layer.auth.UserResponse;
 import com.example.phuotogether.dto.User;
 import com.example.phuotogether.gui_layer.MainActivity;
 import com.example.phuotogether.gui_layer.auth.SignUp.SignUpFragment;
+import com.example.phuotogether.gui_layer.info.InfoFragment;
 
 
 public class SignInFragment extends Fragment {
@@ -34,6 +38,7 @@ public class SignInFragment extends Fragment {
     private ImageButton btnSignInWithGG, btnSignInWithFB, btnBack;
     private TextView tvForgotPassword, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword;
     private SignInManager signInManager;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -74,28 +79,51 @@ public class SignInFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                showProgressBar(true);
                 String emailString = etEmail.getText().toString();
                 String passwordString = etPassword.getText().toString();
                 signInManager.validate(emailString, passwordString, tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
                 signInManager.isSuccessSignIn(emailString, passwordString, new SignInManager.SignInCallback() {
                     @Override
                     public void onSignInResult(boolean success, User currentUser) {
+                        showProgressBar(false);
                         if (success) {
-                            if(getActivity() instanceof MainActivity){
-                                MainActivity activity = (MainActivity) getActivity();
-                                activity.setCurrentUser(currentUser);
-                                activity.signInSuccessful(currentUser);
-                            }
-                            SignIn();
-                            showSuccessToast();
+                            loadingHandler(currentUser);
+
+
                         } else {
                             setAllNotificationOff();
                             signInManager.handleSignInError(tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
                         }
+
                     }
             });
             }
         });
+    }
+    private void loadingHandler(User currentUser) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(getActivity() instanceof MainActivity){
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.setCurrentUser(currentUser);
+                    activity.updateUserInfo(User.getInstance());
+                    activity.signInSuccessful(currentUser);
+                }
+                SignIn();
+                showSuccessToast();
+
+            }
+        }, 0); // delay
+    }
+
+    private void showProgressBar(boolean show) {
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void SignIn() {
@@ -137,5 +165,6 @@ public class SignInFragment extends Fragment {
         tvWrongEmail = rootView.findViewById(R.id.tvWrongEmailNotification);
         tvEmptyPassword = rootView.findViewById(R.id.tvEmptyPasswordNotification);
         tvWrongPassword = rootView.findViewById(R.id.tvWrongPasswordNotification);
+        progressBar = rootView.findViewById(R.id.progressBarSignIn);
     }
 }
