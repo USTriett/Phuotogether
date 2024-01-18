@@ -179,6 +179,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         binding.inputSearch.setThreshold(1);
 
         binding.inputSearch.setOnItemClickListener((parent, view, position, id) -> {
+            Log.d("MapActivity", "onItemClick: ");
             String selectedSuggestion = (String) parent.getItemAtPosition(position);
             binding.inputSearch.setText(selectedSuggestion);
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
