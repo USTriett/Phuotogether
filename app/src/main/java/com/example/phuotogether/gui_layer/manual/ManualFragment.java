@@ -1,5 +1,8 @@
 package com.example.phuotogether.gui_layer.manual;
 
+import static com.example.phuotogether.businesslogic_layer.manual.ManualManager.context;
+import static com.example.phuotogether.businesslogic_layer.manual.ManualManager.user;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.businesslogic_layer.manual.ManualManager;
 import com.example.phuotogether.data_layer.manual.ManualObject;
+import com.example.phuotogether.dto.Manual;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class ManualFragment extends Fragment {
+public class ManualFragment extends Fragment implements ManualManager.ManualFetchListener{
     public static final int TAB_POSITION = 2;
-    ArrayList<ManualObject> mManualObjects;
+    View mRootView;
 
     public static Fragment newInstance() {
         return new ManualFragment();
@@ -26,37 +34,22 @@ public class ManualFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_manual, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_manual, container, false);
+        ManualManager.setManualFetchListener(this);
+        return mRootView;
+    }
+
+    @Override
+    public void onManualListFetched(ArrayList<Manual> manualList) {
         if (getActivity() != null) {
-            fetchManualObjects();
-            loadRecyclerView(rootView);
+            loadRecyclerView(mRootView, manualList);
         }
-        return rootView;
     }
 
-    void fetchManualObjects(){
-        mManualObjects = new ArrayList<>();
-        mManualObjects.add(new ManualObject("Ngộ độc thực phẩm"));
-        mManualObjects.add(new ManualObject("Rắn cắn"));
-        mManualObjects.add(new ManualObject("Chấn thương"));
-        mManualObjects.add(new ManualObject("Lạc trong rừng"));
-        mManualObjects.add(new ManualObject("Tìm đồ ăn, nguồn nước"));
-        mManualObjects.add(new ManualObject("Ngộ độc thực phẩm"));
-        mManualObjects.add(new ManualObject("Rắn cắn"));
-        mManualObjects.add(new ManualObject("Chấn thương"));
-        mManualObjects.add(new ManualObject("Lạc trong rừng"));
-        mManualObjects.add(new ManualObject("Tìm đồ ăn, nguồn nước"));
-        mManualObjects.add(new ManualObject("Ngộ độc thực phẩm"));
-        mManualObjects.add(new ManualObject("Rắn cắn"));
-        mManualObjects.add(new ManualObject("Chấn thương"));
-        mManualObjects.add(new ManualObject("Lạc trong rừng"));
-        mManualObjects.add(new ManualObject("Tìm đồ ăn, nguồn nước"));
-    }
-
-    void loadRecyclerView(View rootView) {
+    void loadRecyclerView(View rootView, ArrayList<Manual> manualList) {
         RecyclerView manualRecyclerView = rootView.findViewById(R.id.manualRecyclerView);
         manualRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        ManualListAdapter adapter = new ManualListAdapter(requireContext(), mManualObjects);
+        ManualListAdapter adapter = new ManualListAdapter(requireContext(), manualList);
         manualRecyclerView.setAdapter(adapter);
     }
 }

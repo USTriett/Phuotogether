@@ -41,8 +41,6 @@ public class EditInfoPopupFragment extends DialogFragment {
     private User user;
     private EditText usernameEditText;
     private EditText phoneNumberEditText;
-    private EditText firstNameEditText;
-    private EditText lastNameEditText;
     private boolean isNightMode;
     private View viewHold;
     public EditInfoPopupFragment() {
@@ -84,16 +82,13 @@ public class EditInfoPopupFragment extends DialogFragment {
         viewHold = inflater.inflate(R.layout.fragment_edit_info_popup, container, false);
         Button closeEditFormBtn = viewHold.findViewById(R.id.closeEditFormBtn);
         Bundle args = getArguments();
-        user = args != null ? (User) args.getSerializable("user") : new User();
+        user = args != null ? (User) args.getSerializable("user") : User.getInstance();
         isNightMode = args.getBoolean("isDarkMode");
         usernameEditText = viewHold.findViewById(R.id.usernameEditText);
         usernameEditText.setText(user.getFullName());
         phoneNumberEditText = viewHold.findViewById(R.id.phoneNumberEditText);
         phoneNumberEditText.setText(user.getPhoneNumber());
-        firstNameEditText = viewHold.findViewById(R.id.firstNameEditText);
-        firstNameEditText.setText(user.getFirstName());
-        lastNameEditText = viewHold.findViewById(R.id.LastNameEditText);
-        lastNameEditText.setText(user.getLastName());
+
 
 
 
@@ -101,11 +96,6 @@ public class EditInfoPopupFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 // Handle button click or dismiss the dialog
-                updateProfile(firstNameEditText.getText().toString(),
-                        lastNameEditText.getText().toString(),
-                        usernameEditText.getText().toString(),
-                        phoneNumberEditText.getText().toString()
-                        );
 
                 if(getActivity() instanceof MainActivity){
                     MainActivity activity = (MainActivity) getActivity();
@@ -124,7 +114,5 @@ public class EditInfoPopupFragment extends DialogFragment {
         // Handle dismiss event
     }
 
-    public void updateProfile(String firstName, String lastName, String username, String phoneNumber){
-        user.updateInfo(firstName, lastName, phoneNumber, username);
-    }
+
 }

@@ -38,7 +38,8 @@ public class TripListFragment extends Fragment implements FragmentUpdateListener
     private TripAdapter tripAdapter;
     private RecyclerView tripRecyclerView;
     private TripListManager tripListManager;
-    private User user = new User();
+    private User user = User.getInstance();
+    private MainActivity mainActivity;
     private List<Trip> finalTripList = new ArrayList<>();
 
 

@@ -4,24 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".gui_layer.manual.ManualItemFragment">
+    tools:context=".gui_layer.manual.ManualItemFragment"
+    style="@style/Base.Theme.Phuotogether">
     <TextView
-        android:id="@+id/manualItemTitle"
+        android:id="@+id/fragmentManualItemContentView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="32dp"
-        android:gravity="center"
-        android:text="All Too Well (10 Minute Version) (Taylor's Version) [From The Vault]"
-        android:textSize="24dp"
-        android:textStyle="bold"/>
-    <TextView
-        android:id="@+id/manualItemContent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="5"
+        android:layout_marginVertical="32dp"
         android:layout_marginHorizontal="16dp"
-        android:textSize="18dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:textSize="16dp"/>
 
 </LinearLayout>

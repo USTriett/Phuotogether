@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation("org.jetbrains:annotations:15.0")
     val lifecycle_version = "2.6.2"
 
         // ViewModel
@@ -55,7 +56,7 @@ dependencies {
     annotationProcessor ("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
         // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation ("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
-
+    implementation ("com.squareup.picasso:picasso:2.5.2")
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 

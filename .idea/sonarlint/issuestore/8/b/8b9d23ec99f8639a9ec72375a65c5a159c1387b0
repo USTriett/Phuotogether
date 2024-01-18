@@ -1,0 +1,31 @@
+
+J
+java:S1604_"(Make this anonymous inner class a lambda(„üœşÿÿÿÿ8Û¿’ÚÑ1
+|
+java:S1450,"ZRemove the "isNightMode" field and declare it as a local variable in the relevant methods.(ö˜ŒŞüÿÿÿÿ8²À’ÚÑ1
+s
+java:S1450&"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘8²À’ÚÑ1
+s
+java:S1450'"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 8²À’ÚÑ1
+
+java:S1450+"bRemove the "phoneNumberEditText" field and declare it as a local variable in the relevant methods.(¦÷ï€8²À’ÚÑ1
+
+java:S1450*"_Remove the "usernameEditText" field and declare it as a local variable in the relevant methods.(ßÇ‚“øÿÿÿÿ8²À’ÚÑ1
+y
+java:S1450-"WRemove the "viewHold" field and declare it as a local variable in the relevant methods.(™™ĞÑÿÿÿÿÿ8²À’ÚÑ1
+T
+java:S1135 "2Complete the task associated to this TODO comment.(ÜûŠ—øÿÿÿÿ8¼À’ÚÑ1
+T
+java:S1135%"2Complete the task associated to this TODO comment.(ğï¢öúÿÿÿÿ8¼À’ÚÑ1
+T
+java:S1135:"2Complete the task associated to this TODO comment.(ßíŠÿÿÿÿÿ8½À’ÚÑ1
+Y
+java:S1874U"7Remove this use of "getSerializable"; it is deprecated.(Š¸„™ÿÿÿÿÿ8ÈÀ’ÚÑ1
+E
+java:S1185p"(Remove this method to simply inherit it.(ğÂ¤8ËÀ’ÚÑ1
+H
+java:S1068&"+Remove this unused "mParam1" private field.(•Íï‘8ÌÀ’ÚÑ1
+H
+java:S1068'"+Remove this unused "mParam2" private field.(¡ˆ€ 8ÌÀ’ÚÑ1
+Q
+java:S1068,"/Remove this unused "isNightMode" private field.(ö˜ŒŞüÿÿÿÿ8ÌÀ’ÚÑ1
