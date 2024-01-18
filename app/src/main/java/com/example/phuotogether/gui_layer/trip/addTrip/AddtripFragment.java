@@ -57,8 +57,6 @@ public class AddtripFragment extends Fragment {
                 String startDate = binding.etStartDateAddTrip.getText().toString();
                 String endDate = binding.etEndDateAddTrip.getText().toString();
 
-                HandleError(tripName, startDes, goalDes, startDate, endDate);
-
                 Log.d("AddtripFragment", "onClick: " + tripName + " " + startDes + " " + goalDes + " " + startDate + " " + endDate);
                 tripListManager.addTrip(user, tripName, startDate, endDate, startDes, goalDes, new TripListManager.AddTripCallback() {
                             @Override
@@ -67,6 +65,7 @@ public class AddtripFragment extends Fragment {
                                     showSuccessToast();
                                     requireActivity().getSupportFragmentManager().popBackStack();
                                 } else {
+                                    HandleError(tripName, startDes, goalDes, startDate, endDate);
                                     Toast.makeText(requireContext(), "Thêm hành trình thất bại", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -98,6 +97,12 @@ public class AddtripFragment extends Fragment {
             binding.tvEmptyDateNotification.setVisibility(View.VISIBLE);
         } else {
             binding.tvEmptyDateNotification.setVisibility(View.GONE);
+        }
+
+        if (!tripName.isEmpty() && !startDes.isEmpty() && !goalDes.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()){
+            binding.tvWrongDateNotification.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvWrongDateNotification.setVisibility(View.GONE);
         }
     }
 
