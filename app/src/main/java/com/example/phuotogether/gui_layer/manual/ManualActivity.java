@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.example.phuotogether.R;
-import com.example.phuotogether.data_access_layer.manual.ManualObject;
+import com.example.phuotogether.data_layer.manual.ManualObject;
 
 import java.util.ArrayList;
 

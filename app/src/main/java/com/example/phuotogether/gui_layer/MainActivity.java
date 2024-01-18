@@ -1,16 +1,29 @@
 package com.example.phuotogether.gui_layer;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.auth.SignIn.SignInFragment;
 import com.example.phuotogether.gui_layer.info.InfoFragment;
 import com.example.phuotogether.gui_layer.manual.ManualFragment;
 import com.example.phuotogether.gui_layer.map.MapFragment;
 import com.example.phuotogether.gui_layer.navigation.MainFragmentPagerAdapter;
+import com.example.phuotogether.gui_layer.trip.destinationList.AddDestinationFragment;
 import com.example.phuotogether.gui_layer.trip.tripList.TripListFragment;
+import com.example.phuotogether.gui_layer.trip.tripView.TripScheduleFragment;
+import com.example.phuotogether.gui_layer.trip.tripView.TripViewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -22,11 +35,42 @@ public class MainActivity extends AppCompatActivity {
     //region Fields
     MainFragmentPagerAdapter mPagerAdapter;
     private int mCurrentTabPosition;
+    private boolean isDarkMode = false;
+    private User currentUser;
+    private boolean isUserSignedIn = false;
     //endregion
 
     public MainFragmentPagerAdapter getPagerAdapter(){
         return mPagerAdapter;
     }
+    public ViewPager getViewPager(){return mViewPager;}
+
+    private void createUserTable(){
+        //TODO implement in data layer create table in sqlite
+    }
+    private boolean isSignedIn(){
+        //TODO check accesstoken
+        return false;
+    }
+    private void updateFragments() {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof FragmentUpdateListener) {
+                ((FragmentUpdateListener) fragment).onUpdate(currentUser);
+            }
+        }
+    }
+
+    public boolean isUserSignedIn() {
+        return isUserSignedIn;
+    }
+
+    public void signInSuccessful(User user) {
+        isUserSignedIn = true;
+
+        // Notify all fragments to update their content
+        updateFragments();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(3);
 
         mBottomNavigationView = findViewById(R.id.bottomNavigationView);
+        if(!isSignedIn()){
+            FrameLayout mainFrame = findViewById(R.id.signin_container);
+            SignInFragment signInFragment = new SignInFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.signin_container, signInFragment).commit();
+
+        }
         mBottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int itemId = menuItem.getItemId();
 
@@ -92,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
                 // Not needed for this use case
             }
         });
+
+
     }
 
     @Override
@@ -103,6 +155,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void setThemeMode(boolean isDarkMode) {
+        this.isDarkMode = isDarkMode;
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    public void updateUserInfo(User user) {
+        if(getCurrentFragment() instanceof InfoFragment){
+            ((InfoFragment) getCurrentFragment()).updateUser(user);
+        }
+
+    }
     //endregion
+    public Fragment getCurrentFragment(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int backStackEntryCount = ((FragmentManager) fragmentManager).getBackStackEntryCount();
+
+        if (backStackEntryCount > 0) {
+            FragmentManager.BackStackEntry backStackEntry = fragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
+            String fragmentTag = backStackEntry.getName();
+
+            Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
+            return currentFragment;
+        }
+        return null;
+    }
+
+    public void setCurrentUser(User user){
+        this.currentUser = user;
+    }
+
 
 }

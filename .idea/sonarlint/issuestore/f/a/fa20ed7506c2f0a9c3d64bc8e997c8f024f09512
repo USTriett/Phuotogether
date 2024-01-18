@@ -1,0 +1,28 @@
+
+…
+java:S1488›"gImmediately return this expression instead of assigning it to the temporary variable "currentFragment".(…¿ïÅ8ú¸Ş™Î1
+{
+java:S1450""YRemove the "isDarkMode" field and declare it as a local variable in the relevant methods.(†™„´úÿÿÿÿ8¤ÜÛ™Î1
+T
+java:S1135+"2Complete the task associated to this TODO comment.(†‘ÎŞùÿÿÿÿ8¨ÜÛ™Î1
+U
+java:S3400/"9Remove this method and declare a constant for this value.(¸®Ã'8¨ÜÛ™Î1
+T
+java:S1135."2Complete the task associated to this TODO comment.(µÖ§ÿÿÿÿÿ8¨ÜÛ™Î1
+_
+java:S1854>"=Remove this useless assignment to local variable "mainFrame".(’ƒ‰ûÿÿÿÿ8áÅìšÎ1
+P
+java:S1481>".Remove this unused "mainFrame" local variable.(’ƒ‰ûÿÿÿÿ8ëÅìšÎ1
+m
+java:S1874C"KRemove this use of "setOnNavigationItemSelectedListener"; it is deprecated.(¬âÀûÿÿÿÿ8¶¹Ş™Î1
+C	java:S131e""Add a default case to this switch.(¼œóÛüÿÿÿÿ8¸¹Ş™Î1
+l
+java:S1874|"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(œƒƒ©ùÿÿÿÿ8¸ÜÛ™Î1
+W
+java:S1874}"5Remove this use of "onBackPressed"; it is deprecated.(‘Ñàÿÿÿÿÿ8¸¹Ş™Î1
+U
+java:S1905•"2Remove this unnecessary cast to "FragmentManager".(ªº­Ëúÿÿÿÿ8À¹Ş™Î1
+P
+java:S1068"".Remove this unused "isDarkMode" private field.(†™„´úÿÿÿÿ8¸ÜÛ™Î1
+V
+java:S1144*"4Remove this unused private "createUserTable" method.(‹ÓËÆùÿÿÿÿ8¸ÜÛ™Î1
