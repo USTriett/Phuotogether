@@ -62,6 +62,9 @@ public class DirectionsManager {
         this.googleMap = googleMap;
         this.directionListener = listener;
     }
+    public void setMap(GoogleMap googleMap){
+        this.googleMap = googleMap;
+    }
     private GoogleMapOptions googleMapOptions = new GoogleMapOptions()
             .mapType(GoogleMap.MAP_TYPE_NORMAL)
             .compassEnabled(true)

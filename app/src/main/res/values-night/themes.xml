@@ -81,5 +81,12 @@
         <item name="android:textColor">@color/colorOnSecondaryContainerDark</item>
     </style>
 
+    <!-- Manual Item CardView -->
+    <style name="ManualItemCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardBackgroundColor">@color/colorSecondaryContainerDark</item>
+        <item name="android:textColor">@color/colorOnSecondaryContainerDark</item>
+    </style>
+
 </resources>
 

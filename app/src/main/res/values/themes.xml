@@ -82,6 +82,13 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+    <!-- Manual Item CardView -->
+    <style name="ManualItemCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardBackgroundColor">@color/colorSecondaryContainer</item>
+        <item name="android:textColor">@color/colorOnSecondaryContainer</item>
+    </style>
+
     <style name="ProfileDialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
@@ -92,7 +99,7 @@
     <style name="editTextLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeWidth">1dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
-        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxBackgroundColor">@color/colorSurfaceContainer</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
         <item name="boxCornerRadiusTopEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>

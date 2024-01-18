@@ -82,7 +82,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     private BottomSheetRouteBinding bottomSheetRouteBinding;
     private GoogleMap mMap;
     Location currentLocation;
-    Location pinnedLocation;
+    LatLng pinnedLatLng;
     FusedLocationProviderClient fusedLocationProviderClient;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private MapData mapData;
@@ -185,8 +185,8 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             String selectedSuggestion = (String) parent.getItemAtPosition(position);
             binding.inputSearch.setText(selectedSuggestion);
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
-            LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-            mapPresenter.performSearch(selectedSuggestion, currentLocation, true);
+            LatLng currentLatLng = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
+            mapPresenter.performSearch(selectedSuggestion, currentLatLng, true);
         });
 
         binding.inputSearch.setOnEditorActionListener((v, actionId, event) -> {
@@ -197,9 +197,9 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
                 String query = binding.inputSearch.getText().toString().trim();
 
                 if (!query.isEmpty()) {
-                    LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
+                    LatLng currentLatLng = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
                     boolean foundLocation = true;
-                    mapPresenter.performSearch(query, currentLocation, foundLocation);
+                    mapPresenter.performSearch(query, currentLatLng, foundLocation);
 //                    if (!foundLocation) {
 //                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT).show();
 //                    }
@@ -233,7 +233,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     private void setupButtons() {
         binding.btnDelete.setOnClickListener(v -> {
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
-            pinnedLocation = currentLocation;
+
+            // bấm nút xóa thì pinnedLatLng trả về là current location
+            pinnedLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pinnedLatLng, 15));
+
             binding.inputSearch.setText("");
             binding.btnDelete.setVisibility(View.GONE);
             binding.btnProfile.setVisibility(View.VISIBLE);
@@ -302,8 +306,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
                     PlaceModel placeModel = AllConstant.placesName.get(checkedId - 1);
                     binding.inputSearch.setText(placeModel.getName());
                     selectedPlaceModel = placeModel;
+
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pinnedLatLng, 15));
+
                     mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
-                    mapPresenter.performSearchNearby(pinnedLocation, placeModel.getPlaceType());
+                    mapPresenter.performSearchNearby(pinnedLatLng, placeModel.getPlaceType());
                 }
             }
         });
@@ -349,7 +356,12 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     @Override
     public void onLastLocationReceived(Location location) {
+        // hàm này được gọi trong 2 trường hợp:
+        // 1 là được gọi trong setupButtons -> getLastKnownLocation khi ng dùng nhấn nút btnMyLocation
+        // 2 là được gọi trong initializeDependencies -> getLastKnownLocation khi ng dùng vào app lần đầu tiên
+        // cả 2 trường hợp này đều cần cập nhật pinnedLatLng dựa trên currentLocation
         currentLocation = location;
+        pinnedLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         SupportMapFragment ggMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (ggMapFragment != null) {
             ggMapFragment.getMapAsync(this);
@@ -367,12 +379,12 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             if (mapPresenter == null) {
                 Log.d("MapFragment", "onMapReady: mapPresenter is null");
                 mapPresenter = new MapPresenter(this, mMap, this);
-                mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
+                mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location (button clicked)");
             }
             else {
                 Log.d("MapFragment", "onMapReady: mapPresenter is not null");
                 mapPresenter.setMap(mMap);          // khi nhấn nt btnMyLocation thì có tạo instance googleMap mới -> phải set ở đây
-                mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location");
+                mapPresenter.moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15, "My Location (button clicked)");
             }
         }
         else {
@@ -403,15 +415,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         if (mMap != null) {
             // Your existing logic for clearing the map and adding a marker
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-            Marker selectedMarker = mMap.addMarker(new MarkerOptions().position(latLng).snippet("Click here to add a title").draggable(true));
+            pinnedLatLng = latLng;
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pinnedLatLng, 15));
+            Marker selectedMarker = mMap.addMarker(new MarkerOptions().position(pinnedLatLng).snippet("Click here to add a title").draggable(true));
             markerList.add(selectedMarker);
-            if (pinnedLocation == null){
-                pinnedLocation = new Location(currentLocation);
-            }
-            pinnedLocation.setLatitude(latLng.latitude);
-            pinnedLocation.setLongitude(latLng.longitude);
-            binding.inputSearch.setText(latLng.latitude + ", " + latLng.longitude);
+            binding.inputSearch.setText(pinnedLatLng.latitude + ", " + pinnedLatLng.longitude);
             showIsSearchingUI();
 
             bottomSheetBehaviorInfoLocation.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -422,21 +430,23 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             bottomSheetLocationInfoBinding.btnShowDirection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    performDirection(getLatLngFromLocation(currentLocation), latLng);
+                    Log.d("onMapClick", pinnedLatLng.latitude + ", " + pinnedLatLng.longitude);
+                    performDirection(getLatLngFromLocation(currentLocation), pinnedLatLng);
                 }
             });
         }
     }
     
-    private void performDirection(LatLng currentLocation, LatLng destination) {
+    private void performDirection(LatLng currentLatLng, LatLng destinationLatLng) {
         switchUIFromSearchingToDirecting();
         isShowingDirection = true;
-        DirectionsManager directionsManager = new DirectionsManager(Volley.newRequestQueue(requireContext()), mMap, this);
-        directionsManager.setContext(requireContext());
-        setupChipGroup(currentLocation, destination, directionsManager);
+        if (directionsManager == null)
+            directionsManager = new DirectionsManager(Volley.newRequestQueue(requireContext()), mMap, this);
+        else
+            directionsManager.setMap(mMap);
+        setupChipGroup(currentLatLng, destinationLatLng, directionsManager);
 
-        showDirectionLayout(currentLocation, destination);
+        showDirectionLayout(currentLatLng, destinationLatLng);
     }
 
     private void switchUIFromSearchingToDirecting() {
@@ -445,24 +455,27 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         binding.directionLayout.setVisibility(View.VISIBLE);
         bottomSheetBehaviorInfoLocation.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
-    private void setupChipGroup(LatLng currentLocation, LatLng destination, DirectionsManager directionsManager) {
-        directionsManager.getDirections(currentLocation, destination, "driving");
+    private void setupChipGroup(LatLng currentLatLng, LatLng destinationLatLng, DirectionsManager directionsManager) {
+        Log.d("setupChipGroup", destinationLatLng.toString());
+        directionsManager.getDirections(currentLatLng, destinationLatLng, "driving");
+        //mMap.addMarker(new MarkerOptions().position(destinationLatLng).title("DestinationX"));
         binding.travelMode.check(R.id.btnChipDriving);
 
         binding.travelMode.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId != -1) {
-                handleChipSelection(currentLocation, destination, directionsManager, checkedId);
+                Log.d("performDirection", "");
+                handleChipSelection(currentLatLng, destinationLatLng, directionsManager, checkedId);
             }
         });
     }
 
-    private void handleChipSelection(LatLng currentLocation, LatLng destination, DirectionsManager directionsManager, int checkedId) {
+    private void handleChipSelection(LatLng currentLatLng, LatLng destinationLatLng, DirectionsManager directionsManager, int checkedId) {
         String travelMode = getTravelModeFromChipId(checkedId);
         Log.d("MapFragment", "onCheckedChanged: " + travelMode);
 
-        mapPresenter.clearMap(mMap, currentLocation);
-        directionsManager.getDirections(currentLocation, destination, travelMode);
-        mMap.addMarker(new MarkerOptions().position(destination).title("Destination"));
+        mapPresenter.clearMap(mMap, currentLatLng);
+        directionsManager.getDirections(currentLatLng, destinationLatLng, travelMode);
+        mMap.addMarker(new MarkerOptions().position(destinationLatLng).title("DestinationX"));
     }
 
     private String getTravelModeFromChipId(int checkedId) {
@@ -478,18 +491,18 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         return "driving";
     }
 
-    private void showDirectionLayout(LatLng currentLocation, LatLng destination) {
+    private void showDirectionLayout(LatLng currentLatLng, LatLng destinationLatLng) {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         ImageView backButton = requireActivity().findViewById(R.id.backView);
         backButton.setOnClickListener(v -> {
             isShowingDirection = false;
             restoreUIComponents();
-            mapPresenter.clearMap(mMap, currentLocation);
+            mapPresenter.clearMap(mMap, currentLatLng);
         });
 
-        binding.txtStartLocation.setText(currentLocation.latitude + ", " + currentLocation.longitude);
-        binding.txtEndLocation.setText(destination.latitude + ", " + destination.longitude);
+        binding.txtStartLocation.setText(currentLatLng.latitude + ", " + currentLatLng.longitude);
+        binding.txtEndLocation.setText(destinationLatLng.latitude + ", " + destinationLatLng.longitude);
 
         binding.cardLayout.setOnClickListener(v -> {
             // do nothing
@@ -528,6 +541,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         stepList = steps;
         binding.txtStartLocation.setText(startLocation1);
         binding.txtEndLocation.setText(endLocation1);
+        Log.d("txtEndLocation", endLocation1);
         bottomSheetRouteBinding.txtSheetTime.setText(time);
         bottomSheetRouteBinding.txtSheetDistance.setText(distance);
         textToSpeech.speak("Đây là hướng dẫn chỉ đường đến " + getSpokenInstruction(endLocation1), TextToSpeech.QUEUE_FLUSH, null, null);
@@ -586,10 +600,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     @Override
     public void onLocationChanged(Location location) {
         Log.d("MapFragment", "onLocationChanged: ");
-        MapPresenter mapPresenter = new MapPresenter(this, mMap, this);
+        if (mapPresenter == null)
+            mapPresenter = new MapPresenter(this, mMap, this);
         // update user's location on the map
         LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        mapPresenter.moveCamera(userLatLng, 15, "My Location");
+        mapPresenter.moveCamera(userLatLng, 15, "My Location (location changed)");
         // Toast.makeText(requireContext(), "Location changed.", Toast.LENGTH_SHORT).show();
 
         // check number of steps
@@ -662,9 +677,13 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
                 int position = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                 if (position > -1) {
-                    GooglePlaceModel googlePlaceModel = googlePlaceModelList.get(position);
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(googlePlaceModel.getGeometry().getLocation().getLat(),
-                            googlePlaceModel.getGeometry().getLocation().getLng()), 15));
+                    try{
+                        GooglePlaceModel googlePlaceModel = googlePlaceModelList.get(position);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(googlePlaceModel.getGeometry().getLocation().getLat(), googlePlaceModel.getGeometry().getLocation().getLng()), 15));
+                    }
+                    catch (Exception e){
+
+                    }
                 }
             }
         });

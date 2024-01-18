@@ -48,7 +48,7 @@ public class MapPresenter {
     private Marker marker;
     private GoogleMap mMap;
     private DirectionsManager directionsManager;
-    private int radius = 5000;
+    private int radius;
     private List<GooglePlaceModel> googlePlaceModelList;
     private MapPresenterListener mapPresenterListener;
     public MapPresenter(MapFragment mapFragment, GoogleMap mMap, MapPresenterListener mapPresenterListener) {
@@ -63,9 +63,9 @@ public class MapPresenter {
         this.mMap = googleMap;
     }
 
-    public void performSearch(String selectedSuggestion, LatLng currentLocation, boolean found) {
+    public void performSearch(String selectedSuggestion, LatLng currentLatLng, boolean found) {
         // Search for the selected suggestion
-        clearMap(mMap, currentLocation);
+        clearMap(mMap, currentLatLng);
         Geocoder geocoder = new Geocoder(mMapFragment.requireContext());
         List<Address> addressList = new ArrayList<>();
 
@@ -100,10 +100,12 @@ public class MapPresenter {
             showDirectionsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("MapActivity", "onClick: " + currentLocation + " " + latLng);
-                    clearMap(mMap, currentLocation);
+                    Log.d("MapActivity", "onClick: " + currentLatLng + " " + latLng);
+                    clearMap(mMap, currentLatLng);
                     mMap.addMarker(new MarkerOptions().position(latLng).title(selectedSuggestion));
-                    mapPresenterListener.onShowDirectionClicked(currentLocation, latLng);
+                    Log.d("curr", currentLatLng.toString());
+                    Log.d("next", currentLatLng.toString());
+                    mapPresenterListener.onShowDirectionClicked(currentLatLng, latLng);
                 }
             });
 
@@ -133,7 +135,7 @@ public class MapPresenter {
                 Log.d("blue dot not null", "");
                 marker.remove();
             }
-            if (!title.equals("My Location")) {
+            if (!title.startsWith("My Location")) {
                 Log.d("blue dot not my location", "");
                 marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true)
                         .title(title));
@@ -191,15 +193,15 @@ public class MapPresenter {
                 });
     }
 
-    public void performSearchNearby(Location pinnedLocation, String placeName) {
+    public void performSearchNearby(LatLng latLng, String placeName) {
+        radius = 5000;
         googlePlaceModelList = new ArrayList<>();
         RetrofitAPI retrofitAPI = RetrofitClient.getRetrofitClient().create(RetrofitAPI.class);
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
-                + pinnedLocation.getLatitude() + "," + pinnedLocation.getLongitude()
+                + latLng.latitude + "," + latLng.longitude
                 + "&radius=" + radius + "&type=" + placeName + "&key=" + mMapFragment.getResources().getString(R.string.place_api_key);
         Log.d("TAG", "performSearchNearby: " + url);
-        if (pinnedLocation != null) {
-            moveCamera(new LatLng(pinnedLocation.getLatitude(), pinnedLocation.getLongitude()), 15, "pinned location");
+        if (latLng != null) {
             retrofitAPI.getNearByPlaces(url).enqueue(new Callback<GoogleResponseModel>() {
                 @Override
                 public void onResponse(@NonNull Call<GoogleResponseModel> call, @NonNull Response<GoogleResponseModel> response) {
@@ -210,8 +212,8 @@ public class MapPresenter {
                         if (response.body() != null) {
                             if (response.body().getGooglePlaceModelList() != null && response.body().getGooglePlaceModelList().size() > 0) {
 
-                                googlePlaceModelList.clear();
-                                mMap.clear();
+//                                googlePlaceModelList.clear();
+//                                mMap.clear();
                                 for (int i = 0; i < response.body().getGooglePlaceModelList().size(); i++) {
 
 //                                    if (userSavedLocationId.contains(response.body().getGooglePlaceModelList().get(i).getPlaceId())) {
@@ -234,8 +236,13 @@ public class MapPresenter {
                                 googlePlaceModelList.clear();
                                 mapPresenterListener.onNearbyPlacesFetch(googlePlaceModelList);
                                 radius += 1000;
+                                if (radius == 50000){
+                                    Toast.makeText(mMapFragment.requireContext(), "No results found.", Toast.LENGTH_SHORT).show();
+                                    moveCamera(latLng, 7, "Pinned Location");
+                                    return;
+                                }
                                 Log.d("TAG", "onResponse: " + radius);
-                                performSearchNearby(pinnedLocation, placeName);
+                                performSearchNearby(latLng, placeName);
 
                             }
                         }
