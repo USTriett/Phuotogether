@@ -28,28 +28,28 @@ public class AvatarUserRequestModel {
     }
 
     public void onUploadAvatar(){
-        RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
-
-        try {
-            Call<List<okhttp3.Response>> call = myApi.updateAvatar(String.valueOf(id), data);
-            call.enqueue(new Callback<List<okhttp3.Response>>() {
-
-
-                @Override
-                public void onResponse(Call<List<okhttp3.Response>> call, Response<List<okhttp3.Response>> response) {
-
-                }
-
-                @Override
-                public void onFailure(Call<List<okhttp3.Response>> call, Throwable t) {
-                    Log.d("", "onFailure: updateFail" );
-                    call.cancel();;
-                }
-            });
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+//        RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
+//
+//        try {
+//            Call<List<okhttp3.Response>> call = myApi.updateAvatar(id, data);
+//            call.enqueue(new Callback<List<okhttp3.Response>>() {
+//
+//
+//                @Override
+//                public void onResponse(Call<List<okhttp3.Response>> call, Response<List<okhttp3.Response>> response) {
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<okhttp3.Response>> call, Throwable t) {
+//                    Log.d("", "onFailure: updateFail" );
+//                    call.cancel();;
+//                }
+//            });
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

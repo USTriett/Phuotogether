@@ -36,7 +36,7 @@ import com.example.phuotogether.data_layer.user.AvatarUserRequestModel;
 import com.example.phuotogether.dto.User;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.example.phuotogether.service.RetrofitClient;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -144,17 +144,17 @@ public class AvatarOptionsFragment extends DialogFragment {
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             // The user has selected an image from the gallery
-            selectedImageUri = data.getData();
-            if (selectedImageUri != null) {
-
-                Picasso.
-                        with(getContext())
-                        .load(selectedImageUri)
-                        .into(avatar);
-                File f = uriToFile(selectedImageUri);
-                AvatarUserRequestModel model = new AvatarUserRequestModel(User.getInstance().getId(), f);
-                model.onUploadAvatar();
-            }
+//            selectedImageUri = data.getData();
+//            if (selectedImageUri != null) {
+//
+//                Picasso.
+//                        with(getContext())
+//                        .load(selectedImageUri)
+//                        .into(avatar);
+//                File f = uriToFile(selectedImageUri);
+//                AvatarUserRequestModel model = new AvatarUserRequestModel(User.getInstance().getId(), f);
+//                model.onUploadAvatar();
+//            }
 
         }
 

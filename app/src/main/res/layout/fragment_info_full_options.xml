@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:text="LTMP"
             android:textAlignment="center"
-            android:textSize="20pt" />
+            android:textSize="44sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                     android:textAlignment="center"
                     android:text="Content"
                     android:layout_marginLeft="30dp"
-                    android:textSize="12pt"
+                    android:textSize="27sp"
                     android:paddingVertical="10dp"
                     android:textStyle="bold"
                     />
@@ -126,7 +126,7 @@
                         android:gravity="center_vertical"
 
                         android:text="Images"
-                        android:textSize="10pt"
+                        android:textSize="22sp"
 
                         />
 
@@ -153,7 +153,7 @@
                         android:text="Options"
                         android:layout_marginLeft="30dp"
                         android:padding="10dp"
-                        android:textSize="10pt"
+                        android:textSize="27sp"
                         android:textStyle="bold"
                         />
 
@@ -189,7 +189,7 @@
                         android:gravity="center_vertical"
                         android:drawablePadding="8dp"
                         android:text="Dark mode"
-                        android:textSize="10pt"
+                        android:textSize="22sp"
 
                         />
                     <Switch
@@ -210,7 +210,7 @@
                     android:gravity="center_vertical"
                     android:drawablePadding="8dp"
                     android:text="Logout"
-                    android:textSize="9pt"
+                    android:textSize="22sp"
 
                     />
 
