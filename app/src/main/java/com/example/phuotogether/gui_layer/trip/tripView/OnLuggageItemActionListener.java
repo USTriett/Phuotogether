@@ -1,5 +1,9 @@
 package com.example.phuotogether.gui_layer.trip.tripView;
 
+import com.example.phuotogether.dto.Item;
+
+import java.util.List;
+
 public interface OnLuggageItemActionListener {
-    void onDeleteLuggageItem(int adapterPosition, String luggageName);
+    void onItemDeleted(List<Item> itemList);
 }

@@ -195,11 +195,11 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
                 if (!query.isEmpty()) {
                     LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude());
-                    boolean foundLocation = false;
+                    boolean foundLocation = true;
                     mapPresenter.performSearch(query, currentLocation, foundLocation);
-                    if (!foundLocation) {
-                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT).show();
-                    }
+//                    if (!foundLocation) {
+//                        Toast.makeText(requireContext(), "No results found", Toast.LENGTH_SHORT).show();
+//                    }
                 }
                 return true;
             }

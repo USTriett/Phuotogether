@@ -15,7 +15,7 @@ public class SignUpManager {
 
 
     public interface SignUpCallback {
-        void onSignUpResult(boolean success);
+        void onSignUpResult(boolean success, String code);
     }
 
     public SignUpManager(UserDatabase userRepository) {
@@ -25,12 +25,12 @@ public class SignUpManager {
         Log.d("SignUpManager", "isSuccessSignUp: " + email + password + fullName);
         userRepository.isSuccessSignUp(email, password, fullName, new UserDatabase.SignUpCallback() {
             @Override
-            public void onSignUpResult(boolean success) {
+            public void onSignUpResult(boolean success, String code) {
                 if (success) {
                     // call back to SignUpFragment
-                    callback.onSignUpResult(true);
+                    callback.onSignUpResult(true, code);
                 } else {
-                    callback.onSignUpResult(false);
+                    callback.onSignUpResult(false, code);
                 }
             }
         });

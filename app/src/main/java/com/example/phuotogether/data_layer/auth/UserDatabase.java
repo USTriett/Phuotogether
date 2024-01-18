@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.example.phuotogether.dto.User;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import retrofit2.Response;
 
 
 import com.example.phuotogether.service.RetrofitClient;
+import com.google.gson.JsonParser;
 
 
 public class UserDatabase {
@@ -35,7 +37,7 @@ public class UserDatabase {
         void onSignInResult(boolean success, User user);
     }
     public interface SignUpCallback {
-        void onSignUpResult(boolean success);
+        void onSignUpResult(boolean success, String code);
     }
     public void isSuccessSignUp(String emailortel, String password,String fullname, SignUpCallback callback) {
         Log.d("UserDatabase", "isSuccessSignUp: " + emailortel + password + fullname);
@@ -48,15 +50,20 @@ public class UserDatabase {
                 public void onResponse(Call<List<UserResponse>> call, Response<List<UserResponse>> response) {
                     if (!response.isSuccessful()) {
                         try {
-                            Log.d("UserDatabase", "Error Body: " + response.errorBody().string());
-                            callback.onSignUpResult(false);
+                            String errorBodyString = response.errorBody().string();
+                            Log.d("UserDatabase", "Error Body: " + errorBodyString);
+
+                            int codeStartIndex = errorBodyString.indexOf("'code': '") + "'code': '".length();
+                            int codeEndIndex = errorBodyString.indexOf("'", codeStartIndex);
+                            String errorCode = errorBodyString.substring(codeStartIndex, codeEndIndex);
+                            callback.onSignUpResult(false, errorCode);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                     else {
                         Log.d("UserDatabase", "onResponse: " + response.body().get(0).getFullName());
-                        callback.onSignUpResult(true);
+                        callback.onSignUpResult(true, response.body().get(0).getFullName());
                     }
                 }
 
@@ -95,7 +102,13 @@ public class UserDatabase {
                             // callback to SignInManager
                             callback.onSignInResult(true, user);
                         } else {
-                            callback.onSignInResult(false, new User(0, false, "", "", ""));
+                            String errorBodyString = response.errorBody().string();
+                            Log.d("UserDatabase", "Error Body: " + errorBodyString);
+
+                            int codeStartIndex = errorBodyString.indexOf("'code': '") + "'code': '".length();
+                            int codeEndIndex = errorBodyString.indexOf("'", codeStartIndex);
+                            String errorCode = errorBodyString.substring(codeStartIndex, codeEndIndex);
+                            callback.onSignInResult(false, new User(0, false, "", "", errorCode));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
