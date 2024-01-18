@@ -57,7 +57,7 @@ public class PopularDestinationsAdapter extends RecyclerView.Adapter<PopularDest
             @Override
             public void onClick(View v) {
                 Log.d("SearchPlacesActivity", "onCreate: " + popularPlaces.getName());
-                AddDestinationFragment addDestinationFragment = AddDestinationFragment.newInstance(popularPlaces, selectedTrip);
+                AddDestinationFragment addDestinationFragment = AddDestinationFragment.newInstance(popularPlaces, selectedTrip,10);
                 FragmentTransaction fragmentTransaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.tripschedule, addDestinationFragment);
                 fragmentTransaction.addToBackStack(null);

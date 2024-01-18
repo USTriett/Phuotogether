@@ -94,7 +94,7 @@ public class MapPresenter {
         }
         else {
             found = false;
-            Log.d("MapActivity", "performSearch: addressList is empty");
+            Toast.makeText(mMapFragment.requireContext(), "No result found", Toast.LENGTH_SHORT).show();
         }
     }
     public void clearMap(GoogleMap mMap, LatLng currentLatLng) {

@@ -88,11 +88,20 @@ public class SignUpFragment extends Fragment {
                 Log.d("TAG", "onClick: " + stringEmail + stringPassword + stringConfirmPassword + stringFullName + isCheckBoxChecked);
                 signUpManager.isSuccessSignUp(stringEmail, stringPassword, stringFullName, new SignUpManager.SignUpCallback() {
                     @Override
-                    public void onSignUpResult(boolean success) {
+                    public void onSignUpResult(boolean success, String code) {
                         if (success) {
                             Log.d("TAG", "onSignUpResult: " + success);
                             // show loading
                             loadingHandler();
+                        }
+                        else {
+                            Log.d("TAG", "onSignUpResult: " + success);
+                            if (code.equals("23505")) {
+                                Toast.makeText(getContext(), "Email đã tồn tại", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (code.equals("22001")) {
+                                Toast.makeText(getContext(), "Email hoặc mật khẩu quá dài", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });

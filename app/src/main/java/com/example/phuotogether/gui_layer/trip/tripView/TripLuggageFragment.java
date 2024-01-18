@@ -3,6 +3,7 @@ package com.example.phuotogether.gui_layer.trip.tripView;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +29,11 @@ import com.example.phuotogether.dto.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripLuggageFragment extends Fragment {
+public class TripLuggageFragment extends Fragment implements OnLuggageItemActionListener{
     private EditText etAddLuggage;
     private RecyclerView rvLuggageList;
     private ItemAdapter itemAdapter;
-    private List<Item> listItem = new ArrayList<>();
+    public List<Item> listItem = new ArrayList<>();
     private static Trip selectedTrip;
     private TripLuggageManager tripLuggageManager;
     private int itemNo = 0;
@@ -62,10 +63,21 @@ public class TripLuggageFragment extends Fragment {
         rvLuggageList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         itemAdapter = new ItemAdapter(requireContext(), listItem, tripLuggageManager, selectedTrip.getId());
+        itemAdapter.setOnLuggageItemActionListener(this);
 
         rvLuggageList.setAdapter(itemAdapter);
     }
+    @Override
+    public void onItemDeleted(List<Item> itemList) {
+        Log.d("TripLuggageFragment", "onItemDeleted: " + itemList.size());
 
+        // Clear the existing items in listItem and add the new items
+        listItem.clear();
+        listItem.addAll(itemList);
+
+        // Notify the adapter about the updated list
+        itemAdapter.addItemList(listItem);
+    }
     private void fetchItemListFromDatabase() {
         tripLuggageManager.getItemList(new TripLuggageManager.FetchItemCallback() {
             @Override
@@ -113,13 +125,15 @@ public class TripLuggageFragment extends Fragment {
 
         // If the item doesn't exist, add it to the list
         if (!itemExists) {
-            listItem.add(new Item(selectedTrip.getId(), itemNo, luggageItem));
+            Item item = new Item(selectedTrip.getId(), itemNo, luggageItem);
+            Log.d("TripLuggageFragment", "addItemToItemList: " + listItem.size());
+            listItem.add(item);
+            Log.d("TripLuggageFragment", "addItemToItemList: " + listItem.size());
             tripLuggageManager.updateItemList(selectedTrip.getId(), listItem, new TripLuggageManager.AddItemCallback() {
                 @Override
                 public void onAddItemResult(boolean success) {
                     if (success) {
-                        itemAdapter.addItemList(listItem);
-                        itemAdapter.notifyDataSetChanged();
+                        itemAdapter.addItem(item);
                         itemNo++;
                     }
                 }

@@ -6,4 +6,5 @@ import java.util.ArrayList;
 
 public interface OnDataFetchedListener {
     void onDataFetched(ArrayList<GooglePlaceModel> popularPlaces);
+
 }

@@ -2,11 +2,16 @@ package com.example.phuotogether.service;
 
 
 
+import com.example.phuotogether.businesslogic_layer.trip.tripDestinations.DestinationListResponse;
+import com.example.phuotogether.businesslogic_layer.trip.tripDestinations.DestinationRequestModel;
 import com.example.phuotogether.data_layer.auth.LoginRequestModel;
 import com.example.phuotogether.data_layer.auth.SignupRequestModel;
 import com.example.phuotogether.data_layer.auth.UserResponse;
 import com.example.phuotogether.data_layer.map.DirectionResponseModel;
 import com.example.phuotogether.data_layer.map.GoogleResponseModel;
+import com.example.phuotogether.data_layer.trip.tripDestination.DeleteDestinationRequestModel;
+import com.example.phuotogether.data_layer.trip.tripDestination.LocationRequestModel;
+import com.example.phuotogether.data_layer.trip.tripDestination.LocationResponse;
 import com.example.phuotogether.data_layer.trip.tripList.AddTripRequestModel;
 import com.example.phuotogether.data_layer.trip.tripList.DeleteTripRequestModel;
 import com.example.phuotogether.data_layer.trip.tripList.TripResponse;
@@ -80,6 +85,21 @@ public interface RetrofitAPI {
 //    Call<List<LuggageItemResponse>> deleteItem(@Body DeleteTripRequestModel deleteTripRequestModel);
 
     // planned destination ---------------------------------------------------
+    @GET("/planned_destination/get_planned_destinations_by_tripid")
+    Call<List<DestinationListResponse>> getPlannedDestinationsByTripId(@Query("tripid") int tripId);
+
+    @POST("planned_destination/insert_planned_destination")
+    Call<List<DestinationListResponse>> insertPlannedDestination(@Body DestinationRequestModel destinationRequestModel);
+
+    @HTTP(method = "DELETE", path = "planned_destination/delete_planned_destination", hasBody = true)
+    Call<List<DestinationListResponse>> deleteTrip(@Body DeleteDestinationRequestModel deleteDestinationRequestModel);
+
+    // location ---------------------------------------------------
+    @GET("/location/get_location")
+    Call<List<LocationResponse>> getLocation(@Query("id") int locationId);
+
+    @POST("location/insert_location")
+    Call<List<LocationResponse>> insertLocation(@Body LocationRequestModel locationRequestModel);
 
 
 

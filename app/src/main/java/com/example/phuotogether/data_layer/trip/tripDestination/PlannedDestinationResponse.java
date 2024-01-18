@@ -1,4 +1,7 @@
 package com.example.phuotogether.data_layer.trip.tripDestination;
 
-public class PlannedDestinationResponse {
-}
+import com.google.gson.annotations.SerializedName;
+
+//public class PlannedDestinationResponse {
+//    @SerializedName()
+//}

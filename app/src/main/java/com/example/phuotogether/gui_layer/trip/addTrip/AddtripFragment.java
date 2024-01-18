@@ -57,6 +57,8 @@ public class AddtripFragment extends Fragment {
                 String startDate = binding.etStartDateAddTrip.getText().toString();
                 String endDate = binding.etEndDateAddTrip.getText().toString();
 
+                HandleError(tripName, startDes, goalDes, startDate, endDate);
+
                 Log.d("AddtripFragment", "onClick: " + tripName + " " + startDes + " " + goalDes + " " + startDate + " " + endDate);
                 tripListManager.addTrip(user, tripName, startDate, endDate, startDes, goalDes, new TripListManager.AddTripCallback() {
                             @Override
@@ -71,6 +73,32 @@ public class AddtripFragment extends Fragment {
                         });
             }
         });
+    }
+
+    private void HandleError(String tripName, String startDes, String goalDes, String startDate, String endDate) {
+        if (tripName.isEmpty()){
+            binding.tvEmptyNameNotification.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvEmptyNameNotification.setVisibility(View.GONE);
+        }
+
+        if (startDes.isEmpty()){
+            binding.tvEmptyStartDesNotification.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvEmptyStartDesNotification.setVisibility(View.GONE);
+        }
+
+        if (goalDes.isEmpty()){
+            binding.tvEmptyGoalDesNotification.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvEmptyGoalDesNotification.setVisibility(View.GONE);
+        }
+
+        if (startDate.isEmpty() || endDate.isEmpty()){
+            binding.tvEmptyDateNotification.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvEmptyDateNotification.setVisibility(View.GONE);
+        }
     }
 
     private void showSuccessToast() {

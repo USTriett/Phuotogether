@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,6 +35,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private Context context;
     private TripLuggageManager tripLuggageManager;
     private int tripId;
+    private OnLuggageItemActionListener onLuggageItemActionListener;
+
+    public void setOnLuggageItemActionListener(OnLuggageItemActionListener onLuggageItemActionListener) {
+        this.onLuggageItemActionListener = onLuggageItemActionListener;
+    }
 
 
     public ItemAdapter(Context context, List<Item> luggageList, TripLuggageManager tripLuggageManager, int tripId) {
@@ -68,12 +74,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private void deleteLuggageItem(int position) {
         if (position != RecyclerView.NO_POSITION) {
+            Log.d("ItemAdapter", "deleteLuggageItem: " + luggageList.size());
             luggageList.remove(position);
-            notifyItemRemoved(position);
+
+            Log.d("ItemAdapter", "deleteLuggageItem: " + luggageList.size());
             tripLuggageManager.updateItemList(tripId,luggageList,new TripLuggageManager.AddItemCallback() {
                 @Override
                 public void onAddItemResult(boolean success) {
                     if (success) {
+                        notifyItemRemoved(position);
+                        if (onLuggageItemActionListener != null) {
+                            onLuggageItemActionListener.onItemDeleted(luggageList);
+                        }
                         Toast.makeText(context, "Xóa vật dụng thành công", Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -85,9 +97,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     public void addItemList(List<Item> listItem) {
+        Log.d("ItemAdapter", "addItemList: " + listItem.size());
         luggageList.clear();
         luggageList.addAll(listItem);
         notifyDataSetChanged();
+    }
+    public void addItem(Item item) {
+        luggageList.add(item);
+        notifyItemInserted(luggageList.size() - 1);
     }
     @Override
     public int getItemCount() {
