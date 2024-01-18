@@ -21,7 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.businesslogic_layer.trip.tripView.TripLuggageManager;
 import com.example.phuotogether.dto.Item;
+import com.example.phuotogether.dto.Trip;
 
 
 import java.util.List;
@@ -30,11 +32,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private List<Item> luggageList;
     private Context context;
+    private TripLuggageManager tripLuggageManager;
+    private int tripId;
 
 
-    public ItemAdapter(Context context, List<Item> luggageList) {
+    public ItemAdapter(Context context, List<Item> luggageList, TripLuggageManager tripLuggageManager, int tripId) {
         this.context = context;
         this.luggageList = luggageList;
+        this.tripLuggageManager = tripLuggageManager;
+        this.tripId = tripId;
     }
 
 
@@ -64,6 +70,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         if (position != RecyclerView.NO_POSITION) {
             luggageList.remove(position);
             notifyItemRemoved(position);
+            tripLuggageManager.updateItemList(tripId,luggageList,new TripLuggageManager.AddItemCallback() {
+                @Override
+                public void onAddItemResult(boolean success) {
+                    if (success) {
+                        Toast.makeText(context, "Xóa vật dụng thành công", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(context, "Xóa vật dụng thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 

@@ -61,7 +61,7 @@ public class TripLuggageFragment extends Fragment {
 
         rvLuggageList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        itemAdapter = new ItemAdapter(requireContext(), listItem);
+        itemAdapter = new ItemAdapter(requireContext(), listItem, tripLuggageManager, selectedTrip.getId());
 
         rvLuggageList.setAdapter(itemAdapter);
     }

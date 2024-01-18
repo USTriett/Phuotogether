@@ -13,6 +13,7 @@ import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -276,16 +277,17 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     private void setupNearbySearchUI() {
         for (PlaceModel placeModel : AllConstant.placesName) {
+//            Context styledContext = new ContextThemeWrapper(requireContext(), R.style.CustomChipPlaces);
+//            Chip chip = new Chip(styledContext);
             Chip chip = new Chip(requireContext());
-            chip.setChipBackgroundColorResource(R.color.white);
+            //chip.setChipBackgroundColorResource(R.color.white);
             chip.setText(placeModel.getName());
             chip.setId(placeModel.getId());
             chip.setPadding(8, 8, 8, 8);
-            chip.setTextColor(getResources().getColor(R.color.black, null));
+            //chip.setTextColor(getResources().getColor(R.color.black, null));
             chip.setChipIcon(ResourcesCompat.getDrawable(getResources(), placeModel.getDrawableId(), null));
             chip.setCheckable(true);
             chip.setCheckedIconVisible(false);
-            chip.setChipCornerRadius(50);
             binding.placesGroup.addView(chip);
         }
 
@@ -411,6 +413,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             bottomSheetLocationInfoBinding.btnShowDirection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     performDirection(getLatLngFromLocation(currentLocation), latLng);
                 }
             });
@@ -602,7 +605,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         }
     }
 
-    private String getDisplayedInstruction(String rawInstruction){
+    public static String getDisplayedInstruction(String rawInstruction){
         String displayedInstruction = rawInstruction
                 .replace("Đ.", "Đường")
                 .replaceAll("<div style=\"[^\"]*\">", ". ")           // div này sử dụng cho kết thúc câu
@@ -610,7 +613,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
         return displayedInstruction;
     }
 
-    private String getSpokenInstruction(String rawInstruction){
+    public static String getSpokenInstruction(String rawInstruction){
         String spokenInstruction = rawInstruction
                 .replace("Đ.", "Đường")
                 .replaceAll("<div style=\"[^\"]*\">", ". ")           // div này sử dụng cho kết thúc câu

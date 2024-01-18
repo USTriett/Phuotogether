@@ -40,8 +40,9 @@ public class UserDatabase {
     public void isSuccessSignUp(String emailortel, String password,String fullname, SignUpCallback callback) {
         Log.d("UserDatabase", "isSuccessSignUp: " + emailortel + password + fullname);
         RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
+        boolean loginType = emailOrTel(emailortel);
         try {
-            Call<List<UserResponse>> call = myApi.insertUser(new SignupRequestModel(emailortel, false, password, fullname));
+            Call<List<UserResponse>> call = myApi.insertUser(new SignupRequestModel(emailortel, loginType, password, fullname));
             call.enqueue(new Callback<List<UserResponse>>() {
                 @Override
                 public void onResponse(Call<List<UserResponse>> call, Response<List<UserResponse>> response) {
@@ -105,7 +106,7 @@ public class UserDatabase {
                 @Override
                 public void onFailure(Call<List<UserResponse>> call, Throwable t) {
                     //Toast.makeText(null, "Error", Toast.LENGTH_SHORT).show();
-                    callback.onSignInResult(true, new User());
+                    callback.onSignInResult(false, new User());
                 }
             });
         } catch (Exception e) {
@@ -116,6 +117,10 @@ public class UserDatabase {
     public boolean isSuccessForgotPassword(String email) {
 //        return email.equals(VALID_EMAIL);
         return false;
+    }
+
+    private boolean emailOrTel(String emailOrTel) {
+        return emailOrTel.contains("@");
     }
 
 }

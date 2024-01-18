@@ -15,6 +15,12 @@ public class TripResponse {
     @SerializedName("arrivaldate")
     private String arrivalDate;
 
+    @SerializedName("departureplace")
+    private String departurePlace;
+
+    @SerializedName("arrivalplace")
+    private String arrivalPlace;
+
     // Add getters and setters as needed
 
     @Override
@@ -43,5 +49,12 @@ public class TripResponse {
         return arrivalDate;
     }
 
+    public String getDeparturePlace() {
+        return departurePlace;
+    }
+
+    public String getArrivalPlace() {
+        return arrivalPlace;
+    }
 
 }

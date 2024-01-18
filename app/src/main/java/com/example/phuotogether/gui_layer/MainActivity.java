@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(3);
 
         mBottomNavigationView = findViewById(R.id.bottomNavigationView);
+        mBottomNavigationView.setItemIconTintList(null);
         if(!isSignedIn()){
             FrameLayout mainFrame = findViewById(R.id.signin_container);
             SignInFragment signInFragment = new SignInFragment();
