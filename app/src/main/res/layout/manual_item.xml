@@ -10,7 +10,7 @@
     android:focusable="true"
     android:outlineAmbientShadowColor="@color/colorPrimaryFixedDim">
     <TextView
-        android:id="@+id/manualItemTitle"
+        android:id="@+id/manualItemTitleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="16dp"

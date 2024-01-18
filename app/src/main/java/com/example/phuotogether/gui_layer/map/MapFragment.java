@@ -82,6 +82,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     private BottomSheetRouteBinding bottomSheetRouteBinding;
     private GoogleMap mMap;
     Location currentLocation;
+    Location pinnedLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private MapData mapData;
@@ -230,6 +231,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
     private void setupButtons() {
         binding.btnDelete.setOnClickListener(v -> {
             mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
+            pinnedLocation = currentLocation;
             binding.inputSearch.setText("");
             binding.btnDelete.setVisibility(View.GONE);
             binding.btnProfile.setVisibility(View.VISIBLE);
@@ -299,7 +301,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
                     binding.inputSearch.setText(placeModel.getName());
                     selectedPlaceModel = placeModel;
                     mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
-                    mapPresenter.performSearchNearby(currentLocation, placeModel.getPlaceType());
+                    mapPresenter.performSearchNearby(pinnedLocation, placeModel.getPlaceType());
                 }
             }
         });
@@ -402,7 +404,12 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
             Marker selectedMarker = mMap.addMarker(new MarkerOptions().position(latLng).snippet("Click here to add a title").draggable(true));
             markerList.add(selectedMarker);
-            binding.inputSearch.setText("Dropped pin");
+            if (pinnedLocation == null){
+                pinnedLocation = new Location(currentLocation);
+            }
+            pinnedLocation.setLatitude(latLng.latitude);
+            pinnedLocation.setLongitude(latLng.longitude);
+            binding.inputSearch.setText(latLng.latitude + ", " + latLng.longitude);
             showIsSearchingUI();
 
             bottomSheetBehaviorInfoLocation.setState(BottomSheetBehavior.STATE_COLLAPSED);

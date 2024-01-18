@@ -174,14 +174,15 @@ public class MapPresenter {
                 });
     }
 
-    public void performSearchNearby(Location currentLocation, String placeName) {
+    public void performSearchNearby(Location pinnedLocation, String placeName) {
         googlePlaceModelList = new ArrayList<>();
         RetrofitAPI retrofitAPI = RetrofitClient.getRetrofitClient().create(RetrofitAPI.class);
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
-                + currentLocation.getLatitude() + "," + currentLocation.getLongitude()
+                + pinnedLocation.getLatitude() + "," + pinnedLocation.getLongitude()
                 + "&radius=" + radius + "&type=" + placeName + "&key=" + mMapFragment.getResources().getString(R.string.place_api_key);
         Log.d("TAG", "performSearchNearby: " + url);
-        if (currentLocation != null) {
+        if (pinnedLocation != null) {
+            moveCamera(new LatLng(pinnedLocation.getLatitude(), pinnedLocation.getLongitude()), 15, "pinned location");
             retrofitAPI.getNearByPlaces(url).enqueue(new Callback<GoogleResponseModel>() {
                 @Override
                 public void onResponse(@NonNull Call<GoogleResponseModel> call, @NonNull Response<GoogleResponseModel> response) {
@@ -217,7 +218,7 @@ public class MapPresenter {
                                 mapPresenterListener.onNearbyPlacesFetch(googlePlaceModelList);
                                 radius += 1000;
                                 Log.d("TAG", "onResponse: " + radius);
-                                performSearchNearby(currentLocation, placeName);
+                                performSearchNearby(pinnedLocation, placeName);
 
                             }
                         }

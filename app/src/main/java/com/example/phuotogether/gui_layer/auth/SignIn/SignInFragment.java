@@ -41,7 +41,7 @@ public class SignInFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_signin, container, false);
 
-        signInManager = new SignInManager(new UserDatabase());
+        signInManager = new SignInManager(getContext(), new UserDatabase());
 
         setAndGetAllView(rootView);
         setEventClickSignInButton();

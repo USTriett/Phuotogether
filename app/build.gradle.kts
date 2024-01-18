@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation("org.jetbrains:annotations:15.0")
     val lifecycle_version = "2.6.2"
 
         // ViewModel
