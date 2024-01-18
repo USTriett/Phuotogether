@@ -356,7 +356,12 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
 
     @Override
     public void onLastLocationReceived(Location location) {
+        // hàm này được gọi trong 2 trường hợp:
+        // 1 là được gọi trong setupButtons -> getLastKnownLocation khi ng dùng nhấn nút btnMyLocation
+        // 2 là được gọi trong initializeDependencies -> getLastKnownLocation khi ng dùng vào app lần đầu tiên
+        // cả 2 trường hợp này đều cần cập nhật pinnedLatLng dựa trên currentLocation
         currentLocation = location;
+        pinnedLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         SupportMapFragment ggMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (ggMapFragment != null) {
             ggMapFragment.getMapAsync(this);
