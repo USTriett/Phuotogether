@@ -14,9 +14,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.FragmentUpdateListener;
 
 
-public class InfoFragment extends Fragment {
+public class InfoFragment extends Fragment implements FragmentUpdateListener {
     public static final int TAB_POSITION = 3;
     private InfoFullOptionsFragment fullOptionsFragment;
     private User user;
@@ -39,7 +40,7 @@ public class InfoFragment extends Fragment {
         }
 
         if (!savedInstanceStateUsed) {
-            user = new User(); // get User when login success
+            user = User.getInstance(); // get User when login success
             fullOptionsFragment = new InfoFullOptionsFragment();
             Bundle args = new Bundle();
             args.putSerializable("user", user);
@@ -73,6 +74,11 @@ public class InfoFragment extends Fragment {
         outState.putBoolean("isDarkMode", isDarkMode);
         outState.putSerializable("user", user);
         getChildFragmentManager().putFragment(outState, "InfoFragment", fullOptionsFragment);
+    }
+
+    @Override
+    public void onUpdate(User user) {
+        updateUser(user);
     }
 }
 

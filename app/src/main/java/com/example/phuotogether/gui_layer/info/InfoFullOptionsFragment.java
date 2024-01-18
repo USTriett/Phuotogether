@@ -129,6 +129,8 @@ public class InfoFullOptionsFragment extends Fragment {
         this.user = user;
         TextView tview  = (TextView) viewHold.findViewById(R.id.usernameTextView);
         tview.setText(user.getFullName());
+        Log.d("user", "updateUserInfo: " +user.getFullName());
+
     }
 
 }

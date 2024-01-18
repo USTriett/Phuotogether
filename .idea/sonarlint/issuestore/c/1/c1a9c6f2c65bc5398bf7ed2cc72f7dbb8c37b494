@@ -1,4 +1,16 @@
 
 J
-java:S1604"(Make this anonymous inner class a lambda(Úı½£ÿÿÿÿÿ8òšâÎ1
+java:S1604"(Make this anonymous inner class a lambda(Úı½£ÿÿÿÿÿ8€÷“ÙÑ1
 v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Ù¸Ç­8üšâÎ1
+X
+java:S2696."6Make the enclosing method "static" or remove this set.(´ˆÍÙüÿÿÿÿ8†Í©ÚÑ1
+S
+java:S2696/"6Make the enclosing method "static" or remove this set.(¯şÆ8‰Í©ÚÑ1
+
+java:S1128"pRemove this unused import 'com.example.phuotogether.businesslogic_layer.manual.ManualManager.fetchedManualList'.(ƒ¹ö‘8£Í©ÚÑ1
+O
+java:S1128"-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ8¦Í©ÚÑ1
+t
+java:S1128"RRemove this unused import 'com.example.phuotogether.data_layer.auth.UserResponse'.(Ì§ëúÿÿÿÿ8¦Í©ÚÑ1
+J
+java:S1068"-Remove this unused "isSuccess" private field.(—ÿØ¨8º÷“ÙÑ1

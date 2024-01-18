@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.signin_container, signInFragment).commit();
 
         }
+
         mBottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             int itemId = menuItem.getItemId();
 
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.navigation_info) {
                 mCurrentTabPosition = InfoFragment.TAB_POSITION;
                 mViewPager.setCurrentItem(mCurrentTabPosition);
+                updateUserInfo(User.getInstance());
                 return true;
             } else {
                 return false;
@@ -137,13 +139,15 @@ public class MainActivity extends AppCompatActivity {
                         mBottomNavigationView.setSelectedItemId(R.id.navigation_info);
                         break;
                 }
+//                updateUserInfo(User.getInstance());
+//                Log.d("user", "onPageSelected: " + User.getInstance().getFullName());
             }
             @Override
             public void onPageScrollStateChanged(int state) {
                 // Not needed for this use case
             }
         });
-
+        
 
     }
 
@@ -167,9 +171,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateUserInfo(User user) {
         if(getCurrentFragment() instanceof InfoFragment){
-            ((InfoFragment) getCurrentFragment()).updateUser(user);
+            
+            ((InfoFragment)getCurrentFragment()).updateUser(user);
         }
-
     }
     //endregion
     public Fragment getCurrentFragment(){

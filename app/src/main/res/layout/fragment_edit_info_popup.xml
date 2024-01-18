@@ -24,65 +24,17 @@
             android:paddingHorizontal="5dp"
             >
 
+
+
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:orientation="vertical"
-                >
-                <TextView
-                    android:paddingVertical="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="First name"
-                    android:textColor="#ababab"
-                    android:textStyle="italic"
-                    />
-                <EditText
-
-                    android:paddingLeft="10dp"
-                    android:paddingVertical="10dp"
-                    android:id="@+id/firstNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/info_edit_box"
-                    android:text="First Name"
-                    android:textSize="12pt" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
                 />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:orientation="vertical"
-                >
-                <TextView
-                    android:paddingVertical="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Last name"
-                    android:textColor="#ababab"
-                    android:textStyle="italic"
-                    />
-                <EditText
-                    android:id="@+id/LastNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:background="@drawable/info_edit_box"
-                    android:paddingLeft="10dp"
-                    android:text="Last Name"
-                    android:textSize="12pt" />
-
-            </LinearLayout>
 
 
 
@@ -142,7 +94,7 @@
                 android:textSize="12pt"
                 android:paddingLeft="10dp"
                 android:paddingVertical="10dp"
-                android:text="Phone number"
+                android:text="Password"
                 android:id="@+id/phoneNumberEditText"
                 />
         </LinearLayout>
@@ -150,14 +102,17 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
             android:id="@+id/relativeLayoutCloseBtn"
             >
 
             <Button
                 android:id="@+id/closeEditFormBtn"
                 android:layout_width="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_height="wrap_content"
+                android:width="200dp"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text="Update" />
 
         </RelativeLayout>

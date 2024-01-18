@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.auth.SignIn.SignInManager;
@@ -27,6 +28,7 @@ import com.example.phuotogether.data_layer.auth.UserResponse;
 import com.example.phuotogether.dto.User;
 import com.example.phuotogether.gui_layer.MainActivity;
 import com.example.phuotogether.gui_layer.auth.SignUp.SignUpFragment;
+import com.example.phuotogether.gui_layer.info.InfoFragment;
 
 
 public class SignInFragment extends Fragment {
@@ -83,10 +85,13 @@ public class SignInFragment extends Fragment {
                     public void onSignInResult(boolean success, User currentUser) {
                         if (success) {
                             loadingHandler(currentUser);
+
+
                         } else {
                             setAllNotificationOff();
                             signInManager.handleSignInError(tvEmptyEmail, tvEmptyPassword, tvWrongEmail, tvWrongPassword);
                         }
+
                     }
             });
             }
@@ -99,10 +104,12 @@ public class SignInFragment extends Fragment {
                 if(getActivity() instanceof MainActivity){
                     MainActivity activity = (MainActivity) getActivity();
                     activity.setCurrentUser(currentUser);
+                    activity.updateUserInfo(User.getInstance());
                     activity.signInSuccessful(currentUser);
                 }
                 SignIn();
                 showSuccessToast();
+
             }
         }, 0); // delay
     }

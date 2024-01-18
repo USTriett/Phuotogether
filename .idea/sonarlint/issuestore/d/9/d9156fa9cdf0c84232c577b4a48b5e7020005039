@@ -1,35 +1,39 @@
 
 E
-java:S16049"(Make this anonymous inner class a lambda(ûú™³8şòÈšÎ1
+java:S1604B"(Make this anonymous inner class a lambda(ûú™³8Î­×ÛÑ1
 E
-java:S1604B"(Make this anonymous inner class a lambda(ÂÇ­å8şòÈšÎ1
-v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ìÒ“˜8‚óÈšÎ1
+java:S1604S"(Make this anonymous inner class a lambda(æïŞğ8Ñ­×ÛÑ1
 E
-java:S1659"(Declare "etPassword" on a separate line.(Ì“œ8ÖóÈšÎ1
+java:S1604L"(Make this anonymous inner class a lambda(ÂÇ­å8Ñ­×ÛÑ1
+E
+java:S1604e"(Make this anonymous inner class a lambda(„ÑñŒ8È“ØÛÑ1
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ìÒ“˜8İ­×ÛÑ1
+E
+java:S1659#"(Declare "etPassword" on a separate line.(Ì“œ8Î¯×ÛÑ1
 D
-java:S1659"'Declare "btnSignup" on a separate line.(¼™òî8ÖóÈšÎ1
+java:S1659$"'Declare "btnSignup" on a separate line.(¼™òî8Ï¯×ÛÑ1
 h
-java:S1659"LDeclare "btnSignInWithFB" and all following declarations on a separate line.(Œ‚èI8ÖóÈšÎ1
+java:S1659%"LDeclare "btnSignInWithFB" and all following declarations on a separate line.(Œ‚èI8Ğ¯×ÛÑ1
 k
-java:S1659"IDeclare "tvEmptyEmail" and all following declarations on a separate line.(ù‹åŞşÿÿÿÿ8ÖóÈšÎ1
+java:S1659&"IDeclare "tvEmptyEmail" and all following declarations on a separate line.(ù‹åŞşÿÿÿÿ8Ñ¯×ÛÑ1
 r
-java:S1450"VRemove the "btnBack" field and declare it as a local variable in the relevant methods.(Œ‚èI8ÖóÈšÎ1
+java:S1450%"VRemove the "btnBack" field and declare it as a local variable in the relevant methods.(Œ‚èI8Ó¯×ÛÑ1
 z
-java:S1450"^Remove the "btnSignInWithFB" field and declare it as a local variable in the relevant methods.(Œ‚èI8ÖóÈšÎ1
+java:S1450%"^Remove the "btnSignInWithFB" field and declare it as a local variable in the relevant methods.(Œ‚èI8Ó¯×ÛÑ1
 z
-java:S1450"^Remove the "btnSignInWithGG" field and declare it as a local variable in the relevant methods.(Œ‚èI8ÖóÈšÎ1
+java:S1450%"^Remove the "btnSignInWithGG" field and declare it as a local variable in the relevant methods.(Œ‚èI8Ó¯×ÛÑ1
 
-java:S1450"_Remove the "tvForgotPassword" field and declare it as a local variable in the relevant methods.(ù‹åŞşÿÿÿÿ8ÖóÈšÎ1
-]	java:S125*"<This block of commented-out lines of code should be removed.(Ì¹”ÿÿÿÿÿ8âóÈšÎ1
-]	java:S125/"<This block of commented-out lines of code should be removed.(¿œ§‹øÿÿÿÿ8âóÈšÎ1
-X	java:S125<"<This block of commented-out lines of code should be removed.(ó»¸·8âóÈšÎ1
-X	java:S125L"<This block of commented-out lines of code should be removed.(òı½ı8Œ›Î1
-o	java:S100T"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(È‹çÒıÿÿÿÿ8¦¤—Î1
+java:S1450&"_Remove the "tvForgotPassword" field and declare it as a local variable in the relevant methods.(ù‹åŞşÿÿÿÿ8Ó¯×ÛÑ1
+]	java:S1253"<This block of commented-out lines of code should be removed.(Ì¹”ÿÿÿÿÿ8’°×ÛÑ1
+]	java:S1258"<This block of commented-out lines of code should be removed.(¿œ§‹øÿÿÿÿ8°°×ÛÑ1
+L
+java:S1874e"/Remove this use of "Handler"; it is deprecated.(„ÑñŒ8·•ØÛÑ1
+o	java:S100u"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(È‹çÒıÿÿÿÿ8¼•ØÛÑ1
 O
-java:S1068"3Remove this unused "btnSignInWithGG" private field.(Œ‚èI8ïóÈšÎ1
+java:S1068%"3Remove this unused "btnSignInWithGG" private field.(Œ‚èI8ê°×ÛÑ1
 O
-java:S1068"3Remove this unused "btnSignInWithFB" private field.(Œ‚èI8ïóÈšÎ1
+java:S1068%"3Remove this unused "btnSignInWithFB" private field.(Œ‚èI8ê°×ÛÑ1
 G
-java:S1068"+Remove this unused "btnBack" private field.(Œ‚èI8ïóÈšÎ1
+java:S1068%"+Remove this unused "btnBack" private field.(Œ‚èI8ê°×ÛÑ1
 V
-java:S1068"4Remove this unused "tvForgotPassword" private field.(ù‹åŞşÿÿÿÿ8ïóÈšÎ1
+java:S1068&"4Remove this unused "tvForgotPassword" private field.(ù‹åŞşÿÿÿÿ8ê°×ÛÑ1
