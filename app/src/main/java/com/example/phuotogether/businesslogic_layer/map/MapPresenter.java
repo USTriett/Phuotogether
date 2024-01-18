@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.phuotogether.R;
 import com.example.phuotogether.data_layer.map.GooglePlaceModel;
 import com.example.phuotogether.data_layer.map.GoogleResponseModel;
+import com.example.phuotogether.databinding.BottomSheetLocationInfoBinding;
 import com.example.phuotogether.gui_layer.map.MapFragment;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.example.phuotogether.service.RetrofitClient;
@@ -76,7 +77,7 @@ public class MapPresenter {
             if (addressList.size() == 0) {
                 // Check if the toast has already been shown
                 if (!toastShown) {
-                    Toast.makeText(mMapFragment.requireContext(), "No result found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mMapFragment.requireContext(), "Địa điểm không tồn tại", Toast.LENGTH_SHORT).show();
                     toastShown = true; // Set the flag to true
                 }
             } else {
@@ -92,7 +93,9 @@ public class MapPresenter {
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(mMapFragment.requireActivity().findViewById(R.id.bottom_sheet_location_info));
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
+            BottomSheetLocationInfoBinding bottomSheetLocationInfoBinding = BottomSheetLocationInfoBinding.bind(mMapFragment.requireActivity().findViewById(R.id.bottom_sheet_location_info));
+            bottomSheetLocationInfoBinding.txtPlaceTitle.setText(address.getFeatureName());
+            bottomSheetLocationInfoBinding.txtAddress.setText(address.getAddressLine(0));
             Button showDirectionsButton = mMapFragment.requireActivity().findViewById(R.id.btnShowDirection);
             showDirectionsButton.setOnClickListener(new View.OnClickListener() {
                 @Override

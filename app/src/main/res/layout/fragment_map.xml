@@ -213,7 +213,7 @@
                 android:textSize="15sp"
                 android:id="@+id/input_search"
                 android:background="@null"
-                android:hint="Enter Address, City or Zip Code"
+                android:hint="Nhập địa điểm cần tìm"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 />
