@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/tripview"
-    android:background="@color/white">
+    android:background="@color/colorSurface">
 
     <!-- Header with bold, left-aligned text -->
     <LinearLayout
@@ -22,7 +22,8 @@
             android:paddingRight="6dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:id="@+id/buttonBackViewTrip">
+            android:id="@+id/buttonBackViewTrip"
+            style="@style/MyVectorImageStyle">
         </ImageButton>
         <TextView
             android:layout_width="wrap_content"

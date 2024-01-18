@@ -52,10 +52,15 @@ public class ManualManager{
     }
 
     public static void fetchManualList(){
+        // clear previous data
+        fetchedManualList.clear();
+
+        // set up links to files
         String userId = String.valueOf(user.getId());
         File userFolder = new File(context.getFilesDir(), userId);
         File manualFiles[] = userFolder.listFiles();
 
+        // read
         for (File manualFile : manualFiles) {
             try {
                 FileReader reader = new FileReader(manualFile);

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,8 @@
             android:paddingRight="6dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:id="@+id/buttonBackAddTrip">
+            android:id="@+id/buttonBackAddTrip"
+            style="@style/MyVectorImageStyle">
         </ImageButton>
         <TextView
             android:layout_width="wrap_content"
@@ -37,7 +38,8 @@
         android:orientation="vertical"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        style="@style/editTextLayoutStyle">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

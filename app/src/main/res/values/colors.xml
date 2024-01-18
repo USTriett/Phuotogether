@@ -14,6 +14,7 @@
     <color name="colorPrimaryFixedDim">#9ED67D</color>
 
     <color name="colorSecondary">#55624C</color>
+    <color name="colorOnSecondary">#0E1F12</color>
     <color name="colorSecondaryContainer">#D9E7CB</color>
     <color name="colorOnSecondaryContainer">#1E3212</color>
     <color name="colorSecondaryContainerDark">#0E1F12</color>
