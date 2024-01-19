@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO check accesstoken
         return false;
     }
-    private void updateFragments() {
+    public void updateFragments() {
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             if (fragment instanceof FragmentUpdateListener) {
                 ((FragmentUpdateListener) fragment).onUpdate(currentUser);
@@ -69,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Notify all fragments to update their content
         updateFragments();
+    }
+
+    @Override
+    public void recreate() {
+        super.recreate();
+        this.getViewPager().setCurrentItem(MapFragment.TAB_POSITION);
     }
 
     @Override

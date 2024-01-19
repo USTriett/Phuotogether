@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,10 +19,20 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.phuotogether.R;
+import com.example.phuotogether.data_layer.auth.UserResponse;
+import com.example.phuotogether.data_layer.user.UserUpdateRequest;
 import com.example.phuotogether.dto.User;
 import com.example.phuotogether.gui_layer.MainActivity;
+import com.example.phuotogether.service.RetrofitAPI;
+import com.example.phuotogether.service.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,9 +53,10 @@ public class EditInfoPopupFragment extends DialogFragment {
 
     private User user;
     private EditText usernameEditText;
-    private EditText phoneNumberEditText;
+    private EditText emailEditText;
     private boolean isNightMode;
     private View viewHold;
+    private TextView textView;
     public EditInfoPopupFragment() {
         // Required empty public constructor
     }
@@ -83,13 +97,24 @@ public class EditInfoPopupFragment extends DialogFragment {
         Button closeEditFormBtn = viewHold.findViewById(R.id.closeEditFormBtn);
         Bundle args = getArguments();
         user = args != null ? (User) args.getSerializable("user") : User.getInstance();
-        isNightMode = args.getBoolean("isDarkMode");
+
         usernameEditText = viewHold.findViewById(R.id.usernameEditText);
-        usernameEditText.setText(user.getFullName());
-        phoneNumberEditText = viewHold.findViewById(R.id.phoneNumberEditText);
-        phoneNumberEditText.setText(user.getPhoneNumber());
+        usernameEditText.setText(User.getInstance().getFullName());
+        emailEditText = (EditText) viewHold.findViewById(R.id.emailEditText);
+        emailEditText.setText(User.getInstance().getEmail());
+        emailEditText.setEnabled(false);
+        textView = viewHold.findViewById(R.id.PasswordChangeText);
+        textView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PasswordChangeFragment fragment = new PasswordChangeFragment();
+                        dismiss();
+                        fragment.show(getActivity().getSupportFragmentManager(), "");
 
-
+                    }
+                }
+        );
 
 
         closeEditFormBtn.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +124,7 @@ public class EditInfoPopupFragment extends DialogFragment {
 
                 if(getActivity() instanceof MainActivity){
                     MainActivity activity = (MainActivity) getActivity();
-                    activity.updateUserInfo(user);
+                    activity.updateFragments();
                 }
                 dismiss();
             }
@@ -113,6 +138,41 @@ public class EditInfoPopupFragment extends DialogFragment {
         super.onDismiss(dialog);
         // Handle dismiss event
     }
+    private void performChangeName(String name) {
+        UserUpdateRequest request = new UserUpdateRequest(User.getInstance().getId(), User.getInstance().getPassword(), name);
+        RetrofitAPI myApi = RetrofitClient.getRetrofitClientUser().create(RetrofitAPI.class);
 
+        // Make the API call
+        Call<UserResponse> call = myApi.updateUser(request);
+        call.enqueue(new Callback<UserResponse>() {
+
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                UserResponse userResponse = response.body();
+
+                if(response.isSuccessful()){
+                    User.getInstance().updateInfo(
+                            User.getInstance().getId(),
+                            false,
+                            User.getInstance().getEmail(),
+                            User.getInstance().getPassword(),
+                            name
+                    );
+                    ((MainActivity) getActivity()).updateFragments();
+                    dismissNow();
+                    Toast.makeText(getActivity(), "Có lỗi xảy ra", Toast.LENGTH_LONG);
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                call.cancel();
+                Toast.makeText(getActivity(), "Có lỗi xảy ra", Toast.LENGTH_LONG);
+                dismissNow();
+            }
+        });
+    }
 
 }
