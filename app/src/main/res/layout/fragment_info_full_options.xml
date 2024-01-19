@@ -120,6 +120,7 @@
                 android:paddingVertical="4dp"
                 android:textStyle="bold"/>
             <androidx.cardview.widget.CardView
+                android:id="@+id/logout_btn"
                 android:layout_centerHorizontal="true"
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="30dp"
@@ -128,6 +129,7 @@
                 app:cardCornerRadius="15dp"
                 style="@style/ManualItemCardView">
                 <TextView
+
                     android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

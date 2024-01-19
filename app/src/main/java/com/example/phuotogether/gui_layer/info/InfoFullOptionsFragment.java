@@ -87,7 +87,7 @@ public class InfoFullOptionsFragment extends Fragment {
         user = (User) getArguments().getSerializable("user");
         updateUserInfo(user);
 
-        logoutBtn = (CardView)viewHold.findViewById(R.id.logoutBtn);
+        logoutBtn = (CardView)viewHold.findViewById(R.id.logout_btn);
         logoutBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -96,7 +96,6 @@ public class InfoFullOptionsFragment extends Fragment {
                         User.getInstance().updateInfo(0, false, "", "", "");
                         User.getInstance().updateInfo(null);
                         activity.recreate();
-
                     }
                 }
         );
