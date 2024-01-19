@@ -56,9 +56,7 @@ public class AddtripFragment extends Fragment {
                 String goalDes = binding.etGoalDesAndTrip.getText().toString();
                 String startDate = binding.etStartDateAddTrip.getText().toString();
                 String endDate = binding.etEndDateAddTrip.getText().toString();
-                if (HandleError(tripName, startDes, goalDes, startDate, endDate)){
-                    return;
-                }
+
                 Log.d("AddtripFragment", "onClick: " + tripName + " " + startDes + " " + goalDes + " " + startDate + " " + endDate);
                 tripListManager.addTrip(user, tripName, startDate, endDate, startDes, goalDes, new TripListManager.AddTripCallback() {
                             @Override
@@ -67,7 +65,7 @@ public class AddtripFragment extends Fragment {
                                     showSuccessToast();
                                     requireActivity().getSupportFragmentManager().popBackStack();
                                 } else {
-
+                                    HandleError(tripName, startDes, goalDes, startDate, endDate);
                                     if (code.equals("23514")) {
                                         Toast.makeText(requireContext(), "Ngày bắt đầu phải trước ngày kết thúc", Toast.LENGTH_SHORT).show();
                                     }
