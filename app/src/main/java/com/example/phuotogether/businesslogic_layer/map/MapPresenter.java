@@ -47,7 +47,6 @@ public class MapPresenter {
     private Marker marker;
     private GoogleMap mMap;
     private DirectionsManager directionsManager;
-    private int radius;
     private List<GooglePlaceModel> googlePlaceModelList;
     private MapPresenterListener mapPresenterListener;
     public MapPresenter(MapFragment mapFragment, GoogleMap mMap, MapPresenterListener mapPresenterListener) {
@@ -190,8 +189,7 @@ public class MapPresenter {
                 });
     }
 
-    public void performSearchNearby(LatLng latLng, String placeName) {
-        radius = 5000;
+    public void performSearchNearby(LatLng latLng, String placeName, int radius) {
         googlePlaceModelList = new ArrayList<>();
         RetrofitAPI retrofitAPI = RetrofitClient.getRetrofitClient().create(RetrofitAPI.class);
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
@@ -232,14 +230,13 @@ public class MapPresenter {
                                 mMap.clear();
                                 googlePlaceModelList.clear();
                                 mapPresenterListener.onNearbyPlacesFetch(googlePlaceModelList);
-                                radius += 1000;
                                 if (radius == 50000){
                                     Toast.makeText(mMapFragment.requireContext(), "No results found.", Toast.LENGTH_SHORT).show();
                                     moveCamera(latLng, 7, "Pinned Location");
                                     return;
                                 }
                                 Log.d("TAG", "onResponse: " + radius);
-                                performSearchNearby(latLng, placeName);
+                                performSearchNearby(latLng, placeName, radius + 1000);
 
                             }
                         }

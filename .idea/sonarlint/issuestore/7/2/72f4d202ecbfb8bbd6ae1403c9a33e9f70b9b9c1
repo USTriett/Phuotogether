@@ -1,20 +1,2 @@
 
-X	java:S125M"<This block of commented-out lines of code should be removed.(–êÅ8í‘šéÑ1
-`
-java:S1128">Remove this unused import 'com.example.phuotogether.dto.Trip'.(îà‚õùÿÿÿÿ8ñ‘šéÑ1
-`
-java:S1128">Remove this unused import 'com.example.phuotogether.dto.User'.(¤›Ä˜ùÿÿÿÿ8ñ‘šéÑ1
-T
-java:S1128"7Remove this unused import 'com.google.gson.JsonObject'.(µÊ´½8ñ‘šéÑ1
-F
-java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å8ñ‘šéÑ1
-N
-java:S1128"1Remove this unused import 'okhttp3.ResponseBody'.(Õ«ø8ò‘šéÑ1
-T
-java:S1128"2Remove this unused import 'retrofit2.http.DELETE'.(ù³ç°ûÿÿÿÿ8ò‘šéÑ1
-N
-java:S1128"1Remove this unused import 'retrofit2.http.Field'.(ÂÍ‹»8ò‘šéÑ1
-M
-java:S1128"0Remove this unused import 'retrofit2.http.Path'.(íøŠ¡8ò‘šéÑ1
-\
-java:S1128#":Remove this unused import 'retrofit2.http.FormUrlEncoded'.(îÙÂüÿÿÿÿ8ò‘šéÑ1
+X	java:S125R"<This block of commented-out lines of code should be removed.(–êÅ8º‘êÑ1

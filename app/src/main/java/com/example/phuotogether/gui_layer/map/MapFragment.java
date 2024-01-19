@@ -310,7 +310,7 @@ public class MapFragment extends Fragment implements MapData.MapDataListener,
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pinnedLatLng, 15));
 
                     mapPresenter.clearMap(mMap, getLatLngFromLocation(currentLocation));
-                    mapPresenter.performSearchNearby(pinnedLatLng, placeModel.getPlaceType());
+                    mapPresenter.performSearchNearby(pinnedLatLng, placeModel.getPlaceType(), 5000);
                 }
             }
         });

@@ -1,31 +1,31 @@
 
 …
-java:S1488»"gImmediately return this expression instead of assigning it to the temporary variable "currentFragment".(…¿ïÅ8²õ–İÑ1
+java:S1488Á"gImmediately return this expression instead of assigning it to the temporary variable "currentFragment".(…¿ïÅ8œ½îÑ1
 {
-java:S1450&"YRemove the "isDarkMode" field and declare it as a local variable in the relevant methods.(†™„´úÿÿÿÿ8õõ–İÑ1
+java:S1450&"YRemove the "isDarkMode" field and declare it as a local variable in the relevant methods.(†™„´úÿÿÿÿ8Â½îÑ1
 T
-java:S11351"2Complete the task associated to this TODO comment.(†‘ÎŞùÿÿÿÿ8€ö–İÑ1
+java:S11351"2Complete the task associated to this TODO comment.(†‘ÎŞùÿÿÿÿ8Ç½îÑ1
 U
-java:S34005"9Remove this method and declare a constant for this value.(¸®Ã'8€ö–İÑ1
+java:S34005"9Remove this method and declare a constant for this value.(¸®Ã'8È½îÑ1
 T
-java:S11354"2Complete the task associated to this TODO comment.(µÖ§ÿÿÿÿÿ8€ö–İÑ1
+java:S11354"2Complete the task associated to this TODO comment.(µÖ§ÿÿÿÿÿ8È½îÑ1
 M
-java:S1172C"+Remove this unused method parameter "user".(¹£ì÷øÿÿÿÿ8…ö–İÑ1
+java:S1172C"+Remove this unused method parameter "user".(¹£ì÷øÿÿÿÿ8Ê½îÑ1
 _
-java:S1854W"=Remove this useless assignment to local variable "mainFrame".(’ƒ‰ûÿÿÿÿ8‰ö–İÑ1
+java:S1854]"=Remove this useless assignment to local variable "mainFrame".(’ƒ‰ûÿÿÿÿ8Í½îÑ1
 P
-java:S1481W".Remove this unused "mainFrame" local variable.(’ƒ‰ûÿÿÿÿ8ö–İÑ1
+java:S1481]".Remove this unused "mainFrame" local variable.(’ƒ‰ûÿÿÿÿ8Ñ½îÑ1
 m
-java:S1874]"KRemove this use of "setOnNavigationItemSelectedListener"; it is deprecated.(¬âÀûÿÿÿÿ8“ö–İÑ1
-D	java:S131€""Add a default case to this switch.(¼œóÛüÿÿÿÿ8˜ö–İÑ1
-^	java:S125"<This block of commented-out lines of code should be removed.(Ä¼È’úÿÿÿÿ8šö–İÑ1
+java:S1874c"KRemove this use of "setOnNavigationItemSelectedListener"; it is deprecated.(¬âÀûÿÿÿÿ8Ô½îÑ1
+D	java:S131†""Add a default case to this switch.(¼œóÛüÿÿÿÿ8Ø½îÑ1
+^	java:S125”"<This block of commented-out lines of code should be removed.(Ä¼È’úÿÿÿÿ8Ú½îÑ1
 m
-java:S1874›"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(œƒƒ©ùÿÿÿÿ8šö–İÑ1
+java:S1874¡"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(œƒƒ©ùÿÿÿÿ8Û½îÑ1
 X
-java:S1874œ"5Remove this use of "onBackPressed"; it is deprecated.(‘Ñàÿÿÿÿÿ8›ö–İÑ1
+java:S1874¢"5Remove this use of "onBackPressed"; it is deprecated.(‘Ñàÿÿÿÿÿ8Ü½îÑ1
 U
-java:S1905µ"2Remove this unnecessary cast to "FragmentManager".(ªº­Ëúÿÿÿÿ8ö–İÑ1
+java:S1905»"2Remove this unnecessary cast to "FragmentManager".(ªº­Ëúÿÿÿÿ8à½îÑ1
 P
-java:S1068&".Remove this unused "isDarkMode" private field.(†™„´úÿÿÿÿ8ö–İÑ1
+java:S1068&".Remove this unused "isDarkMode" private field.(†™„´úÿÿÿÿ8á½îÑ1
 V
-java:S11440"4Remove this unused private "createUserTable" method.(‹ÓËÆùÿÿÿÿ8Ÿö–İÑ1
+java:S11440"4Remove this unused private "createUserTable" method.(‹ÓËÆùÿÿÿÿ8á½îÑ1

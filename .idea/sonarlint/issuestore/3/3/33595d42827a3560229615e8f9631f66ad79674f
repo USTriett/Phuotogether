@@ -1,23 +1,32 @@
 
 D
-java:S1604u"(Make this anonymous inner class a lambda(•ÁñS8“—ëçÑ1
+java:S1604y"(Make this anonymous inner class a lambda(•ÁñS8æÕøïÑ1
 p
-java:S14508"SRemove the "view" field and declare it as a local variable in the relevant methods.(ØÊ»¶8Ó—ëçÑ1
+java:S1450<"SRemove the "view" field and declare it as a local variable in the relevant methods.(ØÊ»¶8ùÖøïÑ1
 T
-java:S1135F"2Complete the task associated to this TODO comment.(ßíŠÿÿÿÿÿ8Ó—ëçÑ1
+java:S1135J"2Complete the task associated to this TODO comment.(ßíŠÿÿÿÿÿ8œ×øïÑ1
 \
-java:S1117M":Rename "dialog" which hides the field declared at line 59.(áŸúéşÿÿÿÿ8â—ëçÑ1
-]	java:S125S"<This block of commented-out lines of code should be removed.(¶¾ıëüÿÿÿÿ8â—ëçÑ1
-]	java:S125["<This block of commented-out lines of code should be removed.(–Ò”Ôûÿÿÿÿ8â—ëçÑ1
+java:S1117Q":Rename "dialog" which hides the field declared at line 63.(áŸúéşÿÿÿÿ8Ÿ×øïÑ1
+]	java:S125W"<This block of commented-out lines of code should be removed.(¶¾ıëüÿÿÿÿ8£×øïÑ1
+]	java:S125_"<This block of commented-out lines of code should be removed.(–Ò”Ôûÿÿÿÿ8¦×øïÑ1
+W
+java:S1117¢":Rename "dialog" which hides the field declared at line 63.(ğ Ö8À×øïÑ1
+^	java:S125 "<This block of commented-out lines of code should be removed.(„£ƒØûÿÿÿÿ8À×øïÑ1
 a
-java:S1874Š">Remove this use of "startActivityForResult"; it is deprecated.(Ğ¹ë½úÿÿÿÿ8ò—ëçÑ1
+java:S1874«">Remove this use of "startActivityForResult"; it is deprecated.(ÄË…³ÿÿÿÿÿ8××øïÑ1
 m
-java:S1874"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(ÉÎÍïıÿÿÿÿ8ò—ëçÑ1
+java:S1874¯"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(ÉÎÍïıÿÿÿÿ8È—âïÑ1
 [
-java:S1874"8Remove this use of "onActivityResult"; it is deprecated.(ß¬©úÿÿÿÿ8ò—ëçÑ1
+java:S1874°"8Remove this use of "onActivityResult"; it is deprecated.(ß¬©úÿÿÿÿ8Û×øïÑ1
+^	java:S125º"<This block of commented-out lines of code should be removed.(ˆ£İäøÿÿÿÿ8Ş×øïÑ1
+^	java:S125À"<This block of commented-out lines of code should be removed.(â…Ïüùÿÿÿÿ8ƒü„ğÑ1
+b
+java:S3252Â"DUse static access with "android.app.Activity" for "RESULT_CANCELED".(šÎÛï8ß×øïÑ1
+S
+java:S2209Â"5Change this instance-reference to a static reference.(šÎÛï8á×øïÑ1
 k
-java:S3252¤"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(´Ë¡é8ø—ëçÑ1
+java:S3252Ë"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(´Ë¡é8ë×øïÑ1
 k
-java:S3252«"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(ŞÿŞµ8ø—ëçÑ1
+java:S3252Ò"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(ŞÿŞµ8ò×øïÑ1
 G
-java:S1068;"*Remove this unused "dialog" private field.(³•¿—8‚˜ëçÑ1
+java:S1068?"*Remove this unused "dialog" private field.(³•¿—8ù×øïÑ1

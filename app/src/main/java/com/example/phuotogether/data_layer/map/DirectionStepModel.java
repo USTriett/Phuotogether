@@ -104,7 +104,7 @@ public class DirectionStepModel {
         double endLng = endLocation.getLng();
 
         // Define a threshold distance for when the user is considered near the end of the step
-        double thresholdDistance = 50.0; // Adjust this value based on your requirements
+        double thresholdDistance = 100.0; // Adjust this value based on your requirements
 
         // Calculate the distance between the user's location and the end of the step
         float[] currDistanceToEnd = new float[1];

@@ -1,0 +1,17 @@
+
+J
+java:S1604O"(Make this anonymous inner class a lambda(‡¤¹Ùüÿÿÿÿ8ôÉ©õÑ1
+£
+java:S1186@"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¤Ã÷¯ÿÿÿÿÿ8êÊ©õÑ1
+u
+java:S1450%"XRemove the "changeBtn" field and declare it as a local variable in the relevant methods.(®§Ê8óÊ©õÑ1
+r
+java:S32525"PUse static access with "android.view.ViewGroup$LayoutParams" for "MATCH_PARENT".(æ­¥ıÿÿÿÿ8µË©õÑ1
+r
+java:S32526"PUse static access with "android.view.ViewGroup$LayoutParams" for "WRAP_CONTENT".(èèĞÆşÿÿÿÿ8¶Ë©õÑ1
+S
+java:S1172k"6Remove this unused method parameter "oldPasswordText".(ÂàÕÑ8ÇË©õÑ1
+b
+java:S1854u"@Remove this useless assignment to local variable "userResponse".(æº¬úÿÿÿÿ8ÊË©õÑ1
+S
+java:S1481u"1Remove this unused "userResponse" local variable.(æº¬úÿÿÿÿ8ÌË©õÑ1

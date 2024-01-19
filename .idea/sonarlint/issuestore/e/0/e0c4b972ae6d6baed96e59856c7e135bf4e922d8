@@ -1,0 +1,19 @@
+
+f	java:S117V"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ýˆÑä
+R
+java:S4973\"<Strings and Boxed types should be compared using "equals()".(“Âçü
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(íç™Å
+X
+java:S1126+"BReplace this if-then-else statement by a single method invocation.(çç§à
+F
+java:S1172V"0Remove this unused method parameter "isChecked".(ýˆÑä
+D
+java:S5413]")Verify that "remove()" is used correctly.(Ž–´Ùýÿÿÿÿ
+i
+java:S1128"SRemove this unused import 'com.example.phuotogether.data_layer.trip.tripList.Trip'.(³ëò®
+u
+java:S1128"_Remove this unused import 'com.example.phuotogether.data_layer.trip.tripList.TripListDatabase'.(úþŽ½
+v
+java:S1128"[Remove this unused import 'com.example.phuotogether.data_layer.trip.tripList.TripResponse'.(»üù˜øÿÿÿÿ
+K
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úýÿÿÿÿ

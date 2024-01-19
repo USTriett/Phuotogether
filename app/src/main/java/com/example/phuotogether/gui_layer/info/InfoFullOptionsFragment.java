@@ -3,6 +3,7 @@ package com.example.phuotogether.gui_layer.info;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -41,6 +42,7 @@ public class InfoFullOptionsFragment extends Fragment {
     private EditInfoPopupFragment editFragment;
 
     private AvatarOptionsFragment avatarOptionsFragment;
+    private View logoutBtn;
     private boolean isNightMode;
 
     public InfoFullOptionsFragment() {
@@ -84,6 +86,20 @@ public class InfoFullOptionsFragment extends Fragment {
         editFragment = new EditInfoPopupFragment();
         user = (User) getArguments().getSerializable("user");
         updateUserInfo(user);
+
+        logoutBtn = (CardView)viewHold.findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity activity = (MainActivity) getActivity();
+                        User.getInstance().updateInfo(0, false, "", "", "");
+                        User.getInstance().updateInfo(null);
+                        activity.recreate();
+
+                    }
+                }
+        );
         isNightMode = getArguments().getBoolean("isDarkMode");
         //Switch nightSwitch = viewHold.findViewById(R.id.nightModeSwitch);
         avatar = viewHold.findViewById(R.id.avatarUser);
@@ -99,6 +115,7 @@ public class InfoFullOptionsFragment extends Fragment {
 
             }
         });
+
 //        nightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
 //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

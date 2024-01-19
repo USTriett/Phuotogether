@@ -1,4 +1,6 @@
 package com.example.phuotogether.dto;
+import android.net.Uri;
+
 import java.io.Serializable;
 public class User implements Serializable {
     private static User instance;
@@ -9,7 +11,7 @@ public class User implements Serializable {
     private String email;
     private String phoneNumber;
     private String password;
-
+    private Uri ava = null;
     // Private constructor to prevent instantiation from outside the class
     private User() {
         this.id = 0;
@@ -18,6 +20,8 @@ public class User implements Serializable {
         this.email = "LTMP@gmail.com";
         this.password = "123456";
         this.fullName = "Le Thi Minh Phuong";
+
+
     }
 
     // Public method to get the instance of the singleton class
@@ -53,8 +57,15 @@ public class User implements Serializable {
         instance.password = password;
         instance.fullName = fullName;
     }
+    public void updateInfo(
+            Uri ava
+    ) {
 
+        instance.ava = ava;
+
+    }
     // Other getters and setters...
+    public Uri getAva(){return ava;}
     public int getId() {
         return id;
     }
