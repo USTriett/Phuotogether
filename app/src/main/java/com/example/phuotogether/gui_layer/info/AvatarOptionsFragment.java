@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.input.InputManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,6 +25,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -32,11 +34,13 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.phuotogether.R;
 import com.example.phuotogether.businesslogic_layer.info.ImageProcessor;
+import com.example.phuotogether.data_layer.user.AvatarUserDatabase;
 import com.example.phuotogether.data_layer.user.AvatarUserRequestModel;
 import com.example.phuotogether.dto.User;
+import com.example.phuotogether.gui_layer.MainActivity;
 import com.example.phuotogether.service.RetrofitAPI;
 import com.example.phuotogether.service.RetrofitClient;
-//import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,9 +125,13 @@ public class AvatarOptionsFragment extends DialogFragment {
                 if (position == 0) {
                     openDeviceGallery();
                 }
+                else if(position == 1){
+                    openAvatar();
+                }
             }
 
         });
+
         // Apply the float-up animation to the root view of the fragment
         Animator animator = AnimatorInflater.loadAnimator(getContext(), R.animator.float_up);
         animator.setTarget(view);
@@ -131,11 +139,36 @@ public class AvatarOptionsFragment extends DialogFragment {
 
         return view;
     }
+    public void openAvatar() {
+        this.dismiss();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_avatar, null);
+        builder.setView(dialogView);
+
+        ImageView imageView = dialogView.findViewById(R.id.avatarImageView);
+        // Set the image resource or load the image into the ImageView
+        if(User.getInstance().getAva() == null)
+            imageView.setImageResource(R.drawable.default_avata);
+        else{
+            Picasso.with(this.getContext())
+                    .load(User.getInstance().getAva())
+                    .into(imageView);
+        }
+
+        // or
+        // Glide.with(this).load("image_url").into(imageView);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     private static final int GALLERY_REQUEST_CODE = 1;
 
     private void openDeviceGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),GALLERY_REQUEST_CODE);
     }
 
     @Override
@@ -144,17 +177,23 @@ public class AvatarOptionsFragment extends DialogFragment {
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             // The user has selected an image from the gallery
-//            selectedImageUri = data.getData();
-//            if (selectedImageUri != null) {
-//
-//                Picasso.
-//                        with(getContext())
-//                        .load(selectedImageUri)
-//                        .into(avatar);
+            Uri imageUri = data.getData();
+            Log.d("TAG", "onSetAvatarResult: ");
+            if (imageUri != null) {
+
+                Picasso.with(getActivity()).load(imageUri)
+                        .into(avatar);
 //                File f = uriToFile(selectedImageUri);
-//                AvatarUserRequestModel model = new AvatarUserRequestModel(User.getInstance().getId(), f);
-//                model.onUploadAvatar();
-//            }
+//                AvatarUserDatabase.updateAvatar(String.valueOf(User.getInstance().getId()), f);
+                selectedImageUri = imageUri;
+                User.getInstance().updateInfo(selectedImageUri);
+                ((MainActivity) getActivity()).updateFragments();
+
+//                this.dismissNow();
+            }
+            else if (resultCode == getActivity().RESULT_CANCELED)  {
+                Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+            }
 
         }
 

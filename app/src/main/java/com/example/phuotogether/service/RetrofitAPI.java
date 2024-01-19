@@ -19,6 +19,7 @@ import com.example.phuotogether.data_layer.trip.tripList.UpdateTripSettingReques
 import com.example.phuotogether.data_layer.trip.tripView.LuggageItemRequestModel;
 import com.example.phuotogether.data_layer.trip.tripView.LuggageItemResponse;
 import com.example.phuotogether.data_layer.user.AvatarUserRequestModel;
+import com.example.phuotogether.data_layer.user.UserUpdateRequest;
 import com.example.phuotogether.dto.Trip;
 import com.example.phuotogether.dto.User;
 import com.google.gson.JsonObject;
@@ -33,7 +34,10 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -59,7 +63,8 @@ public interface RetrofitAPI {
 
     @POST("user/insert_user")
     Call<List<UserResponse>> insertUser(@Body SignupRequestModel signupRequest);
-
+    @PUT("user/update_user")
+    Call<UserResponse> updateUser(@Body UserUpdateRequest request);
 
     // trip ---------------------------------------------------
     @GET("/trip/get_trips_by_userid")
@@ -103,7 +108,10 @@ public interface RetrofitAPI {
     @POST("location/insert_location")
     Call<List<LocationResponse>> insertLocation(@Body LocationRequestModel locationRequestModel);
 
-
+    @Multipart
     @POST("user/update_avatar")
-    Call<List<Response>> updateAvatar(@Body AvatarUserRequestModel avatarUserRequestModel);
+    Call<ResponseBody> updateAvatar(
+            @Part("id") RequestBody userId,
+            @Part MultipartBody.Part avatar
+    );
 }

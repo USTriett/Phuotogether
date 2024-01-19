@@ -43,7 +43,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:layout_alignTop="@+id/backgroundInfo"
-                            android:src="@drawable/heart_svgrepo_com"
+                            android:src="@drawable/default_avata"
                             />
 
                     </androidx.cardview.widget.CardView>

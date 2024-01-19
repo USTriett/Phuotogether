@@ -1,29 +1,33 @@
 
+D
+java:S1604\"(Make this anonymous inner class a lambda(®àÕx8¿ü«îÑ1
 J
-java:S1604^"(Make this anonymous inner class a lambda(ÈÏÿûÿÿÿÿ8ùòàÑ1
-E
-java:S1604f"(Make this anonymous inner class a lambda(¦Â²Ê8ùòàÑ1
+java:S1604l"(Make this anonymous inner class a lambda(ÈÏÿûÿÿÿÿ8™»×îÑ1
 J
-java:S1604w"(Make this anonymous inner class a lambda(—¶şÆüÿÿÿÿ8úòàÑ1
+java:S1604u"(Make this anonymous inner class a lambda(—¶şÆüÿÿÿÿ8š»×îÑ1
 w
-java:S1450'"URemove the "avatar" field and declare it as a local variable in the relevant methods.(¾’÷îúÿÿÿÿ8ò†àÑ1
+java:S1450("URemove the "avatar" field and declare it as a local variable in the relevant methods.(¾’÷îúÿÿÿÿ8ùü«îÑ1
+u
+java:S1450-"XRemove the "logoutBtn" field and declare it as a local variable in the relevant methods.(ë¤¼Ê8ùü«îÑ1
 s
-java:S1450#"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘8ò†àÑ1
+java:S1450$"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘8ùü«îÑ1
 s
-java:S1450$"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 8ó†àÑ1
+java:S1450%"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 8ùü«îÑ1
 T
-java:S1135"2Complete the task associated to this TODO comment.(ÜûŠ—øÿÿÿÿ8ˆ‡àÑ1
+java:S1135"2Complete the task associated to this TODO comment.(ÜûŠ—øÿÿÿÿ8‰ı«îÑ1
 T
-java:S1135""2Complete the task associated to this TODO comment.(ğï¢öúÿÿÿÿ8‰‡àÑ1
+java:S1135#"2Complete the task associated to this TODO comment.(ğï¢öúÿÿÿÿ8‰ı«îÑ1
 T
-java:S1135:"2Complete the task associated to this TODO comment.(ßíŠÿÿÿÿÿ8–‡àÑ1
+java:S1135<"2Complete the task associated to this TODO comment.(ßíŠÿÿÿÿÿ8™ı«îÑ1
 Y
-java:S1874U"7Remove this use of "getSerializable"; it is deprecated.(¡óàıÿÿÿÿ8±‡àÑ1
+java:S1874W"7Remove this use of "getSerializable"; it is deprecated.(¡óàıÿÿÿÿ8©ı«îÑ1
 V
-java:S1874b":Remove this use of "getFragmentManager"; it is deprecated.(ï¦8ÖõàÑ1
+java:S1874p":Remove this use of "getFragmentManager"; it is deprecated.(ï¦8ë»×îÑ1
 \
-java:S1874}":Remove this use of "getFragmentManager"; it is deprecated.(Õ›Ë—ÿÿÿÿÿ8áõàÑ1
+java:S1874{":Remove this use of "getFragmentManager"; it is deprecated.(Õ›Ë—ÿÿÿÿÿ8í»×îÑ1
 H
-java:S1068#"+Remove this unused "mParam1" private field.(•Íï‘8Î‡àÑ1
+java:S1068$"+Remove this unused "mParam1" private field.(•Íï‘8½ı«îÑ1
 H
-java:S1068$"+Remove this unused "mParam2" private field.(¡ˆ€ 8İ‡àÑ1
+java:S1068%"+Remove this unused "mParam2" private field.(¡ˆ€ 8Íı«îÑ1
+Q
+java:S1068."/Remove this unused "isNightMode" private field.(ö˜ŒŞüÿÿÿÿ8İı«îÑ1
